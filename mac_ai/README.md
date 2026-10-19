@@ -1,0 +1,11 @@
+# Advisory API safety gates
+
+Run from repository root with `uvicorn mac_ai.app:app --host 127.0.0.1 --port 8000` after installing `mac_ai/requirements.txt`. Set environment variables explicitly; `.env.example` is documentation and is not automatically loaded. Use a random shared token of at least 32 characters. Missing/example tokens disable the endpoint with HTTP 503; wrong credentials return 401. Bind to localhost or a secured private network, never an unauthenticated public listener.
+
+The frozen `docs/API_CONTRACT.json` is authoritative. Requests require the nested macro snapshot, unique request ID and explicit UTC timestamps. Unknown fields, nonfinite numbers and incorrect types return HTTP 422. The EA must treat every non-200 response as veto. Candidate bar, request macro and canonical CSV macro observations must each be no older than 15 minutes and cannot be future dated. CSV rows require the specified header, finite fields, explicit boolean values and strictly increasing timestamps. Historical rows are allowed only before a fresh latest row.
+
+The service confirms direction or returns HOLD. Existing confidence cutoff remains 0.58. Model output is locally schema validated, regardless of provider structured-output support. A failed provider, malformed output, stale feature, opposite-direction result or unwritable audit file vetoes entry. The service emits UTC ISO timestamps and echoes request IDs. The EA remains responsible for response freshness and all risk/execution checks.
+
+A process-local 60-request/minute guard and 1,024-ID replay guard bound resource use. Replays return HOLD, including a repeated ID with a changed payload. They are advisory defense only, reset on restart and do not replace the EA's durable order idempotency. Use one worker for these process-local controls. Audit records include only request ID, signal, confidence, timestamp and mode, never request/model free text or exception details. Rotate/restrict logs operationally.
+
+Run mocked tests: `python -m pytest mac_ai/tests -q`. Tests use no paid calls, provider network, broker or MT5. MetaEditor compilation, MT5 Strategy Tester, real provider availability and production deployment remain unverified.
