@@ -1,0 +1,16 @@
+.env
+.env.*
+!.env.example
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.DS_Store
+.vscode/
+.cursor/cache/
+*.log
+logs/
+reports/private/
+*.set
+*.ex5
+*.hprof
