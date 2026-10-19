@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "request": {
+    "request_id": "unique-per-candidate",
+    "symbol": "XAUUSD",
+    "timeframe": "M5",
+    "bar_time_utc": "ISO-8601 UTC timestamp",
+    "regime": "STRONG_DOWNTREND",
+    "setup": "TREND_CONTINUATION",
+    "direction": "SELL",
+    "confidence": 0.6,
+    "close": 4000.0,
+    "atr": 5.0,
+    "ema_fast": 3995.0,
+    "ema_slow": 4010.0,
+    "adx": 24.0,
+    "macro": {
+      "timestamp_utc": "ISO-8601 UTC timestamp",
+      "dxy_change_pct": 0.1,
+      "us10y_change_bps": 2.0,
+      "real_yield_change_bps": 1.0,
+      "high_impact_news_block": false
+    },
+    "reason": "Illustrative only"
+  },
+  "response": {
+    "request_id": "same-as-request",
+    "schema_version": "1.0",
+    "signal": "SELL",
+    "confidence": 0.62,
+    "reason": "Illustrative only",
+    "macro_summary": "Illustrative only",
+    "model": "configured-model-name",
+    "timestamp_utc": "ISO-8601 UTC timestamp"
+  },
+  "safety_rules": [
+    "AI may confirm or veto only; it cannot reverse direction or alter position sizing.",
+    "Missing/stale/future macro data returns HOLD.",
+    "Timeout, auth error, malformed response, request ID mismatch, or stale response returns HOLD.",
+    "Confidence is a model score, not a probability of profit."
+  ]
+}
