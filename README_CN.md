@@ -4,10 +4,10 @@
 
 **当前不能交易，也不是已完成的可交易版本。** 普通终端初始化被禁止；即使在 Strategy Tester 内，新开仓也被硬锁。在线 EA→API 接口为明确拒绝的占位函数。没有启用实盘或模拟盘。
 
-保留全部原始 EA 输入参数和数值默认值；未擅自设置止损 ATR 倍数、放宽风险上限或改变网格政策。
+保留全部原始 EA 输入参数和数值默认值；按用户“直接实施下一阶段”的授权，实现2倍已收盘M5 ATR止损、止损距离定仓及持久化停机的研究源码；原有风险上限不变。
 
-已运行：6 项 EA 源码安全检查、10 项宏观单元测试、62 项模拟 API 测试，共 78 项通过。另有 1 项上游依赖弃用警告。未调用付费模型。MetaEditor 编译、MT5 回测和收益指标均为 NOT RUN。
+Stage2测试套件包括10项EA源码检查、22项独立Python风险政策案例、10项宏观和62项模拟API测试，共104项；实际执行状态见docs/VALIDATION_RESULTS.md。另有 1 项上游依赖弃用警告。未调用付费模型。MetaEditor 编译、MT5 回测和收益指标均为 NOT RUN。
 
-下一阶段必须先确认止损距离及持久化风控规则，详见 docs/DECISIONS_REQUIRED.md。待解决项与发布阻断条件见 docs/DEFECT_REGISTER.md 和 docs/RISK_REVIEW.md。请勿绕过新开仓锁获取收益数据。
+止损与持久化规则已获实施授权，详见docs/DECISIONS_REQUIRED.md及MQL5/STAGE2.md；尚缺真实券商成本、成交核对和Windows证据，交易锁继续保留。待解决项与发布阻断条件见 docs/DEFECT_REGISTER.md 和 docs/RISK_REVIEW.md。请勿绕过新开仓锁获取收益数据。
 
 执行安装和离线检查请参阅 README.md；此 PR 仅供审查，不自动合并。
