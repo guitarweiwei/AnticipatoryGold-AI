@@ -4,8 +4,8 @@ Severity refers to the latent trading implementation. Containment does not mean 
 
 | ID | Priority | Evidence | Current disposition | Required validation |
 |---|---|---|---|---|
-| P0-01 | P0 | EA OpenPosition sends no SL; InitialLots ignores risk percentage | CONTAINED: all new orders hard-locked; not fixed | Approved stop distance, OrderCalcProfit sizing, server-side SL and broker-specific tests |
-| P0-02 | P0 | OnInit/ResetDay reset baselines; no durable restart state | CONTAINED by terminal/entry lock; not fixed | Approved account/day reset scope; durable latch and restart simulations/MT5 evidence |
+| P0-01 | P0 | EA OpenPosition sends no SL; InitialLots ignores risk percentage | D1 research source implemented after approval; all new orders hard-locked, unverified; costs still fail closed | Approved stop distance, OrderCalcProfit sizing, server-side SL and broker-specific tests |
+| P0-02 | P0 | OnInit/ResetDay reset baselines; no durable restart state | D2 scoped file/marker/barrier state implemented; terminal/entry lock remains; durability unverified | Approved account/day reset scope; durable latch and restart simulations/MT5 evidence |
 | P0-03 | P0 | Original EA can trade real account without dedicated gate | Source fixed: non-tester initialization/order/close forbidden, no input override | Actual MetaEditor and demo rejection evidence pending |
 | P0-04 | P0 | Original NormalizeLots rounds risk up to minimum; initial path misses basket cap | Source fixed: reject below min, step rounding down, entry/basket cap checks | Static tests pass; real symbol precision/order acceptance pending |
 | P0-05 | P0 | Original CSV accepts stale/future/malformed values; wrong timestamp column | Validators implemented; manual publisher canonical schema | 10 macro tests + API cases pass; EA runtime and parser parity pending |
@@ -21,3 +21,7 @@ Severity refers to the latent trading implementation. Containment does not mean 
 | GATE-B-D | Blocker | No MT5 tester/forward evidence; order lock remains | NOT RUN, no performance metrics | Approved implementation then deterministic baseline, costs, unseen data, resilience and demo evidence |
 
 Code findings and exact baseline line references are retained in docs/RISK_REVIEW.md. Review must remain blocked while Critical/High defects persist. Neither local tests nor CI provide live approval.
+
+## Stage 2 update
+
+The user authorized D1/D2 implementation. Stop construction and sizing code, full original-entry→SL basket budgeting and persistent day/initial-equity/halt state are present in source. They are not runtime-verified fixes. Prospective costs remain unknown and independently block every entry. No consumed-bar/pending-order ledger, actual-fill/SL verification or crash-proof durability is claimed. See docs/STAGE2_RISK_REVIEW.md and MQL5/STAGE2.md.
