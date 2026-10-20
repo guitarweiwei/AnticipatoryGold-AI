@@ -42,7 +42,7 @@ class EASourceSafetyTests(unittest.TestCase):
             body = re.sub(r'\s+', '', function_body(self.source, name))
             self.assertRegex(body, r'^if\(!ResearchExecutionAllowed\(\)(?:\|\|[^;{}]+)?\)return;', name)
 
-    def test_new_orders_locked_pending_risk_policy_review(self):
+    def test_new_orders_remain_locked_pending_execution_validation(self):
         self.assertEqual(re.sub(r'\s+', '', function_body(self.source, "EntryRiskPolicyApproved")), 'returnfalse;')
         for name in ("ProcessEntry", "OpenPosition"):
             self.assertIn('!EntryRiskPolicyApproved()', re.sub(r'\s+', '', function_body(self.source, name)))
@@ -60,6 +60,46 @@ class EASourceSafetyTests(unittest.TestCase):
 
     def test_no_online_requests_in_research_ea(self):
         self.assertNotRegex(self.source, r'\bWebRequest\s*\(')
+
+    def test_stop_calculation_is_wired_to_closed_m5_atr_and_order_stop(self):
+        init = re.sub(r'\s+', '', function_body(self.source, "OnInit"))
+        self.assertIn('hStopATR=iATR(InpSymbol,PERIOD_M5,InpATRPeriod);', init)
+        stop = re.sub(r'\s+', '', function_body(self.source, "BuildProtectiveStop"))
+        self.assertIn('CopyVal(hStopATR,0,1,atr)', stop)
+        self.assertIn('SYMBOL_TRADE_TICK_SIZE', stop)
+        self.assertIn('MathFloor(', stop)
+        self.assertIn('MathCeil(', stop)
+        execution = re.sub(r'\s+', '', function_body(self.source, "OpenPosition"))
+        self.assertIn('trade.Buy(lots,InpSymbol,entry,stop,0,comment)', execution)
+        self.assertIn('trade.Sell(lots,InpSymbol,entry,stop,0,comment)', execution)
+
+    def test_broker_stop_risk_and_basket_gate_precede_order(self):
+        self.assertIn('OrderCalcProfit(', function_body(self.source, "ModeledStopLoss"))
+        execution = function_body(self.source, "OpenPosition")
+        order_offset = execution.index('trade.Buy(')
+        for gate in ('BuildProtectiveStop(', 'RiskSizedLots(', 'BasketStopBudget('):
+            self.assertLess(execution.index(gate), order_offset)
+        budget = function_body(self.source, "BasketStopBudget")
+        self.assertIn('POSITION_PRICE_OPEN', budget)
+        self.assertIn('POSITION_SL', budget)
+        self.assertIn('InpBasketStopMoney', budget)
+
+    def test_old_day_limit_check_precedes_rollover_baseline_update(self):
+        update = re.sub(r'\s+', '', function_body(self.source, "UpdateDay"))
+        self.assertLess(update.index('CheckRiskLimits();'), update.index('g_dayEquity=eq;'))
+        self.assertIn('!g_riskHalt', update)
+        self.assertNotIn('g_riskHalt=false', update)
+
+    def test_persistence_barriers_and_bootstrap_exposure_checks_are_wired(self):
+        init = re.sub(r'\s+', '', function_body(self.source, "InitRiskState"))
+        self.assertIn('PositionsTotal()>0||OrdersTotal()>0', init)
+        self.assertIn('if(initialized){g_riskHalt=true;', init)
+        self.assertIn('g_statePath+".tmp"', init)
+        self.assertIn('g_statePath+".halt"', init)
+        latch = function_body(self.source, "LatchRiskHalt")
+        self.assertLess(latch.index('WriteHaltBarrier('), latch.index('SaveRiskState('))
+        save = function_body(self.source, "SaveRiskState")
+        self.assertLess(save.index('FileFlush('), save.index('FileMove('))
 
     def test_source_checker_preserves_urls_and_drops_comments(self):
         self.assertEqual(uncomment('"https://host" // note\n/* block */x'), '"https://host" \nx')
