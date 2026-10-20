@@ -6,10 +6,10 @@ Linux Python/static checks cannot establish that MQL5 compiles or that a strateg
 2. Run the compiler script from PowerShell, supplying absolute paths:
 
    ```powershell
-   .\tests\windows\compile.ps1 -MetaEditor 'C:\ResearchMT5\metaeditor64.exe' -Source 'C:\ResearchMT5\MQL5\Experts\AnticipatoryGold_AI_v1.mq5' -Log 'C:\ResearchEvidence\compile-new.log'
+   .\tests\windows\compile.ps1 -MetaEditor 'C:\ResearchMT5\metaeditor64.exe' -Source 'C:\ResearchMT5\MQL5\Experts\AnticipatoryGold_AI_v1.mq5' -IncludeRoot 'C:\ResearchMT5\MQL5' -EvidenceDirectory 'C:\ResearchEvidence\compile-new'
    ```
 
-   Inspect the real log for zero errors and review every warning. Process success alone is insufficient. Retain the log and source hash. This script does not launch a test.
+   Inspect the real log for zero errors and review every warning. Process success alone is insufficient. Retain the log and source hash. This script does not launch a test. It copies the complete sibling `.mq5`/`.mqh` source tree to a fresh evidence directory, uses the documented `/log` adjacent-log option, requires an unambiguous zero-error/zero-warning compiler Result line and a newly generated nonempty EX5, and records source/compiler/output hashes and compiler versions. Exit code alone never establishes success.
 3. Verify the source refuses initialization outside Strategy Tester, and that order/close paths have the tester-only guard. Do not test this on a logged-in real account.
 4. **Current P0 restriction:** `EntryRiskPolicyApproved()` is hard-coded false. Every new order is blocked even in Strategy Tester. Any baseline run now must be labeled non-trading diagnostics; no strategy-performance conclusion is possible. D1/D2 source implementations now exist, but prospective broker costs, actual-fill/SL verification, durable pending-order intent, real compilation and human review remain prerequisites for execution tests. Do not change this lock to obtain results.
 
