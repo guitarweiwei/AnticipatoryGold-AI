@@ -74,7 +74,40 @@ try {
     if (-not (Test-Path -LiteralPath $editor)) { throw 'Installer did not produce MetaEditor; no compilation occurred.' }
     $editorSignature = Get-AuthenticodeSignature -LiteralPath $editor
     if ($editorSignature.Status -ne 'Valid' -or $editorSignature.SignerCertificate.Subject -ne $report.signer_subject) { throw 'Installed MetaEditor publisher does not match the reviewed signed installer.' }
-    & (Join-Path $root 'tests/windows/compile.ps1') -MetaEditor $editor -Source (Join-Path $root 'MQL5/Experts/AnticipatoryGold_AI_v1.mq5') -IncludeRoot (Join-Path $installPath 'MQL5') -EvidenceDirectory (Join-Path $evidence 'compile')
+    # The installer may put the standard library in the per-user data folder.
+    # Match origin.txt to this exact temporary installation; never launch terminal
+    # merely to populate files, or borrow headers from an unrelated installation.
+    $includeRoot = Join-Path $installPath 'MQL5'
+    if (-not (Test-Path -LiteralPath (Join-Path $includeRoot 'Include/Trade/Trade.mqh'))) {
+        # Initialize only the signed editor's portable standard library. No EA,
+        # terminal, tester or account is supplied to this editor startup.
+        $bootstrap = Start-Process -FilePath $editor -ArgumentList '/portable' -PassThru
+        try {
+            $bootstrapDeadline = [DateTime]::UtcNow.AddSeconds(30)
+            while (-not (Test-Path -LiteralPath (Join-Path $includeRoot 'Include/Trade/Trade.mqh')) -and -not $bootstrap.HasExited -and [DateTime]::UtcNow -lt $bootstrapDeadline) {
+                Start-Sleep -Milliseconds 250
+                $bootstrap.Refresh()
+            }
+            if (Test-Path -LiteralPath (Join-Path $includeRoot 'Include/Trade/Trade.mqh')) { Start-Sleep -Seconds 5 }
+        } finally {
+            if (-not $bootstrap.HasExited) { Stop-Process -Id $bootstrap.Id -Force -ErrorAction SilentlyContinue }
+            $bootstrap.WaitForExit()
+        }
+    }
+    if (-not (Test-Path -LiteralPath (Join-Path $includeRoot 'Include/Trade/Trade.mqh'))) {
+        $dataRoot = Join-Path $env:APPDATA 'MetaQuotes/Terminal'
+        $matches = @(Get-ChildItem -LiteralPath $dataRoot -Directory -ErrorAction SilentlyContinue | Where-Object {
+            $originPath = Join-Path $_.FullName 'origin.txt'
+            if (Test-Path -LiteralPath $originPath) {
+                $origin = (Get-Content -Raw -LiteralPath $originPath).Trim()
+                $origin -eq $installPath -and (Test-Path -LiteralPath (Join-Path $_.FullName 'MQL5/Include/Trade/Trade.mqh'))
+            }
+        })
+        if ($matches.Count -ne 1) { throw 'No unique standard-library data folder belongs to this installation.' }
+        $includeRoot = Join-Path $matches[0].FullName 'MQL5'
+    }
+    $report.standard_library_root = $includeRoot
+    & (Join-Path $root 'tests/windows/compile.ps1') -MetaEditor $editor -Source (Join-Path $root 'MQL5/Experts/AnticipatoryGold_AI_v1.mq5') -IncludeRoot $includeRoot -EvidenceDirectory (Join-Path $evidence 'compile')
     $report.compile = 'PASSED - SEE REAL COMPILER LOG'
     $report.status = 'COMPILED'
 } catch {
