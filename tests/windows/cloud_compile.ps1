@@ -5,6 +5,7 @@ param(
     [Parameter(Mandatory=$true)][string]$RepositoryRoot,
     [Parameter(Mandatory=$true)][string]$EvidenceDirectory,
     [switch]$AcceptMetaQuotesEula,
+    [switch]$AllowOfflineTerminalBootstrap,
     [string]$ApprovedInstallerSha256 = '',
     [string]$ApprovedSignerThumbprint = ''
 )
@@ -74,9 +75,15 @@ try {
     if (-not (Test-Path -LiteralPath $editor)) { throw 'Installer did not produce MetaEditor; no compilation occurred.' }
     $editorSignature = Get-AuthenticodeSignature -LiteralPath $editor
     if ($editorSignature.Status -ne 'Valid' -or $editorSignature.SignerCertificate.Subject -ne $report.signer_subject) { throw 'Installed MetaEditor publisher does not match the reviewed signed installer.' }
+    # Separate user confirmation on 2026-10-21 permits this bounded offline
+    # initialization only. Ordinary compile runs keep the switch false.
+    if ($AllowOfflineTerminalBootstrap) {
+        & (Join-Path $root 'tests/windows/pending_offline_bootstrap.ps1') -InstallationDirectory $installPath -EvidenceDirectory (Join-Path $evidence 'offline-bootstrap') -ExplicitUserAuthorization
+        $report.offline_initialization = 'ATTEMPTED - SEE OFFLINE REPORT'
+    }
     # The installer may put the standard library in the per-user data folder.
-    # Match origin.txt to this exact temporary installation; never launch terminal
-    # merely to populate files, or borrow headers from an unrelated installation.
+    # Match origin.txt to this exact temporary installation; never borrow
+    # headers from an unrelated installation.
     $includeRoot = Join-Path $installPath 'MQL5'
     if (-not (Test-Path -LiteralPath (Join-Path $includeRoot 'Include/Trade/Trade.mqh'))) {
         # Initialize only the signed editor's portable standard library. No EA,
