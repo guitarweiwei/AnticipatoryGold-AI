@@ -41,7 +41,18 @@ try {
     if (Test-Path -LiteralPath $installPath) { throw 'Installation directory is not fresh.' }
     # The installer may auto-launch terminal64. Block its network before install;
     # stop that process if spawned. The script never invokes terminal64 itself.
-    New-NetFirewallRule -DisplayName $firewallName -Direction Outbound -Program (Join-Path $installPath 'terminal64.exe') -Action Block | Out-Null
+    $terminalPath = Join-Path $installPath 'terminal64.exe'
+    $firewallRule = New-NetFirewallRule -DisplayName $firewallName -Direction Outbound -Program $terminalPath -Action Block -Enabled True -Profile Any
+    Set-NetFirewallProfile -Profile Domain,Private,Public -Enabled True
+    if ((Get-Service -Name MpsSvc).Status -ne 'Running') { throw 'Windows firewall service is not running; installation is blocked.' }
+    $profiles = @(Get-NetFirewallProfile -PolicyStore ActiveStore)
+    if ($profiles.Count -ne 3 -or @($profiles | Where-Object { $_.Enabled -ne 'True' }).Count -ne 0) { throw 'Windows firewall profiles are not all enabled; installation is blocked.' }
+    $effectiveRules = @(Get-NetFirewallRule -PolicyStore ActiveStore -Name $firewallRule.Name)
+    if ($effectiveRules.Count -ne 1 -or $effectiveRules[0].Enabled -ne 'True' -or $effectiveRules[0].Action -ne 'Block' -or $effectiveRules[0].Direction -ne 'Outbound' -or $effectiveRules[0].Profile -ne 'Any') { throw 'Terminal outbound firewall block is not effective; installation is blocked.' }
+    $applications = @($effectiveRules[0] | Get-NetFirewallApplicationFilter)
+    if ($applications.Count -ne 1 -or $applications[0].Program -ne $terminalPath) { throw 'Terminal firewall program path mismatch; installation is blocked.' }
+    $report.terminal_firewall_profiles_enabled = $true
+    $report.terminal_firewall_rule_verified = $true
     $install = Start-Process -FilePath $installer -ArgumentList @('/auto', "/path:`"$installPath`"") -PassThru
     $deadline = [DateTime]::UtcNow.AddMinutes(5)
     while (-not $install.HasExited -and [DateTime]::UtcNow -lt $deadline) {
