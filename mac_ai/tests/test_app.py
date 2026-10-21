@@ -249,3 +249,37 @@ def test_valid_historical_then_fresh_csv(context, monkeypatch):
 def test_nested_unknown_field(context):
     context[1]['macro']['source'] = 'unexpected'
     assert post(context).status_code == 422
+
+
+@pytest.mark.parametrize('change', [
+    'news_block', 'missing', 'malformed', 'dxy', 'us10y', 'real_yield', 'timestamp',
+    'unchanged',
+])
+def test_macro_revalidated_after_provider(context, monkeypatch, change):
+    """Never approve using a snapshot invalidated while the model was awaited."""
+    async def provider(self, *args, **kwargs):
+        if change == 'news_block':
+            context[2](high_impact_news_block=True)
+        elif change == 'missing':
+            api.MACRO_FILE.unlink()
+        elif change == 'malformed':
+            api.MACRO_FILE.write_text('invalid feed\n')
+        elif change == 'dxy':
+            context[2](dxy_change_pct=0.2)
+        elif change == 'us10y':
+            context[2](us10y_change_bps=3.0)
+        elif change == 'real_yield':
+            context[2](real_yield_change_bps=2.0)
+        elif change == 'timestamp':
+            context[2](timestamp_utc=(context[3] - timedelta(seconds=1)).isoformat())
+        else:
+            # Republishing identical observations must not veto an unchanged review.
+            context[2]()
+        output = dict(signal='SELL', confidence=0.62, reason='confirmed', macro_summary='fresh')
+        return httpx.Response(200, request=httpx.Request('POST', 'https://mock.invalid'),
+            json={'choices': [{'message': {'content': json.dumps(output)}}]})
+
+    monkeypatch.setattr(httpx.AsyncClient, 'post', provider)
+    response = post(context)
+    assert response.status_code == 200
+    assert response.json()['signal'] == ('SELL' if change == 'unchanged' else 'HOLD')
