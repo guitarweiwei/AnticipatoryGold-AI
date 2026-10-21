@@ -8,7 +8,7 @@ Severity refers to the latent trading implementation. Containment does not mean 
 | P0-02 | P0 | OnInit/ResetDay reset baselines; no durable restart state | D2 scoped file/marker/barrier state implemented; terminal/entry lock remains; durability unverified | Approved account/day reset scope; durable latch and restart simulations/MT5 evidence |
 | P0-03 | P0 | Original EA can trade real account without dedicated gate | Source fixed: non-tester initialization/order/close forbidden, no input override | Actual MetaEditor and demo rejection evidence pending |
 | P0-04 | P0 | Original NormalizeLots rounds risk up to minimum; initial path misses basket cap | Source fixed: reject below min, step rounding down, entry/basket cap checks | Static tests pass; real symbol precision/order acceptance pending |
-| P0-05 | P0 | Original CSV accepts stale/future/malformed values; wrong timestamp column | Validators implemented; manual publisher canonical schema | 10 macro tests + API cases pass; EA runtime and parser parity pending |
+| P0-05 | P0 | Original stale/future/malformed values; published CSV drops source observation times and calendar expiry | PARTIAL/CONTAINED: snapshot validators exist, but source/calendar validity is not preserved through consumption; all orders locked | Carry source validity through a reviewed contract and revalidate on every consumption; parser parity and EA runtime pending |
 | P0-06 | P0 | Original placeholder token accepted; model response weakly validated | Python fixed: secret requirement, strict schemas, finite values, same-direction only, freshness and timeout | 62 mocked API tests pass; actual provider calls not run |
 | P0-07 | P0 | Original EA loose response parser permits correlation/age/schema/reversal defects | CONTAINED: unsafe parser removed; GetAISignal always vetoes | Active strict EA protocol + integration tests before any enablement |
 | P1-01 | P1 | Position-count grid cap invalid for netting accounts | Hedging-only guard added; hard entry lock | Durable layer/order ledger and actual broker mode tests |
@@ -25,3 +25,11 @@ Code findings and exact baseline line references are retained in docs/RISK_REVIE
 ## Stage 2 update
 
 The user authorized D1/D2 implementation. Stop construction and sizing code, full original-entry→SL basket budgeting and persistent day/initial-equity/halt state are present in source. They are not runtime-verified fixes. Prospective costs remain unknown and independently block every entry. No consumed-bar/pending-order ledger, actual-fill/SL verification or crash-proof durability is claimed. See docs/STAGE2_RISK_REVIEW.md and MQL5/STAGE2.md.
+
+## 2026-10-21 six-agent revalidation
+
+- **P0-08 (API source fix tested):** provider review previously approved the old macro snapshot if the CSV changed while awaiting the model. The API now re-reads the canonical file after the await and vetoes missing, blocked or changed observations. Eight added mocked regression cases cover mutations and unchanged republication. This does not solve missing source-validity metadata (P0-05), cross-process atomicity or active EA integration.
+- **P1-07 (open, trading blocked):** EA CopyVal/BuildSignal does not fully validate finite/EMPTY_VALUE indicator results or the complete closed OHLC window. Missing/zero history can create a false candidate. Require complete validated closed-bar data before any execution unlock; changing the SQZ strategy itself requires separate review.
+- **DOC-01 (corrected):** CLOUD_COMPILE.md previously claimed a metaeditor-compile.yml workflow existed. It is absent; the document now explicitly describes scripts and proposed follow-up only. No Windows compile evidence exists.
+
+All 35 original EA input declarations remain identical to the supplied ZIP. No risk policy, order lock, EULA consent, live/demo authorization or merge status changed. See REVALIDATION_20261021.md.
