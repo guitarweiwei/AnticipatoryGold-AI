@@ -33,3 +33,17 @@ The user authorized D1/D2 implementation. Stop construction and sizing code, ful
 - **DOC-01 (corrected):** CLOUD_COMPILE.md previously claimed a metaeditor-compile.yml workflow existed. It is absent; the document now explicitly describes scripts and proposed follow-up only. No Windows compile evidence exists.
 
 All 35 original EA input declarations remain identical to the supplied ZIP. No risk policy, order lock, EULA consent, live/demo authorization or merge status changed. See REVALIDATION_20261021.md.
+
+## Stage 3 — user-authorized items 1–3
+
+This update supersedes implementation-status observations above, while keeping their runtime/release gates open.
+
+| Finding | Stage 3 source disposition | Remaining evidence / blocker |
+|---|---|---|
+| P0-05 original source/calendar validity loss | CSV2 carries numeric/calendar observation times and expiry; shared Python policy and EA consumer recheck originals, not only assembly | Source authenticity/licensing/archive review, actual MQL parsing and historical replay remain unverified |
+| P1-07 invalid signal data | Complete closed OHLC window and finite/EMPTY_VALUE indicator guards added; formulas unchanged | Actual MT5 timing/history quality, nondefault timeframe testing |
+| Durable intents and actual fill/SL | Pre-send persistent OPEN/CLOSE intent + consumed bar, retained pending on failure/restart, order/deal/position/SL/price-risk checks | Uncompiled; actual Windows I/O, lost ack, partial fill and failure recovery evidence; no operator reset/unlock |
+| Complete known basket cash flows | Registered full position histories, signed profit/commission/fee/swap plus remaining open value; conservative debits cannot be offset by gains/rebates; finalized archive precedes retirement | Broker history completeness/cost attribution and actual partial-close evidence; unsupported INOUT/OUT_BY or unallocated charges veto |
+| Unknown prospective costs | Explicit authorized/verified/known/currency/provenance/expiry scaffold; flags remain false, plus independent unconditional veto | A justified broker cost bound is still absent. No arbitrary reserve or zero-cost assumption; all candidates remain blocked |
+
+API1.1 / nested macro2 are explicit breaking validity upgrades; old requests/CSV reject. All original35 EA input declarations, numeric ceilings and all terminal/entry/online-AI locks remain unchanged. Tests:175 offline checks; MetaEditor/MT5/Windows/provider/broker execution NOT RUN. Read STAGE3_IMPLEMENTATION.md and VALIDATION_RESULTS.md for the actual evidence boundary. Historical Stage2 and early 2026-10-21 reviews are not retroactive proof of Stage3 execution.
