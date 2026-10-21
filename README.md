@@ -1,3 +1,5 @@
+> **2026-10-21 latest:** Genuine signed MetaEditor 5.0.0.6274 compilation PASSED: **0 errors, 0 warnings**, fresh EX5 hash recorded. Authorized offline initialization generated the official standard library; firewall and process exit verified. Backtest/EA execution remain NOT RUN; all trading locks and risk limits remain unchanged. Earlier compilation failures below are historical. See [Windows evidence](tests/windows/CLOUD_COMPILE.md).
+
 # AnticipatoryGold AI v1 — research development, trading blocked
 
 This branch imports the supplied project and six-agent P0 hardening work. **It is not a completed trading system and must not be merged as release-ready.** No profitability or maximum-loss claim is made.
