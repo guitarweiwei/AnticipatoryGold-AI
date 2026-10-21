@@ -1,3 +1,5 @@
+> Latest Windows result (2026-10-21): the user accepted the EULA; actual signed MetaEditor 5.0.0.6274 was invoked and FAILED with 1 error / 0 warnings (missing official Include/Trade/Trade.mqh), no successful EX5. Both log parsing and numeric report were verified by real run 39652983425. PowerShell execution is now evidenced. Earlier NOT RUN statements below are retained historical snapshots, superseded only for Windows helper execution and compiler invocation. MT5 backtests/runtime, real providers and trading remain NOT RUN. See tests/windows/CLOUD_COMPILE.md and its evidence aggregate; compilation is still a release blocker. No MQL content or risk parameter changed.
+
 # Actual validation evidence — current Stage 3 and historical runs
 
 Historical Stage 2 run — reviewed integrated implementation source: local commit `03b2a3b` (D1/D2 source implementation plus metadata hardening and tests; subsequent edits are documentation only). Local commit hashes are not GitHub's per-file web-upload commit hashes.
