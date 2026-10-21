@@ -12,11 +12,15 @@ from mac_ai import app as api
 def context(tmp_path, monkeypatch):
     for name in ("ALL_PROXY", "all_proxy", "HTTPS_PROXY", "https_proxy", "HTTP_PROXY", "http_proxy"):
         monkeypatch.delenv(name, raising=False)
-    now = api.utc_now()
+    now = api.utc_now().replace(microsecond=0)
     stamp = now.isoformat().replace('+00:00', 'Z')
-    macro = dict(timestamp_utc=stamp, dxy_change_pct=0.1, us10y_change_bps=2.0,
-                 real_yield_change_bps=1.0, high_impact_news_block=False)
-    req = dict(request_id='candidate-1', symbol='XAUUSD', timeframe='M5',
+    macro = dict(schema_version="2", timestamp_utc=stamp, dxy_change_pct=0.1, us10y_change_bps=2.0,
+                 real_yield_change_bps=1.0, high_impact_news_block=False,
+                 dxy_observed_at_utc=stamp, us10y_observed_at_utc=stamp,
+                 real_yield_observed_at_utc=stamp, news_observed_at_utc=stamp,
+                 news_valid_until_utc=(now + timedelta(minutes=10)).isoformat().replace('+00:00', 'Z'),
+                 provenance_sha256='a' * 64)
+    req = dict(schema_version='1.1', request_id='candidate-1', symbol='XAUUSD', timeframe='M5',
         bar_time_utc=stamp, regime='STRONG_DOWNTREND', setup='TREND_CONTINUATION',
         direction='SELL', confidence=0.6, close=4000.0, atr=5.0, ema_fast=3995.0,
         ema_slow=4010.0, adx=24.0, macro=macro, reason='fixture')
@@ -53,7 +57,8 @@ def model_result(monkeypatch, **updates):
 
 def forbid_provider(monkeypatch):
     async def provider(*args, **kwargs):
-        raise AssertionError('Provider should not be called')
+        # pytest's failure is not swallowed by the service's fail-closed Exception handler.
+        pytest.fail('Provider should not be called')
     monkeypatch.setattr(httpx.AsyncClient, 'post', provider)
 
 
@@ -64,7 +69,7 @@ def test_frozen_response_contract(context, monkeypatch):
     body = response.json()
     assert body['signal'] == 'SELL'
     assert body['request_id'] == context[1]['request_id']
-    assert body['schema_version'] == '1.0'
+    assert body['schema_version'] == '1.1'
     assert api.fresh(body['timestamp_utc'], api.utc_now())
     contract = json.loads((api.Path(__file__).resolve().parents[2] / 'docs/API_CONTRACT.json').read_text())
     assert set(body) == set(contract['response'])
@@ -84,7 +89,7 @@ def test_wrong_auth(context):
 @pytest.mark.parametrize('target,age', [('bar_time_utc', 901), ('bar_time_utc', -1), ('macro', 901), ('macro', -1)])
 def test_request_stale_future(context, monkeypatch, target, age):
     forbid_provider(monkeypatch)
-    stamp = (context[3] - timedelta(seconds=age)).isoformat()
+    stamp = (context[3] - timedelta(seconds=age)).isoformat().replace('+00:00', 'Z')
     if target == 'macro':
         context[1]['macro']['timestamp_utc'] = stamp
     else:
@@ -238,12 +243,12 @@ def test_csv_out_of_order(context, monkeypatch):
     assert post(context).json()['signal'] == 'HOLD'
 
 
-def test_valid_historical_then_fresh_csv(context, monkeypatch):
+def test_historical_then_fresh_csv_rejected(context, monkeypatch):
     lines = api.MACRO_FILE.read_text().splitlines()
     old = lines[1].replace(context[1]['macro']['timestamp_utc'], '2020-01-01T00:00:00Z')
     api.MACRO_FILE.write_text(lines[0] + '\n' + old + '\n' + lines[1] + '\n')
-    model_result(monkeypatch)
-    assert post(context).json()['signal'] == 'SELL'
+    forbid_provider(monkeypatch)
+    assert post(context).json()['signal'] == 'HOLD'
 
 
 def test_nested_unknown_field(context):
@@ -283,3 +288,86 @@ def test_macro_revalidated_after_provider(context, monkeypatch, change):
     response = post(context)
     assert response.status_code == 200
     assert response.json()['signal'] == ('SELL' if change == 'unchanged' else 'HOLD')
+
+
+@pytest.mark.parametrize('field', [
+    'schema_version', 'dxy_observed_at_utc', 'us10y_observed_at_utc',
+    'real_yield_observed_at_utc', 'news_observed_at_utc', 'news_valid_until_utc',
+    'provenance_sha256',
+])
+def test_missing_macro_source_metadata_rejected(context, monkeypatch, field):
+    forbid_provider(monkeypatch)
+    del context[1]['macro'][field]
+    assert post(context).status_code == 422
+
+
+@pytest.mark.parametrize('version', [None, '1.0', 'unknown'])
+def test_old_or_unknown_api_protocol_rejected(context, monkeypatch, version):
+    forbid_provider(monkeypatch)
+    if version is None:
+        del context[1]['schema_version']
+    else:
+        context[1]['schema_version'] = version
+    assert post(context).status_code == 422
+
+
+@pytest.mark.parametrize('side', ['request', 'canonical'])
+@pytest.mark.parametrize('field,age', [
+    ('dxy_observed_at_utc', 901), ('us10y_observed_at_utc', 901),
+    ('real_yield_observed_at_utc', 901), ('news_valid_until_utc', 1),
+])
+def test_macro_source_or_calendar_expiry(context, monkeypatch, side, field, age):
+    forbid_provider(monkeypatch)
+    expired = (context[3] - timedelta(seconds=age)).isoformat().replace('+00:00', 'Z')
+    if side == 'request':
+        context[1]['macro'][field] = expired
+    else:
+        context[2](**{field: expired})
+    assert post(context).json()['signal'] == 'HOLD'
+
+
+@pytest.mark.parametrize('field', ['dxy_observed_at_utc', 'news_valid_until_utc'])
+def test_source_validity_expires_during_provider(context, monkeypatch, field):
+    # The assembled snapshot stays fresh: only the source or calendar validity expires.
+    stamp = (context[3] - timedelta(seconds=899) if field == 'dxy_observed_at_utc'
+             else context[3] + timedelta(seconds=1)).isoformat().replace('+00:00', 'Z')
+    context[1]['macro'][field] = stamp
+    context[2](**{field: stamp})
+    monkeypatch.setattr(api, 'utc_now', lambda: context[3])
+    calls = []
+
+    async def provider(self, *args, **kwargs):
+        calls.append(True)
+        monkeypatch.setattr(api, 'utc_now', lambda: context[3] + timedelta(seconds=2))
+        output = dict(signal='SELL', confidence=0.62, reason='confirmed', macro_summary='fresh')
+        return httpx.Response(200, request=httpx.Request('POST', 'https://mock.invalid'),
+            json={'choices': [{'message': {'content': json.dumps(output)}}]})
+
+    monkeypatch.setattr(httpx.AsyncClient, 'post', provider)
+    assert post(context).json()['signal'] == 'HOLD'
+    assert calls == [True]
+
+
+@pytest.mark.parametrize('field,value', [
+    ('dxy_change_pct', 0.2), ('us10y_change_bps', 3.0), ('real_yield_change_bps', 2.0),
+    ('provenance_sha256', 'b' * 64),
+    ('dxy_observed_at_utc', 'older_source'), ('timestamp_utc', 'newer_snapshot'),
+])
+def test_request_canonical_disagreement_vetoes_before_provider(context, monkeypatch, field, value):
+    forbid_provider(monkeypatch)
+    if value == 'older_source':
+        value = (context[3] - timedelta(seconds=1)).isoformat().replace('+00:00', 'Z')
+    elif value == 'newer_snapshot':
+        value = (context[3] - timedelta(seconds=1)).isoformat().replace('+00:00', 'Z')
+    context[1]['macro'][field] = value
+    assert post(context).json()['signal'] == 'HOLD'
+
+
+def test_old_csv_protocol_rejected(context, monkeypatch):
+    forbid_provider(monkeypatch)
+    old_fields = ['timestamp_utc', 'dxy_change_pct', 'us10y_change_bps',
+                  'real_yield_change_bps', 'high_impact_news_block']
+    macro = context[1]['macro']
+    api.MACRO_FILE.write_text(','.join(old_fields) + '\n' + ','.join(
+        '0' if isinstance(macro[field], bool) else str(macro[field]) for field in old_fields) + '\n')
+    assert post(context).json()['signal'] == 'HOLD'
