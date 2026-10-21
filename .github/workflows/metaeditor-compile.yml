@@ -80,6 +80,7 @@ jobs:
           path: |
             ${{ runner.temp }}/metaquotes-compile-evidence/preflight-result.json
             ${{ runner.temp }}/metaquotes-compile-evidence/installation-files.json
+            ${{ runner.temp }}/metaquotes-compile-evidence/library-diagnostics.json
             ${{ runner.temp }}/metaquotes-compile-evidence/compile/compile-result.json
             ${{ runner.temp }}/metaquotes-compile-evidence/compile/source-manifest.json
             ${{ runner.temp }}/metaquotes-compile-evidence/compile/standard-library-manifest.json
