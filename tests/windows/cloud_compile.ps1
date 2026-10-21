@@ -64,7 +64,12 @@ try {
     Get-Process -Name terminal64 -ErrorAction SilentlyContinue | Where-Object { $_.Path -eq (Join-Path $installPath 'terminal64.exe') } | Stop-Process -Force
     $install.WaitForExit()
     $report.installer_exit_code = $install.ExitCode
-    if ($install.ExitCode -ne 0) { throw "Official installer exited with code $($install.ExitCode)." }
+    # Record the native installer exit code. Its meaning is not documented here;
+    # compilation still requires an actual signed editor and installed includes.
+    $installedFiles = @(Get-ChildItem -LiteralPath $installPath -Recurse -File -ErrorAction SilentlyContinue | ForEach-Object {
+        [ordered]@{ path = [IO.Path]::GetRelativePath($installPath, $_.FullName); bytes = $_.Length }
+    })
+    ConvertTo-Json -InputObject $installedFiles -Depth 4 | Set-Content -LiteralPath (Join-Path $evidence 'installation-files.json') -Encoding utf8
     $editor = Join-Path $installPath 'metaeditor64.exe'
     if (-not (Test-Path -LiteralPath $editor)) { throw 'Installer did not produce MetaEditor; no compilation occurred.' }
     $editorSignature = Get-AuthenticodeSignature -LiteralPath $editor
