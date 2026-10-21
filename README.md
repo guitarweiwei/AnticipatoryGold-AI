@@ -28,7 +28,7 @@ python3 -m venv .venv
 .venv/bin/python tests/run_checks.py
 ```
 
-Stage 2 adds 22 independent Python risk-policy fixtures and four source linkage checks. The complete suite has 10 MQL5 **source** safety checks, 22 Python policy fixtures, 10 macro tests and 62 mocked API tests (104 total). See docs/VALIDATION_RESULTS.md for actual run status. One upstream Starlette TestClient deprecation warning remains. Tests use no paid model calls. CI uses read-only repository permissions and runs these checks; its remote status must be verified separately.
+Stage 2 adds 22 independent Python risk-policy fixtures and four source linkage checks. The complete suite has 10 MQL5 **source** safety checks, 22 Python policy fixtures, 10 macro tests and 70 mocked API tests (112 total). See docs/VALIDATION_RESULTS.md for actual run status. One upstream Starlette TestClient deprecation warning remains. Tests use no paid model calls. CI uses read-only repository permissions and runs these checks; its remote status must be verified separately.
 
 ## Advisory service only
 
@@ -46,3 +46,7 @@ Set environment variables using your preferred secure method before starting. No
 See `docs/DECISIONS_REQUIRED.md`, `docs/DEFECT_REGISTER.md`, `docs/RISK_REVIEW.md` and `docs/AGENT_PLAN.md`. D1/D2 have source implementations, with Windows compilation/runtime still unverified. Prospective broker-cost bounds, actual-fill/SL verification, durable pending-order/restart reconciliation, strict active EA/API integration and real Windows evidence remain blockers. See MQL5/STAGE2.md and docs/STAGE2_RISK_REVIEW.md. The cost gate independently rejects every candidate until verified cost data exists. Do not remove the order lock to obtain performance results.
 
 `tests/windows/` contains compile instructions and an empty evidence template, not evidence of execution. Baseline source strategy semantics are documented in `docs/STRATEGY_SPEC.md`. `docs/CODE_AUDIT.md` is the retained historical import audit.
+
+## 2026-10-21 revalidation
+
+The API now vetoes canonical macro observations changed or lost during model review. Six-agent revalidation and unresolved source-validity, signal-data and Windows gates are recorded in [docs/REVALIDATION_20261021.md](docs/REVALIDATION_20261021.md). All execution locks and original risk inputs remain unchanged.
