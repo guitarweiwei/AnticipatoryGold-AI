@@ -66,7 +66,7 @@ try {
     Copy-Item -LiteralPath $nativeLog -Destination (Join-Path $evidencePath 'metaeditor.log')
     $logText = Get-Content -LiteralPath $nativeLog -Raw
     Write-Output $logText
-    $summary = [regex]::Matches($logText, '(?im)^\s*Result:\s*(\d+)\s+errors?,\s*(\d+)\s+warnings?\b[^\r\n]*$')
+    $summary = [regex]::Matches($logText, '(?im)^[ \t]*Result:\s*(\d+)\s+errors?,\s*(\d+)\s+warnings?\b[^\r\n]*\r?$')
     if ($summary.Count -ne 1) { throw 'Expected exactly one parseable compiler Result line; inspect the raw log.' }
     $result.errors = [int]$summary[0].Groups[1].Value
     $result.warnings = [int]$summary[0].Groups[2].Value
