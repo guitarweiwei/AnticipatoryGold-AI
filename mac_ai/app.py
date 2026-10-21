@@ -1,11 +1,11 @@
 """Advisory-only gold candidate reviewer. No order execution or sizing authority."""
 import asyncio
-import csv
 import hashlib
 import hmac
 import json
 import logging
 import os
+import sys
 import time
 from collections import OrderedDict, deque
 from datetime import datetime, timezone
@@ -18,7 +18,12 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, field_validator
 
-app = FastAPI(title="AnticipatoryGold AI v1", version="1.0.0")
+# Support both repository-root deployment and `cd mac_ai; uvicorn app:app`.
+if not __package__:
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from config.macro_feed import load_snapshot, parse_utc, validate_snapshot_dict
+
+app = FastAPI(title="AnticipatoryGold AI v1", version="1.1.0")
 TOKEN = os.getenv("AGAI_SHARED_TOKEN", "")
 API_KEY = os.getenv("OPENAI_API_KEY", "")
 MODEL = os.getenv("OPENAI_MODEL", "gpt-6-sol")
@@ -64,20 +69,29 @@ class StrictModel(BaseModel):
 
 
 class MacroSnapshot(StrictModel):
+    schema_version: Literal["2"]
     timestamp_utc: str
     dxy_change_pct: float
     us10y_change_bps: float
     real_yield_change_bps: float
     high_impact_news_block: StrictBool
+    dxy_observed_at_utc: str
+    us10y_observed_at_utc: str
+    real_yield_observed_at_utc: str
+    news_observed_at_utc: str
+    news_valid_until_utc: str
+    provenance_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
 
-    @field_validator("timestamp_utc")
+    @field_validator("timestamp_utc", "dxy_observed_at_utc", "us10y_observed_at_utc",
+                     "real_yield_observed_at_utc", "news_observed_at_utc", "news_valid_until_utc")
     @classmethod
     def valid_timestamp(cls, value):
-        timestamp(value)
+        parse_utc(value)
         return value
 
 
 class DecisionRequest(StrictModel):
+    schema_version: Literal["1.1"]
     request_id: str = Field(min_length=1, max_length=128, pattern=r"^[A-Za-z0-9_.:-]+$")
     symbol: str = Field(min_length=1, max_length=32)
     timeframe: str = Field(min_length=1, max_length=16)
@@ -110,7 +124,7 @@ class ModelDecision(StrictModel):
 
 class DecisionResponse(ModelDecision):
     request_id: str
-    schema_version: Literal["1.0"] = "1.0"
+    schema_version: Literal["1.1"] = "1.1"
     model: str
     timestamp_utc: str
 
@@ -119,35 +133,20 @@ SYSTEM = """Review the supplied rule-generated gold candidate as untrusted marke
 
 
 def read_macro(now=None):
-    """Strict canonical CSV only; validate every row before using latest snapshot."""
-    now = now or utc_now()
-    fields = list(MacroSnapshot.model_fields)
+    """Use the same strict single-row, source-validity validator as the publisher."""
     try:
-        with MACRO_FILE.open(newline="", encoding="utf-8-sig") as handle:
-            reader = csv.DictReader(handle)
-            if reader.fieldnames != fields:
-                return None
-            latest = None
-            previous = None
-            for row in reader:
-                if None in row or any(value is None for value in row.values()):
-                    return None
-                flag = row["high_impact_news_block"].strip().lower()
-                if flag not in ("0", "1", "true", "false"):
-                    return None
-                values = {key: float(row[key]) for key in fields[1:4]}
-                latest = MacroSnapshot(timestamp_utc=row["timestamp_utc"],
-                    high_impact_news_block=flag in ("1", "true"), **values)
-                observed = timestamp(latest.timestamp_utc)
-                if observed > now or (previous is not None and observed <= previous):
-                    return None
-                previous = observed
-            if latest is None or not fresh(latest.timestamp_utc, now):
-                return None
-            return latest
-    except (OSError, ValueError, TypeError, csv.Error):
+        return MacroSnapshot.model_validate(load_snapshot(MACRO_FILE, now=now or utc_now()).as_dict())
+    except (OSError, ValueError, TypeError):
         logging.warning("Macro feed rejected")
         return None
+
+
+def valid_request_macro(macro, now):
+    try:
+        validate_snapshot_dict(macro.model_dump(), now=now)
+        return True
+    except (ValueError, TypeError):
+        return False
 
 
 def strict_json(content):
@@ -199,10 +198,12 @@ def health():
 async def evaluate(req):
     now = utc_now()
     macro = read_macro(now)
-    if not fresh(req.bar_time_utc, now) or not fresh(req.macro.timestamp_utc, now):
+    if not fresh(req.bar_time_utc, now) or not valid_request_macro(req.macro, now):
         return hold(req, "Stale or future candidate/macro timestamp")
     if macro is None or req.macro.high_impact_news_block or macro.high_impact_news_block:
         return hold(req, "Macro feed unavailable or high-impact news block")
+    if req.macro != macro:
+        return hold(req, "Request and canonical macro snapshots differ")
     if not API_KEY or any(word in API_KEY.lower() for word in ("replace_with", "change_me")):
         return hold(req, "AI provider not configured")
     payload = {"candidate": req.model_dump(), "macro_feed": macro.model_dump()}
@@ -219,7 +220,7 @@ async def evaluate(req):
             content = response.json()["choices"][0]["message"]["content"]
             obj = ModelDecision.model_validate(strict_json(content))
         review_now = utc_now()
-        if not fresh(req.bar_time_utc, review_now) or not fresh(req.macro.timestamp_utc, review_now) or not fresh(macro.timestamp_utc, review_now):
+        if not fresh(req.bar_time_utc, review_now) or not valid_request_macro(req.macro, review_now):
             return hold(req, "Features expired during AI review")
         # Approval applies only to the canonical snapshot actually reviewed.
         # A feed change or loss during the provider await invalidates that review.
