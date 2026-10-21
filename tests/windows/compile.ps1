@@ -10,9 +10,10 @@ param(
 $ErrorActionPreference = 'Stop'
 $editorPath = (Resolve-Path -LiteralPath $MetaEditor).Path
 $sourcePath = (Resolve-Path -LiteralPath $Source).Path
-$includePath = (Resolve-Path -LiteralPath $IncludeRoot).Path
+$includePath = [IO.Path]::GetFullPath($IncludeRoot)
 if ([IO.Path]::GetExtension($sourcePath) -ne '.mq5') { throw 'Expected an .mq5 source file.' }
-if (-not (Test-Path -LiteralPath (Join-Path $includePath 'Include\Trade\Trade.mqh'))) { throw 'IncludeRoot must be the installed MQL5 directory, containing Include/Trade/Trade.mqh.' }
+# Missing vendor headers are recorded, not fabricated. Still invoke the real
+# compiler to obtain its diagnostic log; success requires the real library below.
 $evidencePath = [IO.Path]::GetFullPath($EvidenceDirectory)
 if (Test-Path -LiteralPath $evidencePath) { throw 'Choose a fresh evidence directory; previous evidence will not be overwritten.' }
 New-Item -ItemType Directory -Path $evidencePath | Out-Null
@@ -43,7 +44,8 @@ try {
         [ordered]@{ path = [IO.Path]::GetRelativePath($work,$_.FullName); sha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $_.FullName).Hash }
     })
     ConvertTo-Json -InputObject $manifest -Depth 4 | Set-Content -LiteralPath (Join-Path $evidencePath 'source-manifest.json') -Encoding utf8
-    $libraryManifest = @(Get-ChildItem -LiteralPath (Join-Path $includePath 'Include') -Recurse -File -Filter '*.mqh' | ForEach-Object {
+    $result.standard_library_present_before = Test-Path -LiteralPath (Join-Path $includePath 'Include/Trade/Trade.mqh')
+    $libraryManifest = @(Get-ChildItem -LiteralPath (Join-Path $includePath 'Include') -Recurse -File -Filter '*.mqh' -ErrorAction SilentlyContinue | ForEach-Object {
         [ordered]@{ path = [IO.Path]::GetRelativePath($includePath,$_.FullName); sha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $_.FullName).Hash }
     })
     ConvertTo-Json -InputObject $libraryManifest -Depth 4 | Set-Content -LiteralPath (Join-Path $evidencePath 'standard-library-manifest.json') -Encoding utf8
@@ -72,6 +74,11 @@ try {
     if ($result.errors -ne 0 -or $result.warnings -ne 0) { throw 'Compiler reported errors or warnings; review the raw log before proceeding.' }
     if (-not (Test-Path -LiteralPath $binary) -or (Get-Item -LiteralPath $binary).Length -le 0) { throw 'Compiler reported success without a fresh nonempty EX5.' }
     $result.ex5_sha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $binary).Hash
+    if (-not (Test-Path -LiteralPath (Join-Path $includePath 'Include/Trade/Trade.mqh'))) { throw 'Compiler output exists but the installed standard-library path is unverified; inspect evidence.' }
+    $libraryManifest = @(Get-ChildItem -LiteralPath (Join-Path $includePath 'Include') -Recurse -File -Filter '*.mqh' | ForEach-Object {
+        [ordered]@{ path = [IO.Path]::GetRelativePath($includePath,$_.FullName); sha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $_.FullName).Hash }
+    })
+    ConvertTo-Json -InputObject $libraryManifest -Depth 4 | Set-Content -LiteralPath (Join-Path $evidencePath 'standard-library-manifest.json') -Encoding utf8
     $result.status = 'PASSED'
 } catch {
     $result.status = 'FAILED'
