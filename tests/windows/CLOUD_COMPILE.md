@@ -1,10 +1,10 @@
 # Official Windows compiler evidence — preflight workflow
 
-No real MetaEditor compilation was run while authoring these scripts. A passing download/signature preflight is **not** a passing compile. PowerShell execution is **NOT RUN** until Windows Actions evidence exists. No MT5 Strategy Tester run is included.
+No real MetaEditor compilation was run while authoring these scripts. A passing download/signature preflight is **not** a passing compile. Windows PowerShell syntax parsing and download/signature preflight have now run successfully; installation and compiler execution have not. No MT5 Strategy Tester run is included.
 
 `.github/workflows/metaeditor-compile.yml` now wires the candidate scripts to a disposable `windows-2022` runner. It runs on relevant development-branch pushes (or manual dispatch when available) and **only downloads and checks signatures**. The invocation explicitly passes `-AcceptMetaQuotesEula:$false`; there is no installation input, secret or enabled compile job. It parses both PowerShell scripts on Windows, requires a valid signature and a report recording EULA false / compile NOT RUN / backtest NOT RUN, and uploads only `preflight-result.json` for seven days. Checkout and upload actions are pinned to reviewed upstream release commits; repository permissions are read-only and checkout does not persist credentials. A green workflow means the preflight contract passed, never that the EA compiled.
 
-Observed Windows run: [39602184477](https://github.com/guitarweiwei/AnticipatoryGold-AI/actions/runs/39602184477), source commit `26f0acb1da753b6e4822c17ea5c5363b72b36f48`, succeeded. Both PowerShell files parsed on Windows; the download/signature contract passed. The unmodified JSON artifact is retained in `evidence/20261021-preflight/preflight-result.json`.
+Observed Windows run: [39602184477](https://github.com/guitarweiwei/AnticipatoryGold-AI/actions/runs/39602184477), source commit `26f0acb1da753b6e4822c17ea5c5363b72b36f48`, succeeded. Both PowerShell files parsed on Windows; the download/signature contract passed. The report values are retained unchanged (CRLF normalized to LF for repository text) in `evidence/20261021-preflight/preflight-result.json`.
 
 - Installer SHA256: `C8C0A73F86C58974DF62FB48F8256A099D6698518CF2DEFC2B3F169773729E22`
 - Authenticode: `Valid`
