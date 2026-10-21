@@ -51,7 +51,9 @@ try {
     }
     if (-not $install.HasExited) { Stop-Process -Id $install.Id -Force -ErrorAction SilentlyContinue; throw 'Official installer timed out.' }
     Get-Process -Name terminal64 -ErrorAction SilentlyContinue | Where-Object { $_.Path -eq (Join-Path $installPath 'terminal64.exe') } | Stop-Process -Force
+    $install.WaitForExit()
     $report.installer_exit_code = $install.ExitCode
+    if ($install.ExitCode -ne 0) { throw "Official installer exited with code $($install.ExitCode)." }
     $editor = Join-Path $installPath 'metaeditor64.exe'
     if (-not (Test-Path -LiteralPath $editor)) { throw 'Installer did not produce MetaEditor; no compilation occurred.' }
     $editorSignature = Get-AuthenticodeSignature -LiteralPath $editor
@@ -61,6 +63,11 @@ try {
     $report.status = 'COMPILED'
 } catch {
     $report.status = 'FAILED'
+    $compileReportPath = Join-Path $evidence 'compile/compile-result.json'
+    if (Test-Path -LiteralPath $compileReportPath) {
+        $compileReport = Get-Content -Raw -LiteralPath $compileReportPath | ConvertFrom-Json
+        if ($compileReport.started_utc) { $report.compile = 'FAILED - SEE REAL COMPILER EVIDENCE' }
+    }
     $report.failure = $_.Exception.Message
     throw
 } finally {
