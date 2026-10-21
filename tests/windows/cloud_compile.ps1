@@ -112,9 +112,11 @@ try {
                 }
             })
             ConvertTo-Json -InputObject $diagnosticFiles -Depth 4 | Set-Content -LiteralPath (Join-Path $evidence 'library-diagnostics.json') -Encoding utf8
-            throw 'No unique standard-library data folder belongs to this installation.'
+            $report.standard_library_missing = $true
+            # Invoke only MetaEditor to obtain actual compiler diagnostics. The
+            # compile script cannot mark success without the installed headers.
         }
-        $includeRoot = Join-Path $matches[0].FullName 'MQL5'
+        if ($matches.Count -eq 1) { $includeRoot = Join-Path $matches[0].FullName 'MQL5' }
     }
     $report.standard_library_root = $includeRoot
     & (Join-Path $root 'tests/windows/compile.ps1') -MetaEditor $editor -Source (Join-Path $root 'MQL5/Experts/AnticipatoryGold_AI_v1.mq5') -IncludeRoot $includeRoot -EvidenceDirectory (Join-Path $evidence 'compile')
