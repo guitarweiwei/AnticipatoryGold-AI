@@ -1,4 +1,4 @@
-name: Windows MetaQuotes preflight (no installation or compilation)
+name: Windows MetaEditor evidence (preflight and authorized compile)
 
 on:
   push:
@@ -48,5 +48,40 @@ jobs:
         with:
           name: metaquotes-preflight-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/metaquotes-evidence/preflight-result.json
+          if-no-files-found: error
+          retention-days: 7
+
+
+  authorized-compile:
+    name: Authorized MetaEditor compile only - no backtest
+    # One-shot activation on a reviewed development commit, not every later push.
+    if: github.event_name == 'push' && contains(github.event.head_commit.message, '[metaeditor-compile-authorized]')
+    needs: download-signature-only
+    runs-on: windows-2022
+    timeout-minutes: 12
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Checkout reviewed source without stored credentials
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Install reviewed official software and compile only
+        # User explicitly accepted MetaQuotes EULA on 2026-10-21 in this task.
+        # These exact hash/certificate values came from preflight run 39602184477.
+        run: |
+          & "$env:GITHUB_WORKSPACE/tests/windows/cloud_compile.ps1" -RepositoryRoot $env:GITHUB_WORKSPACE -EvidenceDirectory "$env:RUNNER_TEMP/metaquotes-compile-evidence" -AcceptMetaQuotesEula -ApprovedInstallerSha256 'C8C0A73F86C58974DF62FB48F8256A099D6698518CF2DEFC2B3F169773729E22' -ApprovedSignerThumbprint '5A64A7AED24C33DED342D01D01FA5286F06DA6DC'
+      - name: Preserve actual JSON and compiler log only
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: metaeditor-compile-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/metaquotes-compile-evidence/preflight-result.json
+            ${{ runner.temp }}/metaquotes-compile-evidence/compile/compile-result.json
+            ${{ runner.temp }}/metaquotes-compile-evidence/compile/source-manifest.json
+            ${{ runner.temp }}/metaquotes-compile-evidence/compile/standard-library-manifest.json
+            ${{ runner.temp }}/metaquotes-compile-evidence/compile/metaeditor.log
           if-no-files-found: error
           retention-days: 7
