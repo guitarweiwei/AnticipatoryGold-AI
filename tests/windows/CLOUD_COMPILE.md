@@ -1,3 +1,19 @@
+# Windows MetaEditor evidence
+
+## Latest authorized offline initialization and successful compilation (2026-10-21)
+
+The user explicitly confirmed bounded offline MT5 initialization. Actual Windows run [39680977181](https://github.com/guitarweiwei/AnticipatoryGold-AI/actions/runs/39680977181), source commit `2694ada19f94ca5bf30f4fd19c89e987c3d175e4`, completed genuine signed MetaEditor 5.0.0.6274 compilation:
+
+```text
+Result: 0 errors, 0 warnings, 2532 ms elapsed, cpu='X64 Regular'
+```
+
+The fresh nonempty EX5 SHA256 is `4135628D2F73FDD2BDC486A71556FACA296203C86708664C294AEFCEAE150E31`; the binary is not redistributed or deployed. The reviewed installer/compiler identities are unchanged. Offline initialization recorded verified firewall and exit, no supplied account/EA and no tester; timestamps were 21:43:34.6982553Z–21:44:04.9083272Z, including cleanup. Requested INI settings disable Experts/live trading/DLLs; the report does not independently prove application of each setting. Official `MQL5/Include/Trade/Trade.mqh` and the standard-library hash manifest were present before compilation. MQL source hashes and all inputs/risk/trading locks remain unchanged.
+
+Artifact ZIP SHA256 `e3ae521a38b8d1f0c86b0f6e323917c84bbe6bbaf9ea3d1dfa90504a75d3b4f4` was downloaded and matched to Actions. [Complete report/manifests and decoded original CRLF log/config](evidence/20261021-offline-compile.json) retain original byte hashes; [readable compiler log](evidence/20261021-offline-metaeditor.log) is UTF-8/LF. Original prior failure evidence remains unchanged. An initial activation run 39680523440 failed script parsing before installation because browser editing duplicated the offline script; replacement removed the duplicate, and all three scripts passed actual Windows parsing in the successful run.
+
+MT5 backtest, EA execution, broker/provider/runtime validation remain **NOT RUN**. No merge or trading is authorized. Ordinary pushes/manual dispatch skip installation; direct offline initialization additionally requires `[offline-bootstrap-authorized]` plus `[metaeditor-compile-authorized]`. The following sections describe earlier failed attempts and the proposal before it was authorized; their status is historical and superseded by this section.
+
 # Actual Windows MetaEditor evidence — compile blocked
 
 The user explicitly accepted the MetaQuotes EULA on 2026-10-21 and authorized official installation on a disposable Windows runner **only for MetaEditor compilation**. The signed compiler was installed and actually invoked. The latest [run 39652983425](https://github.com/guitarweiwei/AnticipatoryGold-AI/actions/runs/39652983425), source commit `e0a36888c28c8b422b6421e0b8a8557c87530bad`, **FAILED**:
