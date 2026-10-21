@@ -1,3 +1,5 @@
+> Historical Stage 2 description. Authorized Stage 3 source now adds execution intents, ledger, closed data checks and macro2; current behavior/evidence is in ../docs/STAGE3_IMPLEMENTATION.md. No execution lock is released.
+
 # Stage 2 MQL5 implementation and evidence boundary
 
 D1/D2 have been implemented as research code. **Every new entry is still blocked by `EntryRiskPolicyApproved() == false`; online AI remains disabled, terminal execution is rejected, and no MetaEditor compilation or MT5 runtime test has been performed.** This is not a trading backtest release.
