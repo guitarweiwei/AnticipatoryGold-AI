@@ -45,13 +45,14 @@ input bool InpBlockOnHighImpactNews=true;
 input bool InpEmergencyCloseOnDD=false;        // false by default: avoid uncontrolled close during spread spikes
 
 int hStopATR=INVALID_HANDLE;
-string g_statePath="",g_stateKey="";bool g_stateHealthy=false;int g_scopeLock=INVALID_HANDLE;
+string g_statePath="",g_stateKey="";bool g_stateHealthy=false,g_scopeFresh=false;int g_scopeLock=INVALID_HANDLE;
 int hFastTrend=INVALID_HANDLE,hSlowTrend=INVALID_HANDLE,hATR=INVALID_HANDLE,hADX=INVALID_HANDLE,hBands=INVALID_HANDLE;
 datetime g_lastBar=0,g_dayStart=0; double g_dayEquity=0,g_startEquity=0; bool g_riskHalt=false;
 string g_macroStatus="UNKNOWN"; double g_dxyChange=0,g_us10yChange=0,g_realYieldChange=0; bool g_newsBlock=true;
-datetime g_macroTime=0;
+datetime g_macroTime=0,g_macroOldest=0,g_newsObserved=0,g_newsValidUntil=0;
 
 struct Signal { int direction; double confidence; string regime; string setup; string reason; };
+#include "Include/ResearchLifecycle.mqh"
 
 // Hard research boundary: there is deliberately no input that enables terminal trading.
 bool ResearchExecutionAllowed(){return (bool)MQLInfoInteger(MQL_TESTER);}
@@ -72,6 +73,7 @@ int OnInit(){
  if(hStopATR==INVALID_HANDLE||hFastTrend==INVALID_HANDLE||hSlowTrend==INVALID_HANDLE||hATR==INVALID_HANDLE||hADX==INVALID_HANDLE||hBands==INVALID_HANDLE){Print("Indicator init failed");return INIT_FAILED;}
  trade.SetExpertMagicNumber(InpMagic); trade.SetDeviationInPoints(30);
  if(!InitRiskState())return INIT_FAILED;
+ if(!LoadExecutionJournal()){LatchRiskHalt("Execution journal/bootstrap/restart reconciliation unavailable");return INIT_FAILED;}
  Print("RESEARCH ONLY: new orders locked pending compile/runtime, cost and reconciliation evidence. Tester mode skips online AI."); return INIT_SUCCEEDED;
 }
 void OnDeinit(const int reason){ if(g_scopeLock!=INVALID_HANDLE)FileClose(g_scopeLock); if(hStopATR!=INVALID_HANDLE)IndicatorRelease(hStopATR); if(hFastTrend!=INVALID_HANDLE)IndicatorRelease(hFastTrend);if(hSlowTrend!=INVALID_HANDLE)IndicatorRelease(hSlowTrend);if(hATR!=INVALID_HANDLE)IndicatorRelease(hATR);if(hADX!=INVALID_HANDLE)IndicatorRelease(hADX);if(hBands!=INVALID_HANDLE)IndicatorRelease(hBands); }
@@ -79,7 +81,10 @@ void OnTick(){
  if(!ResearchExecutionAllowed())return;
  if(_Symbol!=InpSymbol && !SymbolSelect(InpSymbol,true)) return;
  UpdateDay(); ReadMacroCSV(); CheckRiskLimits(); ManageBaskets();
- if(g_riskHalt) return;
+ // Exit slippage and fees must be checked before a flat basket is archived.
+ CheckRiskLimits();
+ if(!g_riskHalt&&!FinalizeFlatBasket()){g_journalHealthy=false;LatchRiskHalt("Flat-basket archive/reconciliation failed");return;}
+ if(g_riskHalt||!g_stateHealthy||!g_journalHealthy) return;
  datetime bt=iTime(InpSymbol,InpEntryTF,0); if(bt==0||bt==g_lastBar)return; g_lastBar=bt;
  if(!SpreadOK()||NewsBlocked()||MacroBlocked())return;
  Signal s=BuildSignal();
@@ -125,7 +130,7 @@ void LatchRiskHalt(string why){
  Print("RISK HALT: ",why);
 }
 bool InitRiskState(){
- g_stateHealthy=false;
+ g_stateHealthy=false;g_scopeFresh=false;
  if(MQLInfoInteger(MQL_OPTIMIZATION)){Print("Optimization unsupported: each independent pass needs an isolated state scope.");return false;}
  int scope=FileOpen("anticipatory_test_scope.txt",FILE_READ|FILE_TXT|FILE_ANSI);
  if(scope==INVALID_HANDLE){Print("Missing local tester scope file (unique run ID then UTC on second line)");return false;}
@@ -166,6 +171,7 @@ bool InitRiskState(){
   string identityRead=FileReadString(mark);FileClose(mark);if(identityRead!=identity)return false;
   g_dayStart=UTCDay(now);g_dayEquity=equity;g_startEquity=equity;g_riskHalt=false;
   if(!SaveRiskState()){g_riskHalt=true;return false;}
+  g_scopeFresh=true;
  }
  // An interrupted publication or independent halt barrier can never clear a latch.
  if(FileIsExist(g_statePath+".tmp"))return false;
@@ -186,39 +192,49 @@ void UpdateDay(){
   g_dayStart=day;g_dayEquity=eq;if(!SaveRiskState())LatchRiskHalt("UTC rollover persistence failed");
  }
 }
-bool NewBar(){return true;}
-bool CopyVal(int handle,int buffer,int shift,double &v){double a[];ArraySetAsSeries(a,true);if(CopyBuffer(handle,buffer,shift,1,a)!=1)return false;v=a[0];return true;}
-bool SpreadOK(){ double ask=SymbolInfoDouble(InpSymbol,SYMBOL_ASK),bid=SymbolInfoDouble(InpSymbol,SYMBOL_BID),pt=SymbolInfoDouble(InpSymbol,SYMBOL_POINT);if(pt<=0)return false;return ((ask-bid)/pt<=InpMaxSpreadPoints); }
-bool DirectionAllowedByTrend(int dir){double f,s;if(!CopyVal(hFastTrend,0,1,f)||!CopyVal(hSlowTrend,0,1,s))return false;return dir>0?f>s:f<s;}
+bool CopyVal(int handle,int buffer,int shift,double &v){
+ if(handle==INVALID_HANDLE||shift<1||BarsCalculated(handle)<=shift)return false;
+ double values[];ArraySetAsSeries(values,true);
+ if(CopyBuffer(handle,buffer,shift,1,values)!=1||!ValidValue(values[0]))return false;
+ v=values[0];return true;
+}
+bool SpreadOK(){
+ MqlTick quote;double point;
+ if(!SymbolInfoTick(InpSymbol,quote)||!SymbolInfoDouble(InpSymbol,SYMBOL_POINT,point)||!PositiveValue(point)||!PositiveValue(quote.ask)||!PositiveValue(quote.bid)||quote.ask<quote.bid)return false;
+ return (quote.ask-quote.bid)/point<=InpMaxSpreadPoints;
+}
+bool DirectionAllowedByTrend(int dir){double f,s;if((dir!=1&&dir!=-1)||!CopyVal(hFastTrend,0,1,f)||!CopyVal(hSlowTrend,0,1,s)||f<=0||s<=0)return false;return dir>0?f>s:f<s;}
 Signal BuildSignal(){
  Signal x; x.direction=0;x.confidence=0;x.regime="NEUTRAL";x.setup="NONE";x.reason="No valid setup";
- double fast,slow,adx,atr,upper,lower; if(!CopyVal(hFastTrend,0,1,fast)||!CopyVal(hSlowTrend,0,1,slow)||!CopyVal(hADX,0,1,adx)||!CopyVal(hATR,0,1,atr)||!CopyVal(hBands,1,1,upper)||!CopyVal(hBands,2,1,lower)||atr<=0)return x;
- double close1=iClose(InpSymbol,InpEntryTF,1),close2=iClose(InpSymbol,InpEntryTF,2); if(close1<=0||close2<=0)return x;
- double hh=-DBL_MAX,ll=DBL_MAX; for(int i=2;i<2+InpLevelLookback;i++){hh=MathMax(hh,iHigh(InpSymbol,InpEntryTF,i));ll=MathMin(ll,iLow(InpSymbol,InpEntryTF,i));}
- double bandWidth=upper-lower; bool squeeze=(bandWidth/atr)<InpSqueezeATRRatio; bool up=fast>slow,down=fast<slow;
- // Trend continuation: lower high / bearish close near recent low; symmetric long logic.
- bool bearish=(close1<close2 && close1< iOpen(InpSymbol,InpEntryTF,1));
- bool bullish=(close1>close2 && close1> iOpen(InpSymbol,InpEntryTF,1));
- if(adx<InpMinADX && !squeeze)return x;
- if(down && bearish && (close1<=ll+0.35*atr || squeeze)){x.direction=-1;x.regime="STRONG_DOWNTREND";x.setup=squeeze?"SQZ+LVL_BREAKDOWN":"TREND_CONTINUATION";x.confidence=0.60+MathMin(0.18,MathMax(0,adx-InpMinADX)*0.006);x.reason="H1 bearish alignment; M5 bearish close near recent low";}
- else if(up && bullish && (close1>=hh-0.35*atr || squeeze)){x.direction=1;x.regime="STRONG_UPTREND";x.setup=squeeze?"SQZ+LVL_BREAKOUT":"TREND_CONTINUATION";x.confidence=0.60+MathMin(0.18,MathMax(0,adx-InpMinADX)*0.006);x.reason="H1 bullish alignment; M5 bullish close near recent high";}
- if(MacroBlocked()){x.direction=0;x.reason="Macro filter blocked";} return x;
+ if(InpLevelLookback<1||InpLevelLookback>INT_MAX-1)return x;
+ MqlRates entryBars[],trendBars[];
+ if(!ClosedRates(InpEntryTF,InpLevelLookback+1,entryBars)||!ClosedRates(InpTrendTF,2,trendBars))return x;
+ datetime current=iTime(InpSymbol,InpEntryTF,0),trendCurrent=iTime(InpSymbol,InpTrendTF,0);
+ double fast,slow,adx,atr,upper,lower;
+ if(!CopyVal(hFastTrend,0,1,fast)||!CopyVal(hSlowTrend,0,1,slow)||!CopyVal(hADX,0,1,adx)||!CopyVal(hATR,0,1,atr)||!CopyVal(hBands,1,1,upper)||!CopyVal(hBands,2,1,lower)||fast<=0||slow<=0||adx<0||atr<=0||upper<=0||lower<=0||upper<lower)return x;
+ if(current!=iTime(InpSymbol,InpEntryTF,0)||trendCurrent!=iTime(InpSymbol,InpTrendTF,0)||entryBars[0].time!=iTime(InpSymbol,InpEntryTF,1)||trendBars[0].time!=iTime(InpSymbol,InpTrendTF,1))return x;
+ double close1=entryBars[0].close,close2=entryBars[1].close;
+ double hh=-DBL_MAX,ll=DBL_MAX;
+ for(int i=1;i<ArraySize(entryBars);i++){hh=MathMax(hh,entryBars[i].high);ll=MathMin(ll,entryBars[i].low);}
+ double bandWidth=upper-lower;if(!ValidValue(bandWidth)||!ValidValue(bandWidth/atr))return x;
+ bool squeeze=(bandWidth/atr)<InpSqueezeATRRatio;bool up=fast>slow,down=fast<slow;
+ // Preserve baseline heuristics; validation does not change squeeze/ADX semantics.
+ bool bearish=(close1<close2&&close1<entryBars[0].open);
+ bool bullish=(close1>close2&&close1>entryBars[0].open);
+ if(adx<InpMinADX&&!squeeze)return x;
+ if(down&&bearish&&(close1<=ll+0.35*atr||squeeze)){x.direction=-1;x.regime="STRONG_DOWNTREND";x.setup=squeeze?"SQZ+LVL_BREAKDOWN":"TREND_CONTINUATION";x.confidence=0.60+MathMin(0.18,MathMax(0,adx-InpMinADX)*0.006);x.reason="H1 bearish alignment; M5 bearish close near recent low";}
+ else if(up&&bullish&&(close1>=hh-0.35*atr||squeeze)){x.direction=1;x.regime="STRONG_UPTREND";x.setup=squeeze?"SQZ+LVL_BREAKOUT":"TREND_CONTINUATION";x.confidence=0.60+MathMin(0.18,MathMax(0,adx-InpMinADX)*0.006);x.reason="H1 bullish alignment; M5 bullish close near recent high";}
+ if(!ValidValue(x.confidence)||MacroBlocked()){x.direction=0;x.reason="Invalid score or macro filter blocked";}return x;
 }
-int CountPositions(int dir=0){int n=0;for(int i=PositionsTotal()-1;i>=0;i--){ulong t=PositionGetTicket(i);if(t==0||!PositionSelectByTicket(t))continue;if(PositionGetString(POSITION_SYMBOL)!=InpSymbol||PositionGetInteger(POSITION_MAGIC)!=InpMagic)continue;long typ=PositionGetInteger(POSITION_TYPE);int d=typ==POSITION_TYPE_BUY?1:-1;if(dir==0||d==dir)n++;}return n;}
-double BasketProfit(int dir=0){double p=0;for(int i=PositionsTotal()-1;i>=0;i--){ulong t=PositionGetTicket(i);if(t==0||!PositionSelectByTicket(t))continue;if(PositionGetString(POSITION_SYMBOL)!=InpSymbol||PositionGetInteger(POSITION_MAGIC)!=InpMagic)continue;int d=PositionGetInteger(POSITION_TYPE)==POSITION_TYPE_BUY?1:-1;if(dir==0||d==dir)p+=PositionGetDouble(POSITION_PROFIT)+PositionGetDouble(POSITION_SWAP)+PositionEntryCosts((ulong)PositionGetInteger(POSITION_IDENTIFIER));}return p;}
-double LotsTotal(){double v=0;for(int i=PositionsTotal()-1;i>=0;i--){ulong t=PositionGetTicket(i);if(t==0||!PositionSelectByTicket(t))continue;if(PositionGetString(POSITION_SYMBOL)==InpSymbol&&PositionGetInteger(POSITION_MAGIC)==InpMagic)v+=PositionGetDouble(POSITION_VOLUME);}return v;}
-// MT5 position properties do not contain POSITION_COMMISSION. Entry costs are deals.
-// Exits/partial exits require a full basket ledger before any release use.
-double PositionEntryCosts(ulong identifier){
- if(!HistorySelectByPosition(identifier)){LatchRiskHalt("Cannot reconcile entry costs");return 0;}
- double costs=0;
- for(int i=0;i<HistoryDealsTotal();i++){
-  ulong deal=HistoryDealGetTicket(i);if(deal==0)continue;
-  if(HistoryDealGetInteger(deal,DEAL_ENTRY)==DEAL_ENTRY_IN)
-   costs+=HistoryDealGetDouble(deal,DEAL_COMMISSION)+HistoryDealGetDouble(deal,DEAL_FEE);
- }
- return costs;
+int CountPositions(int dir=0){int count;double lots;if(!ScopedExposure(count,lots,dir)){LatchRiskHalt("Position enumeration/property read failed");return -1;}return count;}
+double BasketProfit(int dir=0){
+ // Only one directional basket is supported. A directional subtotal would omit
+ // realized lifecycle costs and is intentionally unavailable.
+ double realized,openValue;
+ if(dir!=0||!BasketLedger(realized,openValue)){g_journalHealthy=false;LatchRiskHalt("Basket lifecycle ledger unknown/ambiguous");return 0;}
+ return realized+openValue;
 }
+double LotsTotal(){int count;double lots;if(!ScopedExposure(count,lots)){LatchRiskHalt("Exposure enumeration/property read failed");return DBL_MAX;}return lots;}
 double NormalizeLots(double lots){
  double minimum,maximum,step;
  if(!SymbolInfoDouble(InpSymbol,SYMBOL_VOLUME_MIN,minimum)||!SymbolInfoDouble(InpSymbol,SYMBOL_VOLUME_MAX,maximum)||!SymbolInfoDouble(InpSymbol,SYMBOL_VOLUME_STEP,step))return 0;
@@ -233,8 +249,19 @@ void ProcessEntry(Signal &s){
  int n=CountPositions(); if(n==0){double lot=InpBaseLots;if(lot>0)OpenPosition(s.direction,lot,s.reason);return;}
  // One directional basket only. Never hedge opposing directions within this prototype.
  int d=CountPositions(1)>0?1:-1;if(s.direction!=d)return;if(n>=InpMaxGridLayers)return;
+ MqlRates bars[];if(!ClosedRates(InpEntryTF,2,bars))return;
  double atr;if(!CopyVal(hATR,0,1,atr)||atr<=0)return;
- double last=0;datetime latest=0;for(int i=PositionsTotal()-1;i>=0;i--){ulong t=PositionGetTicket(i);if(t==0||!PositionSelectByTicket(t))continue;if(PositionGetString(POSITION_SYMBOL)!=InpSymbol||PositionGetInteger(POSITION_MAGIC)!=InpMagic)continue;datetime tm=(datetime)PositionGetInteger(POSITION_TIME);if(tm>latest){latest=tm;last=PositionGetDouble(POSITION_PRICE_OPEN);}}
+ double last=0;datetime latest=0;
+ for(int i=PositionsTotal()-1;i>=0;i--){
+  ulong ticket=PositionGetTicket(i);if(ticket==0||!PositionSelectByTicket(ticket)){g_journalHealthy=false;LatchRiskHalt("Grid enumeration failed");return;}
+  string symbol;long magic,type,time;ulong identifier;
+  if(!SelectedPositionIdentity(symbol,magic,type,identifier)){g_journalHealthy=false;LatchRiskHalt("Grid position identity unknown");return;}
+  if(symbol!=InpSymbol||magic!=InpMagic)continue;
+  double price;
+  if(!PositionGetInteger(POSITION_TIME,time)||time<=0||time>(long)TimeCurrent()||!PositionGetDouble(POSITION_PRICE_OPEN,price)||!PositiveValue(price)){g_journalHealthy=false;LatchRiskHalt("Grid position price/time unknown");return;}
+  if((datetime)time>latest){latest=(datetime)time;last=price;}
+ }
+ if(latest==0||!PositiveValue(last))return;
  double px=d>0?SymbolInfoDouble(InpSymbol,SYMBOL_ASK):SymbolInfoDouble(InpSymbol,SYMBOL_BID);bool adverse=d>0?(px<=last-InpGridATRStep*atr):(px>=last+InpGridATRStep*atr);if(!adverse)return;
  double lot=NormalizeLots(MathMin(InpBaseLots,InpBaseLots*MathPow(InpLotMultiplier,n)));if(LotsTotal()+lot>InpMaxTotalLots||BasketLots()+lot>InpMaxLotsPerBasket)return;
  if(BasketProfit()< -InpBasketStopMoney*0.50)return; // don't average into a basket already under material stress
@@ -247,6 +274,7 @@ bool ModeledStopLoss(int dir,double volume,double entry,double stop,double &loss
  loss=MathMax(0,-profit);return true;
 }
 bool BuildProtectiveStop(int dir,double &entry,double &stop){
+ MqlRates stopBars[];if(!ClosedRates(PERIOD_M5,2,stopBars))return false;
  MqlTick quote;if(!SymbolInfoTick(InpSymbol,quote)||!MathIsValidNumber(quote.ask)||!MathIsValidNumber(quote.bid)||quote.ask<=0||quote.bid<=0||quote.ask<quote.bid)return false;
  double atr,tick,point;long orderMode,stopLevel,freezeLevel,digits;
  if(!SymbolInfoDouble(InpSymbol,SYMBOL_TRADE_TICK_SIZE,tick)||!SymbolInfoDouble(InpSymbol,SYMBOL_POINT,point)||!SymbolInfoInteger(InpSymbol,SYMBOL_ORDER_MODE,orderMode)||!SymbolInfoInteger(InpSymbol,SYMBOL_TRADE_STOPS_LEVEL,stopLevel)||!SymbolInfoInteger(InpSymbol,SYMBOL_TRADE_FREEZE_LEVEL,freezeLevel)||!SymbolInfoInteger(InpSymbol,SYMBOL_DIGITS,digits))return false;
@@ -275,23 +303,26 @@ double RiskSizedLots(int dir,double entry,double stop,double requested){
  return lots;
 }
 bool BasketStopBudget(int candidateDir,double candidateLots,double candidateEntry,double candidateStop){
+ double realized,openValue,recordedLosses;if(!BasketLedger(realized,openValue,recordedLosses))return false;
  double total;if(!ModeledStopLoss(candidateDir,candidateLots,candidateEntry,candidateStop,total))return false;
+ // Historical gains never offset prospective stop loss. Recorded debits/losses are
+ // retained across partial exits and while any basket position remains open.
+ total+=recordedLosses;
  for(int i=PositionsTotal()-1;i>=0;i--){
   ulong ticket=PositionGetTicket(i);if(ticket==0||!PositionSelectByTicket(ticket))return false;
-  if(PositionGetString(POSITION_SYMBOL)!=InpSymbol||PositionGetInteger(POSITION_MAGIC)!=InpMagic)continue;
-  int dir=PositionGetInteger(POSITION_TYPE)==POSITION_TYPE_BUY?1:-1;
-  double stop=PositionGetDouble(POSITION_SL),entry=PositionGetDouble(POSITION_PRICE_OPEN),volume=PositionGetDouble(POSITION_VOLUME),loss;
-  MqlTick quote;if(!SymbolInfoTick(InpSymbol,quote)||!MathIsValidNumber(quote.bid)||!MathIsValidNumber(quote.ask)||quote.bid<=0||quote.ask<=0||quote.ask<quote.bid)return false;
+  string symbol;long magic,type;ulong identifier;if(!SelectedPositionIdentity(symbol,magic,type,identifier))return false;
+  if(symbol!=InpSymbol||magic!=InpMagic)continue;
+  int dir=type==POSITION_TYPE_BUY?1:-1;
+  double stop,entry,volume,loss,swap;
+  if(!PositionGetDouble(POSITION_SL,stop)||!PositionGetDouble(POSITION_PRICE_OPEN,entry)||!PositionGetDouble(POSITION_VOLUME,volume)||!PositionGetDouble(POSITION_SWAP,swap))return false;
+  MqlTick quote;if(!SymbolInfoTick(InpSymbol,quote)||!PositiveValue(quote.bid)||!PositiveValue(quote.ask)||quote.ask<quote.bid||!ValidValue(swap))return false;
   if(stop<=0||(dir>0?quote.bid<=stop:quote.ask>=stop)||!ModeledStopLoss(dir,volume,entry,stop,loss))return false;
-  double costs=PositionEntryCosts((ulong)PositionGetInteger(POSITION_IDENTIFIER)),swap=PositionGetDouble(POSITION_SWAP);
-  if(g_riskHalt||!MathIsValidNumber(costs)||!MathIsValidNumber(swap))return false;
-  total+=loss+MathMax(0,-costs)+MathMax(0,-swap);
+  total+=loss+MathMax(0,-swap);if(!ValidValue(total))return false;
  }
- if(total>InpBasketStopMoney)return false;
- // OrderCalcProfit excludes prospective commission/fees and future swaps. No
- // configured verified cost model exists, so no candidate can pass this gate.
- // Do not infer zero costs from missing metadata or fabricate a fee allowance.
- Print("Entry blocked: prospective broker costs unverified; modeled price-only basket loss=",total);
+ if(!ValidValue(total)||total>InpBasketStopMoney)return false;
+ double future;if(!FutureCostsKnown(future)){Print("Entry blocked: prospective broker costs unverified; modeled recorded+stop basket loss=",total);return false;}
+ if(!ValidValue(future)||future<0||!ValidValue(total+future)||total+future>InpBasketStopMoney)return false;
+ // Independent unconditional cost veto retained even if this scaffold evolves.
  return false;
 }
 void OpenPosition(int dir,double requested,string comment){
@@ -300,22 +331,41 @@ void OpenPosition(int dir,double requested,string comment){
  double entry,stop;if(!BuildProtectiveStop(dir,entry,stop))return;
  double lots=RiskSizedLots(dir,entry,stop,requested);if(lots<=0||!BasketStopBudget(dir,lots,entry,stop))return;
  if(LotsTotal()+lots>InpMaxTotalLots||BasketLots()+lots>InpMaxLotsPerBasket)return;
- // Before eventual enablement: persist consumed bar/pending-order intent and
- // reconcile fills; the unconditional entry lock remains until that is verified.
+ double plannedRisk;if(!ModeledStopLoss(dir,lots,entry,stop,plannedRisk)||!PrepareIntent("OPEN",dir,lots,entry,stop,plannedRisk,0))return;
+ // Intent and consumed signal are on disk before the first send side effect.
  bool sent=dir>0?trade.Buy(lots,InpSymbol,entry,stop,0,comment):trade.Sell(lots,InpSymbol,entry,stop,0,comment);
- if(!sent||trade.ResultRetcode()!=TRADE_RETCODE_DONE)LatchRiskHalt("Order incomplete/failed; reconciliation required");
+ if(!sent||!VerifyOpenFill()){g_journalHealthy=false;LatchRiskHalt("Order/fill/SL incomplete or over budget; pending intent retained, no resend");}
 }
-void ManageBaskets(){int n=CountPositions();if(n==0)return;double p=BasketProfit();if(p>=InpBasketTakeProfitMoney){CloseAll("Basket TP");return;}if(p<=-InpBasketStopMoney){CloseAll("Basket SL");return;}datetime oldest=TimeCurrent();for(int i=PositionsTotal()-1;i>=0;i--){ulong t=PositionGetTicket(i);if(t==0||!PositionSelectByTicket(t))continue;if(PositionGetString(POSITION_SYMBOL)==InpSymbol&&PositionGetInteger(POSITION_MAGIC)==InpMagic)oldest=MathMin(oldest,(datetime)PositionGetInteger(POSITION_TIME));}if(TimeCurrent()-oldest>InpMaxHoldMinutes*60 && p>0)CloseAll("Time exit");}
+void ManageBaskets(){
+ int n=CountPositions();if(n<=0)return;double p=BasketProfit();
+ if(!g_journalHealthy)return;
+ if(p>=InpBasketTakeProfitMoney){CloseAll("Basket TP");return;}
+ if(p<=-InpBasketStopMoney){CloseAll("Basket SL");return;}
+ datetime oldest=TimeCurrent();
+ for(int i=PositionsTotal()-1;i>=0;i--){
+  ulong ticket=PositionGetTicket(i);if(ticket==0||!PositionSelectByTicket(ticket)){g_journalHealthy=false;LatchRiskHalt("Basket time-exit enumeration failed");return;}
+  string symbol;long magic,type,time;ulong identifier;
+  if(!SelectedPositionIdentity(symbol,magic,type,identifier)){g_journalHealthy=false;LatchRiskHalt("Basket time-exit identity unknown");return;}
+  if(symbol!=InpSymbol||magic!=InpMagic)continue;
+  if(!PositionGetInteger(POSITION_TIME,time)||time<=0||time>(long)TimeCurrent()){g_journalHealthy=false;LatchRiskHalt("Basket time-exit timestamp unknown");return;}
+  oldest=MathMin(oldest,(datetime)time);
+ }
+ if(TimeCurrent()-oldest>InpMaxHoldMinutes*60&&p>0)CloseAll("Time exit");
+}
 void CloseAll(string why){
- if(!ResearchExecutionAllowed()||!g_stateHealthy)return;
+ if(!ResearchExecutionAllowed()||!g_stateHealthy||!g_journalHealthy||g_intentKind!="NONE")return;
  if(!SaveRiskState()){LatchRiskHalt("Pre-close persistence failed");return;}
  Print("Closing basket: ",why);
  for(int i=PositionsTotal()-1;i>=0;i--){
-  ulong ticket=PositionGetTicket(i);if(ticket==0||!PositionSelectByTicket(ticket))continue;
-  if(PositionGetString(POSITION_SYMBOL)!=InpSymbol||PositionGetInteger(POSITION_MAGIC)!=InpMagic)continue;
-  if(!trade.PositionClose(ticket)||trade.ResultRetcode()!=TRADE_RETCODE_DONE){
-   Print("Close incomplete/failed ticket=",ticket," retcode=",trade.ResultRetcode()," ",trade.ResultRetcodeDescription());
-   LatchRiskHalt("Close requires reconciliation");return;
+  ulong ticket=PositionGetTicket(i);if(ticket==0||!PositionSelectByTicket(ticket)){LatchRiskHalt("Cannot inspect close target");return;}
+  string symbol;long magic,type;ulong identifier;
+  if(!SelectedPositionIdentity(symbol,magic,type,identifier)){g_journalHealthy=false;LatchRiskHalt("Close target identity unknown");return;}
+  if(symbol!=InpSymbol||magic!=InpMagic)continue;
+  double volume;
+  if(!PositionGetDouble(POSITION_VOLUME,volume)||BasketIdIndex(identifier)<0||!PositiveValue(volume)||!PrepareIntent("CLOSE",type==POSITION_TYPE_BUY?-1:1,volume,0,0,0,identifier)){g_journalHealthy=false;LatchRiskHalt("Close prewrite/reconciliation unavailable");return;}
+  if(!trade.PositionClose(ticket)||!VerifyCloseFill()){
+   g_journalHealthy=false;Print("Close incomplete/failed ticket=",ticket," retcode=",trade.ResultRetcode()," ",trade.ResultRetcodeDescription());
+   LatchRiskHalt("Close requires reconciliation; pending intent retained");return;
   }
  }
 }
@@ -323,6 +373,7 @@ void CheckRiskLimits(){
  double eq=AccountInfoDouble(ACCOUNT_EQUITY);
  if(!g_stateHealthy||!MathIsValidNumber(eq)||eq<=0||g_dayEquity<=0||g_startEquity<=0){LatchRiskHalt("Invalid risk state/equity");return;}
  double dailyLoss=g_dayEquity-eq,dd=(g_startEquity-eq)/g_startEquity*100,basket=BasketProfit();
+ if(!g_stateHealthy||!g_journalHealthy)return;
  bool breach=dailyLoss>=InpDailyLossLimitMoney||dd>=InpMaxEquityDrawdownPct||basket<=-InpBasketStopMoney;
  if(breach){
   LatchRiskHalt("Account daily/drawdown or EA basket limit breached");
@@ -338,7 +389,7 @@ bool MacroBlocked(){
  if(g_macroStatus!="OK")return true;
  // In Strategy Tester, TimeGMT follows simulated server time. Historical feeds
  // therefore require an explicitly UTC-configured test dataset/server offset.
- datetime now=TimeGMT();if(g_macroTime>now||now-g_macroTime>15*60)return true;
+ datetime now=TimeGMT();if(g_macroTime>now||now-g_macroTime>15*60||g_macroOldest>g_macroTime||now-g_macroOldest>15*60||g_newsObserved>g_macroTime||g_newsObserved>now||g_newsValidUntil<now)return true;
  return MathAbs(g_dxyChange)>InpMaxDXYChangePct||MathAbs(g_us10yChange)>InpMaxUS10YChangeBps;
 }
 bool StrictNumber(string raw,double &value){
@@ -372,20 +423,40 @@ bool ParseUTC(string raw,datetime &value){
  }
  value=local-offset;return value>0;
 }
+bool CanonicalUTC(string raw,datetime &value){return StringLen(raw)==20&&StringSubstr(raw,19,1)=="Z"&&ParseUTC(raw,value);}
+bool ReadMacroLines(string &header,string &row){
+ int file=FileOpen(InpMacroCSV,FILE_READ|FILE_BIN|FILE_ANSI|FILE_COMMON);if(file==INVALID_HANDLE)return false;
+ ulong size=FileSize(file);if(size==0||size>(ulong)INT_MAX){FileClose(file);return false;}
+ string raw=FileReadString(file,(int)size);FileClose(file);if(StringLen(raw)!=(int)size)return false;
+ int len=StringLen(raw);bool terminalLF=len>0&&StringSubstr(raw,len-1,1)=="\n";
+ if(terminalLF)raw=StringSubstr(raw,0,len-1);
+ string rows[];if(StringSplit(raw,'\n',rows)!=2)return false;
+ bool firstCR=StringLen(rows[0])>0&&StringSubstr(rows[0],StringLen(rows[0])-1,1)=="\r";
+ bool secondCR=StringLen(rows[1])>0&&StringSubstr(rows[1],StringLen(rows[1])-1,1)=="\r";
+ if(firstCR){
+  rows[0]=StringSubstr(rows[0],0,StringLen(rows[0])-1);
+  if(terminalLF!=secondCR)return false;
+  if(secondCR)rows[1]=StringSubstr(rows[1],0,StringLen(rows[1])-1);
+ }else if(secondCR)return false;
+ header=rows[0];row=rows[1];return true;
+}
 void ReadMacroCSV(){
- g_newsBlock=true;g_macroTime=0;g_dxyChange=0;g_us10yChange=0;g_realYieldChange=0;
+ g_newsBlock=true;g_macroTime=0;g_macroOldest=0;g_newsObserved=0;g_newsValidUntil=0;g_dxyChange=0;g_us10yChange=0;g_realYieldChange=0;
  if(!InpUseMacroCSV){g_macroStatus="DISABLED";g_newsBlock=false;return;}
- g_macroStatus="INVALID";
- int file=FileOpen(InpMacroCSV,FILE_READ|FILE_TXT|FILE_ANSI|FILE_COMMON);
- if(file==INVALID_HANDLE){g_macroStatus="MISSING";return;}
- string header=FileReadString(file),row="";if(!FileIsEnding(file))row=FileReadString(file);
- bool extra=false;while(!FileIsEnding(file)){if(FileReadString(file)!="")extra=true;}FileClose(file);
- if(extra||header!="timestamp_utc,dxy_change_pct,us10y_change_bps,real_yield_change_bps,high_impact_news_block")return;
- string fields[];if(StringSplit(row,',',fields)!=5)return;
- double dxy,yield,real;datetime observed;
- if(!ParseUTC(fields[0],observed)||!StrictNumber(fields[1],dxy)||!StrictNumber(fields[2],yield)||!StrictNumber(fields[3],real)||(fields[4]!="0"&&fields[4]!="1"))return;
- datetime now=TimeGMT();if(observed>now){g_macroStatus="FUTURE";return;}if(now-observed>15*60){g_macroStatus="STALE";return;}
- g_macroTime=observed;g_dxyChange=dxy;g_us10yChange=yield;g_realYieldChange=real;g_newsBlock=fields[4]=="1";g_macroStatus="OK";
+ g_macroStatus="INVALID";string header,row;if(!ReadMacroLines(header,row)){g_macroStatus="MISSING_OR_INVALID";return;}
+ if(header!="schema_version,timestamp_utc,dxy_change_pct,us10y_change_bps,real_yield_change_bps,high_impact_news_block,dxy_observed_at_utc,us10y_observed_at_utc,real_yield_observed_at_utc,news_observed_at_utc,news_valid_until_utc,provenance_sha256")return;
+ string fields[];if(StringSplit(row,',',fields)!=12||fields[0]!="2"||StringLen(fields[11])!=64)return;
+ for(int i=0;i<64;i++){ushort c=StringGetCharacter(fields[11],i);if(!((c>='0'&&c<='9')||(c>='a'&&c<='f')))return;}
+ double dxy,yield,real;datetime snapshot,dxyTime,yieldTime,realTime,newsTime,newsUntil;
+ if(!CanonicalUTC(fields[1],snapshot)||!StrictNumber(fields[2],dxy)||!StrictNumber(fields[3],yield)||!StrictNumber(fields[4],real)||(fields[5]!="0"&&fields[5]!="1")||!CanonicalUTC(fields[6],dxyTime)||!CanonicalUTC(fields[7],yieldTime)||!CanonicalUTC(fields[8],realTime)||!CanonicalUTC(fields[9],newsTime)||!CanonicalUTC(fields[10],newsUntil))return;
+ datetime now=TimeGMT();
+ if(snapshot>now||dxyTime>snapshot||yieldTime>snapshot||realTime>snapshot||newsTime>snapshot){g_macroStatus="FUTURE";return;}
+ datetime oldest=MathMin(dxyTime,MathMin(yieldTime,realTime));
+ if(now-snapshot>15*60||now-oldest>15*60){g_macroStatus="STALE";return;}
+ if(newsUntil<now||newsTime>newsUntil){g_macroStatus="NEWS_EXPIRED";return;}
+ // Digest shape is checked here; it is not proof of source authenticity. The
+ // publisher's independently checked provenance/archive remains a release gate.
+ g_macroTime=snapshot;g_macroOldest=oldest;g_newsObserved=newsTime;g_newsValidUntil=newsUntil;g_dxyChange=dxy;g_us10yChange=yield;g_realYieldChange=real;g_newsBlock=fields[5]=="1";g_macroStatus="OK";
 }
 // Online advisory integration is intentionally disabled in this research build.
 // Strategy Tester never calls WebRequest; non-tester initialization is forbidden.
