@@ -28,7 +28,7 @@ python3 -m venv .venv
 .venv/bin/python tests/run_checks.py
 ```
 
-Stage 2 adds 22 independent Python risk-policy fixtures and four source linkage checks. The complete suite has 10 MQL5 **source** safety checks, 22 Python policy fixtures, 10 macro tests and 70 mocked API tests (112 total). See docs/VALIDATION_RESULTS.md for actual run status. One upstream Starlette TestClient deprecation warning remains. Tests use no paid model calls. CI uses read-only repository permissions and runs these checks; its remote status must be verified separately.
+The Stage 3 suite has 18 MQL5 **source** checks, 45 independent Python policy fixtures (22 Stage 2 + 23 lifecycle/ledger examples), 15 macro tests and 97 mocked API cases (175 total). See docs/VALIDATION_RESULTS.md for actual run status. One upstream Starlette TestClient deprecation warning remains. Tests use no paid model calls. CI uses read-only repository permissions and runs these checks; its remote status must be verified separately.
 
 ## Advisory service only
 
@@ -43,10 +43,12 @@ Set environment variables using your preferred secure method before starting. No
 
 ## Decisions and release blockers
 
-See `docs/DECISIONS_REQUIRED.md`, `docs/DEFECT_REGISTER.md`, `docs/RISK_REVIEW.md` and `docs/AGENT_PLAN.md`. D1/D2 have source implementations, with Windows compilation/runtime still unverified. Prospective broker-cost bounds, actual-fill/SL verification, durable pending-order/restart reconciliation, strict active EA/API integration and real Windows evidence remain blockers. See MQL5/STAGE2.md and docs/STAGE2_RISK_REVIEW.md. The cost gate independently rejects every candidate until verified cost data exists. Do not remove the order lock to obtain performance results.
+See `docs/DECISIONS_REQUIRED.md`, `docs/DEFECT_REGISTER.md`, `docs/RISK_REVIEW.md` and `docs/AGENT_PLAN.md`. D1/D2 have source implementations, with Windows compilation/runtime still unverified. Durable intents, fill/SL verification, lifecycle accounting and original-source validity now have Stage 3 research implementations. Actual Windows/broker evidence, verified prospective costs and active strict EA/API integration remain blockers. See MQL5/STAGE2.md and docs/STAGE2_RISK_REVIEW.md. The cost gate independently rejects every candidate until verified cost data exists. Do not remove the order lock to obtain performance results.
 
 `tests/windows/` contains compile instructions and an empty evidence template, not evidence of execution. Baseline source strategy semantics are documented in `docs/STRATEGY_SPEC.md`. `docs/CODE_AUDIT.md` is the retained historical import audit.
 
-## 2026-10-21 revalidation
+## Authorized Stage 3 implementation
 
-The API now vetoes canonical macro observations changed or lost during model review. Six-agent revalidation and unresolved source-validity, signal-data and Windows gates are recorded in [docs/REVALIDATION_20261021.md](docs/REVALIDATION_20261021.md). All execution locks and original risk inputs remain unchanged.
+The user authorized source-validity, order reconciliation and basket accounting work. CSV schema 2 carries original source times/calendar expiry; API 1.1 requires those fields and identical candidate/canonical observations before and after review. Old schemas reject. The EA adds closed OHLC/indicator checks and a pre-send durable intent/consumed-bar journal. Incomplete/partial/restart ambiguity halts without resending. Complete supported deal cash flows, conservative recorded debits and flat-basket archives are implemented in `MQL5/Experts/Include/ResearchLifecycle.mqh`; copy the complete source tree for eventual compilation.
+
+Unknown future fees remain unknown: no broker reserve or zero-cost assumption was invented, and the independent cost veto remains false. Every original EA input and execution lock is unchanged. Source/fixture tests do not establish compilation, MQL execution, broker history completeness or durable storage. See [docs/STAGE3_IMPLEMENTATION.md](docs/STAGE3_IMPLEMENTATION.md), [docs/DEFECT_REGISTER.md](docs/DEFECT_REGISTER.md) and [docs/VALIDATION_RESULTS.md](docs/VALIDATION_RESULTS.md). Earlier six-agent review is retained in `docs/REVALIDATION_20261021.md` as historical context.
