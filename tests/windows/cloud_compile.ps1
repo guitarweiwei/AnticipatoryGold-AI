@@ -99,11 +99,21 @@ try {
         $matches = @(Get-ChildItem -LiteralPath $dataRoot -Directory -ErrorAction SilentlyContinue | Where-Object {
             $originPath = Join-Path $_.FullName 'origin.txt'
             if (Test-Path -LiteralPath $originPath) {
-                $origin = (Get-Content -Raw -LiteralPath $originPath).Trim()
+                $originBytes = [IO.File]::ReadAllBytes($originPath)
+                $origin = if ($originBytes -contains 0) { [Text.Encoding]::Unicode.GetString($originBytes).Trim([char]0xFEFF,[char]0,[char]13,[char]10,[char]32) } else { [Text.Encoding]::UTF8.GetString($originBytes).Trim() }
                 $origin -eq $installPath -and (Test-Path -LiteralPath (Join-Path $_.FullName 'MQL5/Include/Trade/Trade.mqh'))
             }
         })
-        if ($matches.Count -ne 1) { throw 'No unique standard-library data folder belongs to this installation.' }
+        if ($matches.Count -ne 1) {
+            $diagnosticRoots = @((Join-Path $env:APPDATA 'MetaQuotes'), (Join-Path $env:LOCALAPPDATA 'MetaQuotes'), (Join-Path $env:ProgramData 'MetaQuotes'))
+            $diagnosticFiles = @(foreach ($diagnosticRoot in $diagnosticRoots) {
+                Get-ChildItem -LiteralPath $diagnosticRoot -Recurse -File -ErrorAction SilentlyContinue | Where-Object { $_.Name -eq 'origin.txt' -or $_.Extension -in '.mqh','.zip' -or $_.Name -eq 'metaeditor.log' } | ForEach-Object {
+                    [ordered]@{ path = $_.FullName; bytes = $_.Length }
+                }
+            })
+            ConvertTo-Json -InputObject $diagnosticFiles -Depth 4 | Set-Content -LiteralPath (Join-Path $evidence 'library-diagnostics.json') -Encoding utf8
+            throw 'No unique standard-library data folder belongs to this installation.'
+        }
         $includeRoot = Join-Path $matches[0].FullName 'MQL5'
     }
     $report.standard_library_root = $includeRoot
