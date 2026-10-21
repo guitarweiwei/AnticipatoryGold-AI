@@ -218,8 +218,16 @@ async def evaluate(req):
             response.raise_for_status()
             content = response.json()["choices"][0]["message"]["content"]
             obj = ModelDecision.model_validate(strict_json(content))
-        if not fresh(req.bar_time_utc, utc_now()) or not fresh(req.macro.timestamp_utc, utc_now()) or not fresh(macro.timestamp_utc, utc_now()):
+        review_now = utc_now()
+        if not fresh(req.bar_time_utc, review_now) or not fresh(req.macro.timestamp_utc, review_now) or not fresh(macro.timestamp_utc, review_now):
             return hold(req, "Features expired during AI review")
+        # Approval applies only to the canonical snapshot actually reviewed.
+        # A feed change or loss during the provider await invalidates that review.
+        latest_macro = read_macro(review_now)
+        if latest_macro is None or latest_macro.high_impact_news_block:
+            return hold(req, "Macro feed unavailable or blocked after AI review")
+        if latest_macro != macro:
+            return hold(req, "Macro snapshot changed during AI review")
         if obj.signal != "HOLD" and obj.signal != req.direction:
             return hold(req, "AI attempted opposite direction")
         if obj.confidence < MIN_CONFIDENCE:
