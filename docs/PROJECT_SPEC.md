@@ -1,6 +1,6 @@
 # AnticipatoryGold AI v1 — Frozen Interface & Acceptance Specification
 
-Status: Phase 1 specification baseline. Research prototype only; not approved for live trading.
+Status: Phase 1 baseline with authorized Stage 3 validity/protocol amendment. Research source only; not approved for trading. The Stage 3 amendment below supersedes the old macro transport description.
 
 ## 1. Architecture and authority boundaries
 
@@ -32,15 +32,17 @@ Acceptance rules:
 
 ## 3. Macro data contract
 
-CSV columns, in order:
-`timestamp_utc,dxy_change_pct,us10y_change_bps,real_yield_change_bps,high_impact_news_block`
+CSV schema 2, exact ordered columns:
+`schema_version,timestamp_utc,dxy_change_pct,us10y_change_bps,real_yield_change_bps,high_impact_news_block,dxy_observed_at_utc,us10y_observed_at_utc,real_yield_observed_at_utc,news_observed_at_utc,news_valid_until_utc,provenance_sha256`
 
-- Timestamp must be UTC ISO-8601 with `Z` or an explicit offset.
-- Source and observation window must be documented for each feed.
-- Default maximum age: 15 minutes for intraday market observations; event-calendar data must have its own validity rule.
-- Missing/stale/future timestamp or parse failure blocks new entries.
-- v1 volatility thresholds are configurable vetoes, not directional forecasts. DXY and yields must not be treated as mechanically predictive of gold.
-- Historical testing requires point-in-time values, never today's CSV replayed across historical bars.
+- Version is the string `2`; exactly one unquoted data row. Numeric cells use finite decimal notation without exponent or whitespace; news is exactly 0/1. Time cells use exact-second `YYYY-MM-DDTHH:MM:SSZ`.
+- Both the assembled timestamp and each numeric original observation must be nonfuture and at most 15 minutes old on every consumption. Original observations cannot postdate assembly. Refreshing assembly never renews an old source.
+- Calendar observation must precede assembly; its explicit valid-until must cover the consumption time. Calendar validity uses its supplied coverage interval; no new calendar-age threshold is invented.
+- Publication verifies the human-recorded source/instrument/unit/window/license and original observed/published/received times against the CSV, including its canonical manifest SHA256. Consumers validate the carried validity metadata/digest shape; the digest is not source authentication.
+- Advisory API request and response schema version is `1.1`, nested macro version `2`. All metadata is required; old protocols are rejected. Request/canonical observations must match before model review; source validity and unchanged canonical data are checked again afterwards.
+- v1 numeric macro thresholds remain vetoes, not directional forecasts. Historical replay remains unavailable; never replay today's CSV across historical bars.
+
+See `config/README_macro.md`, `docs/API_CONTRACT.json` and `docs/STAGE3_IMPLEMENTATION.md`. EA/API online execution remains disabled.
 
 ## 4. Risk controls
 
