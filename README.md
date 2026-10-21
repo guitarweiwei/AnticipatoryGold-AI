@@ -8,7 +8,7 @@ This branch imports the supplied project and six-agent P0 hardening work. **It i
 - `EntryRiskPolicyApproved()` is hard-coded false, independently blocking both `ProcessEntry` and `OpenPosition`, including in the tester. The current EA can inspect signals but generates **zero new trades**. Approved D1/D2 research source now implements 2×closed-M5-ATR protective stops, stop-distance sizing and a scoped persistent risk latch, but execution evidence and other release gates remain missing.
 - Online EA-to-AI integration is an explicit veto stub. The Python advisory API is tested independently; it cannot execute orders.
 - All original EA input declarations and numeric defaults are preserved. The user approved the documented 2.0 ATR policy; it is a fixed research rule. No existing numeric risk ceiling was relaxed.
-- MetaEditor compilation and MT5 Strategy Tester execution are **NOT RUN**. Static Python checks cannot substitute for them.
+- Real signed MetaEditor 5.0.0.6274 compilation was attempted on Windows: **FAILED, 1 error / 0 warnings**, missing official `Include/Trade/Trade.mqh`. No successful EX5. MT5 Strategy Tester remains **NOT RUN**. See [compiler evidence](tests/windows/CLOUD_COMPILE.md). Static Python checks cannot substitute for compilation.
 
 ## Implemented safeguards
 
