@@ -1,0 +1,213 @@
+{
+  "note": "Report field values preserved from downloaded Actions artifacts. JSON whitespace normalized; original artifact hashes retain byte-level identity. No installation binaries, vendor headers, EX5 or invented compiler result included.",
+  "attempts": [
+    {
+      "run_id": "39606811089",
+      "run_url": "https://github.com/guitarweiwei/AnticipatoryGold-AI/actions/runs/39606811089",
+      "artifact_sha256": "914173ed179ef0f4dd0de6fa1bc2c169e1ba7055b0ce06c2e22018ff7d204928",
+      "preflight_result": {
+        "status": "FAILED",
+        "compile": "NOT RUN",
+        "backtest": "NOT RUN",
+        "installer_url": "https://download.terminal.free/cdn/web/metaquotes.ltd/mt5/mt5setup.exe",
+        "eula_url": "https://www.metaquotes.net/licenses/terminal/mt5",
+        "eula_accepted": true,
+        "source_commit": "8bc3d54d5148f454256d867ae4fbaae7c9167cfd",
+        "signer_subject": "CN=MetaQuotes Ltd., O=MetaQuotes Ltd., S=Lemesos, C=CY",
+        "signer_thumbprint": "5A64A7AED24C33DED342D01D01FA5286F06DA6DC",
+        "installer_sha256": "C8C0A73F86C58974DF62FB48F8256A099D6698518CF2DEFC2B3F169773729E22",
+        "failure": "Official installer exited with code 1.",
+        "signature_status": "Valid",
+        "terminal_firewall_profiles_enabled": true,
+        "terminal_firewall_rule_verified": true,
+        "installer_exit_code": 1
+      }
+    },
+    {
+      "run_id": "39607328601",
+      "run_url": "https://github.com/guitarweiwei/AnticipatoryGold-AI/actions/runs/39607328601",
+      "artifact_sha256": "701a61f80bb4502446e3400f2eac09d0406e206ce139d7868e56ea79d47c0ea6",
+      "preflight_result": {
+        "status": "FAILED",
+        "compile": "NOT RUN",
+        "backtest": "NOT RUN",
+        "installer_url": "https://download.terminal.free/cdn/web/metaquotes.ltd/mt5/mt5setup.exe",
+        "eula_url": "https://www.metaquotes.net/licenses/terminal/mt5",
+        "eula_accepted": true,
+        "source_commit": "9be14182244782e422197de9c3f52a4d95315bc8",
+        "signer_subject": "CN=MetaQuotes Ltd., O=MetaQuotes Ltd., S=Lemesos, C=CY",
+        "signer_thumbprint": "5A64A7AED24C33DED342D01D01FA5286F06DA6DC",
+        "installer_sha256": "C8C0A73F86C58974DF62FB48F8256A099D6698518CF2DEFC2B3F169773729E22",
+        "failure": "Cannot find path 'D:\\a\\_temp\\AnticipatoryGold-MetaQuotes\\MQL5' because it does not exist.",
+        "signature_status": "Valid",
+        "terminal_firewall_profiles_enabled": true,
+        "terminal_firewall_rule_verified": true,
+        "installer_exit_code": 1
+      }
+    },
+    {
+      "run_id": "39608576727",
+      "run_url": "https://github.com/guitarweiwei/AnticipatoryGold-AI/actions/runs/39608576727",
+      "artifact_sha256": "ca1c8c9b026afc8804bf29dbe1998c8412fd12af62150daec1af4df78ffb28ae",
+      "preflight_result": {
+        "status": "FAILED",
+        "compile": "NOT RUN",
+        "backtest": "NOT RUN",
+        "installer_url": "https://download.terminal.free/cdn/web/metaquotes.ltd/mt5/mt5setup.exe",
+        "eula_url": "https://www.metaquotes.net/licenses/terminal/mt5",
+        "eula_accepted": true,
+        "source_commit": "94a1a5a9b069da876fd3d80a453441bbf9e8bb96",
+        "signer_subject": "CN=MetaQuotes Ltd., O=MetaQuotes Ltd., S=Lemesos, C=CY",
+        "signer_thumbprint": "5A64A7AED24C33DED342D01D01FA5286F06DA6DC",
+        "installer_sha256": "C8C0A73F86C58974DF62FB48F8256A099D6698518CF2DEFC2B3F169773729E22",
+        "failure": "No unique standard-library data folder belongs to this installation.",
+        "signature_status": "Valid",
+        "terminal_firewall_profiles_enabled": true,
+        "terminal_firewall_rule_verified": true,
+        "installer_exit_code": 1
+      }
+    },
+    {
+      "run_id": "39610505417",
+      "run_url": "https://github.com/guitarweiwei/AnticipatoryGold-AI/actions/runs/39610505417",
+      "artifact_sha256": "4c3ba338e2120811f88e108f88f527ff0a1cf5feb57e033c77d75682c5bd3a6f",
+      "preflight_result": {
+        "status": "FAILED",
+        "compile": "NOT RUN",
+        "backtest": "NOT RUN",
+        "installer_url": "https://download.terminal.free/cdn/web/metaquotes.ltd/mt5/mt5setup.exe",
+        "eula_url": "https://www.metaquotes.net/licenses/terminal/mt5",
+        "eula_accepted": true,
+        "source_commit": "8aa49cc05b6696a87eacfbc3cb90b510b6dbbaa3",
+        "signer_subject": "CN=MetaQuotes Ltd., O=MetaQuotes Ltd., S=Lemesos, C=CY",
+        "signer_thumbprint": "5A64A7AED24C33DED342D01D01FA5286F06DA6DC",
+        "installer_sha256": "C8C0A73F86C58974DF62FB48F8256A099D6698518CF2DEFC2B3F169773729E22",
+        "failure": "No unique standard-library data folder belongs to this installation.",
+        "signature_status": "Valid",
+        "terminal_firewall_profiles_enabled": true,
+        "terminal_firewall_rule_verified": true,
+        "installer_exit_code": 1
+      },
+      "library-diagnostics.json": []
+    },
+    {
+      "run_id": "39652450551",
+      "run_url": "https://github.com/guitarweiwei/AnticipatoryGold-AI/actions/runs/39652450551",
+      "artifact_sha256": "62e8abcd2c628bb057c97eb8394e65fd6fb55e8d1d222206ba390cbfe98a96c9",
+      "preflight_result": {
+        "status": "FAILED",
+        "compile": "FAILED - SEE REAL COMPILER EVIDENCE",
+        "backtest": "NOT RUN",
+        "installer_url": "https://download.terminal.free/cdn/web/metaquotes.ltd/mt5/mt5setup.exe",
+        "eula_url": "https://www.metaquotes.net/licenses/terminal/mt5",
+        "eula_accepted": true,
+        "source_commit": "8d4cb4f49e2ec0c593d10bdae16be8284a4bea63",
+        "signer_subject": "CN=MetaQuotes Ltd., O=MetaQuotes Ltd., S=Lemesos, C=CY",
+        "signer_thumbprint": "5A64A7AED24C33DED342D01D01FA5286F06DA6DC",
+        "installer_sha256": "C8C0A73F86C58974DF62FB48F8256A099D6698518CF2DEFC2B3F169773729E22",
+        "failure": "Expected exactly one parseable compiler Result line; inspect the raw log.",
+        "signature_status": "Valid",
+        "terminal_firewall_profiles_enabled": true,
+        "terminal_firewall_rule_verified": true,
+        "installer_exit_code": 1,
+        "standard_library_missing": true,
+        "standard_library_root": "D:\\a\\_temp\\AnticipatoryGold-MetaQuotes\\MQL5"
+      },
+      "library-diagnostics.json": [],
+      "compile/compile-result.json": {
+        "status": "FAILED",
+        "source_commit": "8d4cb4f49e2ec0c593d10bdae16be8284a4bea63",
+        "source_sha256": "97A1C7E75B7681ED941700595E08B2F6BCFCE6AC74733F896FCA06B7785A72C5",
+        "compiler_path": "D:\\a\\_temp\\AnticipatoryGold-MetaQuotes\\metaeditor64.exe",
+        "compiler_sha256": "2506302A69DD673391A3F586CEF91DDADA16B3EEA03D902D5A4E608E8161EBA3",
+        "compiler_file_version": "5.0.0.6274",
+        "compiler_product_version": "5.0.0.6274",
+        "started_utc": "2026-10-21T18:26:01.3722389Z",
+        "finished_utc": "2026-10-21T18:26:03.8677665Z",
+        "process_exit_code": 0,
+        "errors": null,
+        "warnings": null,
+        "ex5_sha256": null,
+        "compiler_result": null,
+        "failure": "Expected exactly one parseable compiler Result line; inspect the raw log.",
+        "mt5_backtest": "NOT RUN",
+        "compiler_signer_subject": "CN=MetaQuotes Ltd., O=MetaQuotes Ltd., S=Lemesos, C=CY",
+        "compiler_signer_thumbprint": "5A64A7AED24C33DED342D01D01FA5286F06DA6DC",
+        "standard_library_present_before": false
+      },
+      "compile/source-manifest.json": [
+        {
+          "path": "AnticipatoryGold_AI_v1.mq5",
+          "sha256": "97A1C7E75B7681ED941700595E08B2F6BCFCE6AC74733F896FCA06B7785A72C5"
+        },
+        {
+          "path": "Include\\ResearchLifecycle.mqh",
+          "sha256": "33947AA285AEBAFF1EB0601F2EA48C8C8531820EE6B3E1D6895B3F5D4CC10F57"
+        }
+      ],
+      "compile/standard-library-manifest.json": [],
+      "compiler_log_text": "\r\n\r\nD:\\a\\_temp\\metaquotes-compile-evidence\\compile\\source\\AnticipatoryGold_AI_v1.mq5 : information: compiling D:\\a\\_temp\\metaquotes-compile-evidence\\compile\\source\\AnticipatoryGold_AI_v1.mq5\r\nD:\\a\\_temp\\metaquotes-compile-evidence\\compile\\source\\AnticipatoryGold_AI_v1.mq5 : information: including D:\\a\\_temp\\AnticipatoryGold-MetaQuotes\\MQL5\\Include\\Trade\\Trade.mqh\r\nD:\\a\\_temp\\metaquotes-compile-evidence\\compile\\source\\AnticipatoryGold_AI_v1.mq5(8,10) : error 106: file 'Include\\Trade\\Trade.mqh' not found\r\nResult: 1 errors, 0 warnings\r\n",
+      "compiler_log_sha256": "48be13de9c8ffa624d5d246e2121f770c361b7a6e9a4bf29bc8d870753954c8e",
+      "interpretation": "Real signed MetaEditor was invoked. Raw log reports 1 error / 0 warnings: missing Include/Trade/Trade.mqh. Original JSON numeric fields are null because the wrapper regex did not accept CRLF; fields above preserved unchanged."
+    },
+    {
+      "run_id": "39652983425",
+      "run_url": "https://github.com/guitarweiwei/AnticipatoryGold-AI/actions/runs/39652983425",
+      "artifact_sha256": "c6ee91ec73a57eba763cffff47c3db9feadb2c9959e4148f8f07117c6beb6af9",
+      "preflight_result": {
+        "status": "FAILED",
+        "compile": "FAILED - SEE REAL COMPILER EVIDENCE",
+        "backtest": "NOT RUN",
+        "installer_url": "https://download.terminal.free/cdn/web/metaquotes.ltd/mt5/mt5setup.exe",
+        "eula_url": "https://www.metaquotes.net/licenses/terminal/mt5",
+        "eula_accepted": true,
+        "source_commit": "e0a36888c28c8b422b6421e0b8a8557c87530bad",
+        "signer_subject": "CN=MetaQuotes Ltd., O=MetaQuotes Ltd., S=Lemesos, C=CY",
+        "signer_thumbprint": "5A64A7AED24C33DED342D01D01FA5286F06DA6DC",
+        "installer_sha256": "C8C0A73F86C58974DF62FB48F8256A099D6698518CF2DEFC2B3F169773729E22",
+        "failure": "Compiler reported errors or warnings; review the raw log before proceeding.",
+        "signature_status": "Valid",
+        "terminal_firewall_profiles_enabled": true,
+        "terminal_firewall_rule_verified": true,
+        "installer_exit_code": 1,
+        "standard_library_missing": true,
+        "standard_library_root": "D:\\a\\_temp\\AnticipatoryGold-MetaQuotes\\MQL5"
+      },
+      "library-diagnostics.json": [],
+      "compile/compile-result.json": {
+        "status": "FAILED",
+        "source_commit": "e0a36888c28c8b422b6421e0b8a8557c87530bad",
+        "source_sha256": "97A1C7E75B7681ED941700595E08B2F6BCFCE6AC74733F896FCA06B7785A72C5",
+        "compiler_path": "D:\\a\\_temp\\AnticipatoryGold-MetaQuotes\\metaeditor64.exe",
+        "compiler_sha256": "2506302A69DD673391A3F586CEF91DDADA16B3EEA03D902D5A4E608E8161EBA3",
+        "compiler_file_version": "5.0.0.6274",
+        "compiler_product_version": "5.0.0.6274",
+        "started_utc": "2026-10-21T18:29:35.4234542Z",
+        "finished_utc": "2026-10-21T18:29:37.2618499Z",
+        "process_exit_code": 0,
+        "errors": 1,
+        "warnings": 0,
+        "ex5_sha256": null,
+        "compiler_result": "Result: 1 errors, 0 warnings",
+        "failure": "Compiler reported errors or warnings; review the raw log before proceeding.",
+        "mt5_backtest": "NOT RUN",
+        "compiler_signer_subject": "CN=MetaQuotes Ltd., O=MetaQuotes Ltd., S=Lemesos, C=CY",
+        "compiler_signer_thumbprint": "5A64A7AED24C33DED342D01D01FA5286F06DA6DC",
+        "standard_library_present_before": false
+      },
+      "compile/source-manifest.json": [
+        {
+          "path": "AnticipatoryGold_AI_v1.mq5",
+          "sha256": "97A1C7E75B7681ED941700595E08B2F6BCFCE6AC74733F896FCA06B7785A72C5"
+        },
+        {
+          "path": "Include\\ResearchLifecycle.mqh",
+          "sha256": "33947AA285AEBAFF1EB0601F2EA48C8C8531820EE6B3E1D6895B3F5D4CC10F57"
+        }
+      ],
+      "compile/standard-library-manifest.json": [],
+      "compiler_log_text": "\r\n\r\nD:\\a\\_temp\\metaquotes-compile-evidence\\compile\\source\\AnticipatoryGold_AI_v1.mq5 : information: compiling D:\\a\\_temp\\metaquotes-compile-evidence\\compile\\source\\AnticipatoryGold_AI_v1.mq5\r\nD:\\a\\_temp\\metaquotes-compile-evidence\\compile\\source\\AnticipatoryGold_AI_v1.mq5 : information: including D:\\a\\_temp\\AnticipatoryGold-MetaQuotes\\MQL5\\Include\\Trade\\Trade.mqh\r\nD:\\a\\_temp\\metaquotes-compile-evidence\\compile\\source\\AnticipatoryGold_AI_v1.mq5(8,10) : error 106: file 'Include\\Trade\\Trade.mqh' not found\r\nResult: 1 errors, 0 warnings\r\n",
+      "compiler_log_sha256": "48be13de9c8ffa624d5d246e2121f770c361b7a6e9a4bf29bc8d870753954c8e"
+    }
+  ]
+}
