@@ -1,8 +1,19 @@
-# Official Windows compiler evidence — candidate workflow
+# Official Windows compiler evidence — preflight workflow
 
 No real MetaEditor compilation was run while authoring these scripts. A passing download/signature preflight is **not** a passing compile. PowerShell execution is **NOT RUN** until Windows Actions evidence exists. No MT5 Strategy Tester run is included.
 
-The candidate scripts are checked in, but `.github/workflows/metaeditor-compile.yml` is **not present**. Only the Python/static `checks.yml` workflow currently exists. No automatic or manual Windows compile workflow is wired up. The steps below describe a proposed follow-up, not executed or available automation. No EULA acceptance, installation or compiler evidence is recorded. A reviewed Windows workflow must be added before any workflow instructions below can be used.
+`.github/workflows/metaeditor-compile.yml` now wires the candidate scripts to a disposable `windows-2022` runner. It runs on relevant development-branch pushes (or manual dispatch when available) and **only downloads and checks signatures**. The invocation explicitly passes `-AcceptMetaQuotesEula:$false`; there is no installation input, secret or enabled compile job. It parses both PowerShell scripts on Windows, requires a valid signature and a report recording EULA false / compile NOT RUN / backtest NOT RUN, and uploads only `preflight-result.json` for seven days. Checkout and upload actions are pinned to reviewed upstream release commits; repository permissions are read-only and checkout does not persist credentials. A green workflow means the preflight contract passed, never that the EA compiled.
+
+Observed Windows run: [39602184477](https://github.com/guitarweiwei/AnticipatoryGold-AI/actions/runs/39602184477), source commit `26f0acb1da753b6e4822c17ea5c5363b72b36f48`, succeeded. Both PowerShell files parsed on Windows; the download/signature contract passed. The unmodified JSON artifact is retained in `evidence/20261021-preflight/preflight-result.json`.
+
+- Installer SHA256: `C8C0A73F86C58974DF62FB48F8256A099D6698518CF2DEFC2B3F169773729E22`
+- Authenticode: `Valid`
+- Subject: `CN=MetaQuotes Ltd., O=MetaQuotes Ltd., S=Lemesos, C=CY`
+- Certificate thumbprint: `5A64A7AED24C33DED342D01D01FA5286F06DA6DC`
+- Downloaded artifact ZIP SHA256: `c6b4747ac859f8789e7821c898439d3692ff7d1996c407c30e9570d230be00a8` (matches Actions' displayed artifact digest).
+- EULA accepted: `false`; installation, actual MetaEditor compilation and MT5 backtest: **NOT RUN**.
+
+The certificate subject identifies MetaQuotes Ltd.; a later installer download must still match the exact reviewed hash/certificate. Installation remains blocked pending explicit user acceptance of the linked EULA. No MQL5 source, original risk parameter or trading gate changed in this preflight work.
 
 ## Safe first run
 
@@ -21,7 +32,7 @@ The installer documentation describes `/auto /path:"..."` and requires agreement
 
 Only after explicit user acceptance of the official EULA for the temporary installation:
 
-1. Record that consent in the development review. In a newly reviewed workflow, set `METAQUOTES_EULA_ACCEPTED` to `'true'`, and fill `REVIEWED_INSTALLER_SHA256` and `REVIEWED_SIGNER_THUMBPRINT` with the exact reviewed preflight values. Push that concrete change to the development branch. Alternatively use the matching manual dispatch inputs if available.
+1. Record explicit consent in the development review. Add and review a separate install/compile job which invokes `cloud_compile.ps1 -AcceptMetaQuotesEula` with `ApprovedInstallerSha256` and `ApprovedSignerThumbprint` set to the exact reviewed preflight values. Push that concrete change to the development branch. The current workflow has no installation switch or dispatch inputs; it cannot perform this follow-up.
 2. The workflow downloads again, requires the exact reviewed installer hash/certificate and a valid signature, then runs documented `/auto /path` on a fresh disposable Windows runner. A changed download rejects and requires a new preflight. No account, broker, MQL5 Community login or paid VM is configured.
 3. The installer may auto-launch the terminal. Before installation the script blocks outbound networking for that installation's `terminal64.exe`; it stops any spawned instance and never directly launches the terminal. No broker session or trade is authorized. If firewall setup is unavailable, the script fails before installing.
 4. The installed editor must have a valid Authenticode signature and the same subject as the reviewed installer. Compile the actual project together with its sibling include headers, using the installed standard library via `/include:<MQL5-root>`. Do not use `/s`, which is only a syntax check.
