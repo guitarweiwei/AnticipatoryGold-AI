@@ -28,7 +28,7 @@ jobs:
       - name: Parse Windows scripts without executing installation
         run: |
           $ErrorActionPreference = 'Stop'
-          foreach ($file in @('tests/windows/cloud_compile.ps1', 'tests/windows/compile.ps1')) {
+          foreach ($file in @('tests/windows/cloud_compile.ps1', 'tests/windows/compile.ps1', 'tests/windows/pending_offline_bootstrap.ps1')) {
             $tokens = $null
             $parseErrors = $null
             $null = [System.Management.Automation.Language.Parser]::ParseFile((Join-Path $env:GITHUB_WORKSPACE $file), [ref]$tokens, [ref]$parseErrors)
@@ -53,7 +53,9 @@ jobs:
 
 
   authorized-compile:
-    name: Authorized MetaEditor compile only - no backtest
+    name: Authorized compiler preparation and MetaEditor - no backtest
+    env:
+      OFFLINE_INITIALIZATION_AUTHORIZED: ${{ contains(github.event.head_commit.message, '[offline-bootstrap-authorized]') }}
     # Explicit activation on a reviewed development commit; ordinary pushes skip installation.
     if: github.event_name == 'push' && contains(github.event.head_commit.message, '[metaeditor-compile-authorized]')
     needs: download-signature-only
@@ -71,7 +73,7 @@ jobs:
         # User explicitly accepted MetaQuotes EULA on 2026-10-21 in this task.
         # These exact hash/certificate values came from preflight run 39602184477.
         run: |
-          & "$env:GITHUB_WORKSPACE/tests/windows/cloud_compile.ps1" -RepositoryRoot $env:GITHUB_WORKSPACE -EvidenceDirectory "$env:RUNNER_TEMP/metaquotes-compile-evidence" -AcceptMetaQuotesEula -ApprovedInstallerSha256 'C8C0A73F86C58974DF62FB48F8256A099D6698518CF2DEFC2B3F169773729E22' -ApprovedSignerThumbprint '5A64A7AED24C33DED342D01D01FA5286F06DA6DC'
+          & "$env:GITHUB_WORKSPACE/tests/windows/cloud_compile.ps1" -RepositoryRoot $env:GITHUB_WORKSPACE -EvidenceDirectory "$env:RUNNER_TEMP/metaquotes-compile-evidence" -AcceptMetaQuotesEula -ApprovedInstallerSha256 'C8C0A73F86C58974DF62FB48F8256A099D6698518CF2DEFC2B3F169773729E22' -ApprovedSignerThumbprint '5A64A7AED24C33DED342D01D01FA5286F06DA6DC' -AllowOfflineTerminalBootstrap:($env:OFFLINE_INITIALIZATION_AUTHORIZED -eq 'true')
       - name: Preserve actual JSON and compiler log only
         if: always()
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
@@ -81,6 +83,8 @@ jobs:
             ${{ runner.temp }}/metaquotes-compile-evidence/preflight-result.json
             ${{ runner.temp }}/metaquotes-compile-evidence/installation-files.json
             ${{ runner.temp }}/metaquotes-compile-evidence/library-diagnostics.json
+            ${{ runner.temp }}/metaquotes-compile-evidence/offline-bootstrap/offline-bootstrap-result.json
+            ${{ runner.temp }}/metaquotes-compile-evidence/offline-bootstrap/offline.ini
             ${{ runner.temp }}/metaquotes-compile-evidence/compile/compile-result.json
             ${{ runner.temp }}/metaquotes-compile-evidence/compile/source-manifest.json
             ${{ runner.temp }}/metaquotes-compile-evidence/compile/standard-library-manifest.json
