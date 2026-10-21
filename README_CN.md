@@ -8,6 +8,6 @@
 
 未来手续费及隔夜费没有可信券商上界，因此成本结构保持unknown，独立成本否决不解除。未虚构费用或调整现有35项输入／风险政策。旧AG2作用域缺少新执行日志会拒绝初始化，不静默迁移或清除停机记录。
 
-当前测试套件175项：18项源码检查、45项Python参考案例、15项宏观和97项模拟API测试。实际结果见docs/VALIDATION_RESULTS.md。源码检查与独立参考模型不是MQL5执行证明。MetaEditor、PowerShell、MT5回测、真实模型／券商／存储故障验证均NOT RUN。
+当前测试套件175项：18项源码检查、45项Python参考案例、15项宏观和97项模拟API测试。实际结果见docs/VALIDATION_RESULTS.md。源码检查与独立参考模型不是MQL5执行证明。Windows PowerShell安装／编译脚本已实际执行，签名有效的MetaEditor 5.0.0.6274真实编译失败：1错误、0警告，缺官方Include/Trade/Trade.mqh，尚无成功EX5。见tests/windows/CLOUD_COMPILE.md。MT5回测、真实模型／券商／存储故障验证仍NOT RUN。
 
 完整实现与剩余放行条件见docs/STAGE3_IMPLEMENTATION.md。请勿绕过交易锁获取收益数据；本PR保持Draft供审核。
