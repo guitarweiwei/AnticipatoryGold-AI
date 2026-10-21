@@ -1,3 +1,5 @@
+> **2026-10-21 latest:** Genuine signed MetaEditor 5.0.0.6274 compilation PASSED: **0 errors, 0 warnings**, fresh EX5 hash recorded. Authorized offline initialization generated the official standard library; firewall and process exit verified. Backtest/EA execution remain NOT RUN; all trading locks and risk limits remain unchanged. Earlier compilation failures below are historical. See [Windows evidence](tests/windows/CLOUD_COMPILE.md).
+
 # AnticipatoryGold AI v1：研究开发版，交易锁定
 
 用户已授权实施第1–3项：数据有效性、订单持久化与成交核验、篮子盈亏及费用预算。六个Agent分别负责策略、MQL5、API、宏观、验证和独立审计。
