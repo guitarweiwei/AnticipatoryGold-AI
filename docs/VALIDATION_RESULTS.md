@@ -1,4 +1,4 @@
-# Actual validation evidence — Stage 2 and 2026-10-21 revalidation
+# Actual validation evidence — current Stage 3 and historical runs
 
 Historical Stage 2 run — reviewed integrated implementation source: local commit `03b2a3b` (D1/D2 source implementation plus metadata hardening and tests; subsequent edits are documentation only). Local commit hashes are not GitHub's per-file web-upload commit hashes.
 
@@ -31,3 +31,27 @@ Command: `testenv/bin/python tests/run_checks.py` from the project root using a 
 Independent risk reviewer reran the eight new cases (8 passed) and complete API suite (70 passed). With the downloaded pre-fix app and new cases in a disposable tree, seven mutation cases failed as expected while unchanged republication passed (7 failed / 1 passed); no working-tree file was replaced during this comparison. This establishes the regression, not broker behavior.
 
 All 35 EA input declarations remain byte-for-byte equal to the input ZIP. MQL5 source and execution locks were unchanged. Remaining source-validity, order reconciliation and Windows gates are recorded in REVALIDATION_20261021.md. MetaEditor, PowerShell, MT5 backtests, real model calls, live/demo trading and performance validation remain **NOT RUN**. Only Python/static CI exists; no Windows compiler workflow is present.
+
+## Authorized Stage 3 — current frozen source
+
+User authorization: implement proposed items 1–3, preserve important risk parameters and every execution lock. Current implementation is described in STAGE3_IMPLEMENTATION.md; earlier statements about absent source implementations above are historical and superseded by that record. Runtime evidence remains absent.
+
+The main reviewer ran `/workspace/scratch/d1385acbcda2/testenv/bin/python tests/run_checks.py` from the project root; exit **0**. **175 checks passed**:
+
+| Type | Count | What executed |
+|---|---:|---|
+| MQL5 source regressions | 18 | 10 earlier guard checks plus 8 Stage3 source invariants; no MQL execution |
+| Independent Python policy fixtures | 45 | 22 Stage2 risk cases plus 23 abstract journal/fill/cash-ledger cases |
+| Macro tests | 15 | CSV2, original source age, calendar expiry, strict input, provenance and atomic publisher fixtures |
+| Advisory API tests | 97 | Mocked provider and API1.1/macro2 validation, pre/post review validity and identical canonical observations |
+
+Python compileall and git diff --check passed. One upstream Starlette TestClient/httpx deprecation warning remains. The isolated environment uses Python3.12, FastAPI0.156.4, httpx0.28.1, Pydantic2.14.1, pytest9.1.1 and Starlette1.9.0. Requirements remain ranged, not a locked dependency reproducibility claim.
+
+Independent risk auditor also ran the full175 suite successfully against the frozen source, and separately checked API/CSV field sets, 35 original input declarations and the execution boundaries. Initial source-test harness matching was corrected to anchor actual function definitions rather than if-blocks following a same-named call. Main reviewer strengthened the existing8 invariants with post-close risk ordering, pre-send ledger validation and absence of unchecked single-argument position property reads, then reran the full175 successfully. Source implementation was unchanged by those harness additions.
+
+Frozen MQL source SHA256 (not compiler/output hashes):
+
+- Experts/AnticipatoryGold_AI_v1.mq5: `669f2ab269e6451bbdd32bb0f8bc272bf93b6b5c49ce4edcbd638ef521145e0d`
+- Experts/Include/ResearchLifecycle.mqh: `3d11d861a3c6f1402cabf631bf8881bb4c3e3dac5118716bda74e676f29062fd`
+
+Independent source review permits this execution-disabled Draft PR only. API source validity does not authenticate real observations; abstract fault fixtures do not prove the MQL journal or broker history; source checks do not compile it. MetaEditor, PowerShell, MT5, Windows crash/fault/partial-fill tests, actual provider calls, real broker costs and performance/forward results remain **NOT RUN**. A verified prospective-cost bound is still absent, with its unknown gate and independent false veto retained. Do not remove locks to obtain performance data. Remote CI must be verified separately from these local results.
