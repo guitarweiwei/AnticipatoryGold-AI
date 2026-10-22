@@ -29,7 +29,17 @@ bool AGNativeOrderSendAsyncBlocked(const MqlTradeRequest &request,MqlTradeResult
 #define iTime AGNativeBarTime
 #define OrderSend AGNativeOrderSendBlocked
 #define OrderSendAsync AGNativeOrderSendAsyncBlocked
+// Bind standard-library send sites to the no-send sentinel before its include
+// guard is set. Only the subsequent production CTrade variable is substituted.
+#include <Trade/Trade.mqh>
+uint g_nativeResultCode=0;
+class AGNativeTrade:public CTrade {
+ public:
+  uint ResultRetcode(void) const {return g_nativeResultCode;}
+};
+#define CTrade AGNativeTrade
 #include "../../Experts/AnticipatoryGold_AI_v1.mq5"
+#undef CTrade
 #undef OnInit
 #undef OnTick
 #undef OnDeinit
@@ -77,6 +87,18 @@ void NativeReset(string id){
  g_scopeLock=FileOpen(g_statePath+".lock",FILE_READ|FILE_WRITE|FILE_BIN);
 }
 bool NativeSeedJournal(){return g_scopeLock!=INVALID_HANDLE&&PublishRecord(JournalPath()+".started","AG3_STARTED|"+g_stateKey)&&SaveExecutionJournal();}
+bool NativeRetcodeVeto(string kind,uint retcode){
+ NativeReset("retcode_"+kind+"_"+IntegerToString((long)retcode));
+ g_intentKind=kind;g_intentDirection=kind=="OPEN"?1:-1;
+ g_intentVolume=0.01;g_intentEntry=2000;g_intentStop=1990;g_intentRisk=10;g_intentTicket=123;
+ bool seeded=NativeSeedJournal();string before,after;
+ bool readBefore=ReadOneRecord(JournalPath(),before);g_nativeResultCode=retcode;
+ // These are the actual production verifier functions, with only retcode
+ // supplied by a test double. No order/deal/fill or broker fault is generated.
+ bool accepted=kind=="OPEN"?VerifyOpenFill():VerifyCloseFill();
+ bool readAfter=ReadOneRecord(JournalPath(),after);g_nativeResultCode=0;
+ return seeded&&readBefore&&readAfter&&!accepted&&g_intentKind==kind&&before==after&&!g_riskHalt&&g_nativeSendAttempts==0;
+}
 void NativeSummary(){
  string line="{\"type\":\"summary\",\"schema_version\":1,\"total\":"+IntegerToString(g_nativeTotal)+",\"passed\":"+IntegerToString(g_nativePassed)+",\"failed\":"+IntegerToString(g_nativeTotal-g_nativePassed)+",\"send_attempts\":"+IntegerToString(g_nativeSendAttempts)+",\"denied_file_opens\":"+IntegerToString(g_nativeDeniedFiles)+",\"broker_fault_tests\":\"NOT_RUN\",\"performance_backtest\":\"NOT_RUN\"}";
  FileWriteString(g_nativeOutput,line+"\r\n");FileFlush(g_nativeOutput);FileClose(g_nativeOutput);g_nativeOutput=INVALID_HANDLE;
@@ -152,6 +174,17 @@ void OnStart(){
  NativeCase("DUPLICATE_CONSUMED_BAR_REJECT",seeded&&loaded&&!PrepareIntent("OPEN",1,0.01,2000,1990,10,0)&&g_intentKind=="NONE","persisted_synthetic_bar_reloaded_no_send","NATIVE-FILE-MOCKSTATE");
  NativeReset("intent_prewrite");seeded=NativeSeedJournal();bool prepared=PrepareIntent("OPEN",1,0.01,2000,1990,10,0);read=ReadOneRecord(JournalPath(),record);
  NativeCase("INTENT_PREWRITE_REAL_FILE",seeded&&prepared&&read&&StringFind(record,"|OPEN|")>=0&&g_nativeSendAttempts==0,"prepare_only_no_send_side_effect","NATIVE-FILE-MOCKSTATE");
+ NativeReset("locked_tmp");seeded=NativeSeedJournal();
+ int locked=FileOpen(JournalPath()+".tmp",FILE_READ|FILE_WRITE|FILE_BIN);
+ ResetLastError();bool published=PublishRecord(JournalPath(),"must_not_publish_while_tmp_is_exclusive");int lockError=GetLastError();
+ if(locked!=INVALID_HANDLE)FileClose(locked);
+ NativeCase("PUBLISH_EXCLUSIVE_TMP_IO_FAILURE",seeded&&locked!=INVALID_HANDLE&&!published&&lockError!=0,"native_exclusive_file_handle_error="+IntegerToString(lockError),"NATIVE-FILE-IO-FAULT");
+ NativeCase("OPEN_PARTIAL_RETCODE_VETO",NativeRetcodeVeto("OPEN",TRADE_RETCODE_DONE_PARTIAL),"mock_retcode_only_pending_unchanged_caller_halt_not_executed","NATIVE-MOCKSTATE");
+ NativeCase("CLOSE_PARTIAL_RETCODE_VETO",NativeRetcodeVeto("CLOSE",TRADE_RETCODE_DONE_PARTIAL),"mock_retcode_only_pending_unchanged_caller_halt_not_executed","NATIVE-MOCKSTATE");
+ NativeCase("OPEN_TIMEOUT_RETCODE_VETO",NativeRetcodeVeto("OPEN",TRADE_RETCODE_TIMEOUT),"mock_retcode_only_not_broker_or_network_timeout","NATIVE-MOCKSTATE");
+ NativeCase("CLOSE_TIMEOUT_RETCODE_VETO",NativeRetcodeVeto("CLOSE",TRADE_RETCODE_TIMEOUT),"mock_retcode_only_not_broker_or_network_timeout","NATIVE-MOCKSTATE");
+ NativeCase("OPEN_UNKNOWN_RETCODE_VETO",NativeRetcodeVeto("OPEN",0),"mock_unknown_retcode_no_order_or_deal","NATIVE-MOCKSTATE");
+ NativeCase("CLOSE_UNKNOWN_RETCODE_VETO",NativeRetcodeVeto("CLOSE",0),"mock_unknown_retcode_no_order_or_deal","NATIVE-MOCKSTATE");
  NativeReset("costs");double bound=-1;
  NativeCase("FUTURE_COST_UNKNOWN_VETO",!FutureCostsKnown(bound),"no_verified_approved_costs","NATIVE-GUARD");
  Signal base,out;base.direction=1;base.confidence=0.7;base.regime="TEST";base.setup="TEST";base.reason="synthetic";
