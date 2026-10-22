@@ -1,3 +1,5 @@
+> **2026-10-22:** Actual offline native tests **50/50 passed**; production EA and test script compiled with **0 errors / 0 warnings**. Python/source/API checks **188 passed**. Historical backtest plan prepared; performance backtest **NOT RUN**. Trading remains locked. See [native evidence](docs/NATIVE_TEST_RESULTS_20261022.md).
+
 > **2026-10-21 latest:** Genuine signed MetaEditor 5.0.0.6274 compilation PASSED: **0 errors, 0 warnings**, fresh EX5 hash recorded. Authorized offline initialization generated the official standard library; firewall and process exit verified. Backtest/EA execution remain NOT RUN; all trading locks and risk limits remain unchanged. Earlier compilation failures below are historical. See [Windows evidence](tests/windows/CLOUD_COMPILE.md).
 
 # AnticipatoryGold AI v1 — research development, trading blocked
