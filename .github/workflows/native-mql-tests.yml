@@ -1,0 +1,70 @@
+name: Native MQL fault tests (offline and no orders)
+
+on:
+  push:
+    branches: [dev/v1-p0-hardening]
+    paths:
+      - '.github/workflows/native-mql-tests.yml'
+      - 'tests/windows/**'
+      - 'MQL5/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  native-no-orders:
+    # User authorized implementation and isolated execution on 2026-10-22.
+    # Normal commits and manual dispatch never install or launch software.
+    if: github.event_name == 'push' && contains(github.event.head_commit.message, '[native-tests-authorized]')
+    runs-on: windows-2022
+    timeout-minutes: 15
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Checkout reviewed source without credentials
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Parse all Windows scripts before installation
+        run: |
+          $ErrorActionPreference = 'Stop'
+          foreach ($file in Get-ChildItem "$env:GITHUB_WORKSPACE/tests/windows" -Filter '*.ps1' -File) {
+            $tokens = $null
+            $parseErrors = $null
+            $null = [System.Management.Automation.Language.Parser]::ParseFile($file.FullName, [ref]$tokens, [ref]$parseErrors)
+            if ($parseErrors.Count -gt 0) { throw ($parseErrors | Out-String) }
+            Write-Output "PowerShell syntax valid: $($file.Name)"
+          }
+      - name: Prepare reviewed signed software and compile locked production EA
+        run: |
+          & "$env:GITHUB_WORKSPACE/tests/windows/cloud_compile.ps1" -RepositoryRoot $env:GITHUB_WORKSPACE -EvidenceDirectory "$env:RUNNER_TEMP/native-preparation" -AcceptMetaQuotesEula -AllowOfflineTerminalBootstrap -ApprovedInstallerSha256 'C8C0A73F86C58974DF62FB48F8256A099D6698518CF2DEFC2B3F169773729E22' -ApprovedSignerThumbprint '5A64A7AED24C33DED342D01D01FA5286F06DA6DC'
+      - name: Compile and execute native no-order fault script offline
+        run: |
+          & "$env:GITHUB_WORKSPACE/tests/windows/native_tests.ps1" -RepositoryRoot $env:GITHUB_WORKSPACE -InstallationDirectory "$env:RUNNER_TEMP/AnticipatoryGold-MetaQuotes" -EvidenceDirectory "$env:RUNNER_TEMP/native-evidence" -ExplicitUserAuthorization
+      - name: Preserve actual native and compiler evidence only
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: native-mql-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/native-preparation/preflight-result.json
+            ${{ runner.temp }}/native-preparation/offline-bootstrap/offline-bootstrap-result.json
+            ${{ runner.temp }}/native-preparation/offline-bootstrap/offline.ini
+            ${{ runner.temp }}/native-preparation/compile/compile-result.json
+            ${{ runner.temp }}/native-preparation/compile/source-manifest.json
+            ${{ runner.temp }}/native-preparation/compile/standard-library-manifest.json
+            ${{ runner.temp }}/native-preparation/compile/metaeditor.log
+            ${{ runner.temp }}/native-evidence/native-run-result.json
+            ${{ runner.temp }}/native-evidence/native-results.jsonl
+            ${{ runner.temp }}/native-evidence/native.ini
+            ${{ runner.temp }}/native-evidence/compile/compile-result.json
+            ${{ runner.temp }}/native-evidence/compile/source-manifest.json
+            ${{ runner.temp }}/native-evidence/compile/standard-library-manifest.json
+            ${{ runner.temp }}/native-evidence/compile/metaeditor.log
+            ${{ runner.temp }}/native-evidence/logs/*.log
+            ${{ runner.temp }}/native-evidence/MQL5/Logs/*.log
+            ${{ runner.temp }}/native-evidence/fixtures/AG_NATIVE_*
+          if-no-files-found: error
+          retention-days: 7
