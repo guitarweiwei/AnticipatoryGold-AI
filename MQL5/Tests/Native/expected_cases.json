@@ -36,6 +36,13 @@
     "JOURNAL_PENDING_CLOSE_RESTART_REJECT",
     "DUPLICATE_CONSUMED_BAR_REJECT",
     "INTENT_PREWRITE_REAL_FILE",
+    "PUBLISH_EXCLUSIVE_TMP_IO_FAILURE",
+    "OPEN_PARTIAL_RETCODE_VETO",
+    "CLOSE_PARTIAL_RETCODE_VETO",
+    "OPEN_TIMEOUT_RETCODE_VETO",
+    "CLOSE_TIMEOUT_RETCODE_VETO",
+    "OPEN_UNKNOWN_RETCODE_VETO",
+    "CLOSE_UNKNOWN_RETCODE_VETO",
     "FUTURE_COST_UNKNOWN_VETO",
     "DISABLED_AI_VETO_BUY",
     "DISABLED_AI_VETO_SELL",
@@ -47,6 +54,7 @@
   "notes": [
     "Expected cases, not execution results.",
     "Production functions included with fixed clock and bar adapters, unique-prefix CSV FileOpen redirection, and no-send API sentinel.",
-    "Journal reload tests do not restart the process or emulate broker partial fills."
+    "Journal reload tests do not restart the process or emulate broker partial fills.",
+    "Partial/timeout/unknown return-code cases substitute ResultRetcode only; no broker fill/timeout or caller halt is exercised."
   ]
 }
