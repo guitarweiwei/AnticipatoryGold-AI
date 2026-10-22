@@ -1,3 +1,13 @@
+# Current validation — 2026-10-22
+
+Actual isolated native MQL fault tests: **50/50 PASSED**, production EA and native script compilation **0 errors / 0 warnings**. Final local Python/source/reference/API checks: **188 PASSED**. [Detailed evidence, coverage and limits](NATIVE_TEST_RESULTS_20261022.md).
+
+The script executes selected production functions under fixed clock/bar and synthetic return-code/state adapters with actual sandbox FileIO. It is not a production EA run, broker-fill test, process crash/restart test or strategy backtest. Sender attempts=0; firewall and exit verified. All production source/35 inputs/risk limits/trading locks unchanged. Historical performance, genuine broker/runtime integration, real providers and prospective cost verification remain **NOT RUN**. Backtest plan and blocked manifest are prepared; no unlock or merge.
+
+## Historical snapshots — superseded by the current evidence above
+
+The older sections below record their then-current statuses, including earlier NOT RUN or failed compilation. Their use of “latest” is historical; it is not the present state.
+
 > **2026-10-21 latest:** Genuine signed MetaEditor 5.0.0.6274 compilation PASSED: **0 errors, 0 warnings**, fresh EX5 hash recorded. Authorized offline initialization generated the official standard library; firewall and process exit verified. Backtest/EA execution remain NOT RUN; all trading locks and risk limits remain unchanged. Earlier compilation failures below are historical. See [Windows evidence](../tests/windows/CLOUD_COMPILE.md).
 
 > Latest Windows result (2026-10-21): the user accepted the EULA; actual signed MetaEditor 5.0.0.6274 was invoked and FAILED with 1 error / 0 warnings (missing official Include/Trade/Trade.mqh), no successful EX5. Both log parsing and numeric report were verified by real run 39652983425. PowerShell execution is now evidenced. Earlier NOT RUN statements below are retained historical snapshots, superseded only for Windows helper execution and compiler invocation. MT5 backtests/runtime, real providers and trading remain NOT RUN. See tests/windows/CLOUD_COMPILE.md and its evidence aggregate; compilation is still a release blocker. No MQL content or risk parameter changed.
