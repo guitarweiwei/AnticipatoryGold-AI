@@ -24,6 +24,8 @@ jobs:
           persist-credentials: false
       - name: Run data and reference execution fault tests
         run: |
+          python -c "import hashlib,pathlib; expected={'scripts/research_backtest/reference_replay.py': 'eeaab4c644f65dcb70b067336e37fae2408f25a4153cbcdb31a44e4cfff04267', 'scripts/research_backtest/test_reference_replay.py': 'fa6b3f70b6ba818f01f5f6d295bfb83aa11a42f21f1ddf9f76c33660dd7d4f14', 'tests/windows/reference_indicators.ps1': '9916b49c0e56539bcd468c5aec6bc54917583cc57f32ec177717b2a68d245c61', 'MQL5/Tests/Performance/ExportReferenceIndicators.mq5': '9726bcf46729e187095ddae237fca8066f564dd0b84e2aae52c334df0c3f9dd1'}; bad=[p for p,h in expected.items() if hashlib.sha256(pathlib.Path(p).read_bytes().replace(b'\r\n',b'\n')).hexdigest()!=h]; assert not bad,bad; print('Reviewed source hashes matched')"
+          if ($LASTEXITCODE -ne 0) { throw 'Reviewed source hash mismatch.' }
           python -m unittest discover -s scripts/research_data -p 'test_*.py' -v
           if ($LASTEXITCODE -ne 0) { throw 'Data tests failed.' }
           python -m unittest discover -s scripts/research_backtest -p 'test_*.py' -v
