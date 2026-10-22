@@ -25,7 +25,12 @@ class ReferenceChecks(unittest.TestCase):
   e.close(r.SCORE_START+1,2001000,2001020,'TEST');self.assertAlmostEqual(e.trades[0]['gross_pnl_usd'],.92);self.assertAlmostEqual(e.trades[0]['net_pnl_usd'],.52);self.assertAlmostEqual(e.balance,5000.52)
  def test_gap_stop_uses_first_actual_quote_not_stop_price(self):
   e=r.Engine(r.SCENARIOS[0]);e.attempt_open(r.SCORE_START,2000000,2000020,1,1);e.day=r.SCORE_START//86400000
-  e.tick(r.SCORE_START+1,1990000,1990020,False,[],None,500,500);self.assertIsNone(e.position);self.assertLess(e.trades[0]['gross_pnl_usd'],-10);self.assertEqual(e.trades[0]['exit_reason'],'PRICE_SL')
+  e.tick(r.SCORE_START+1,1990000,1990020,False,[],None,500,500);self.assertIsNone(e.position);self.assertLess(e.trades[0]['gross_pnl_usd'],-10);self.assertEqual(e.trades[0]['exit_reason'],'PRICE_SL');self.assertGreater(e.max_floating_loss,10)
+ def test_same_day_baseline_stays_fixed_across_accumulating_losses(self):
+  e=r.Engine(r.SCENARIOS[0]);start=r.SCORE_START;e.daily_roll(start,2000000,2000020)
+  for i in range(8):
+   e.balance-=10;e.daily_roll(start+(i+1)*1000,2000000,2000020);e.risk(start+(i+1)*1000,2000000,2000020)
+  self.assertEqual(e.day_equity,5000);self.assertTrue(e.halted);self.assertEqual(e.halt_reason,'DAILY_LOSS_75')
  def test_daily_halt_is_sticky_after_next_day(self):
   e=r.Engine(r.SCENARIOS[0]);e.day=100;e.day_equity=5000;e.balance=4924;e.daily_roll(101*86400000,2000000,2000020);self.assertTrue(e.halted);e.balance=5100;e.daily_roll(102*86400000,2000000,2000020);self.assertTrue(e.halted)
  def test_crossed_rollovers_all_charged_before_gap_close(self):
