@@ -1,0 +1,96 @@
+{
+  "schema": "anticipatorygold.performance-experiment/1",
+  "status": "AUTHORIZED_PREPARATION_DATA_AND_COST_VALIDATION_PENDING",
+  "user_authorization": {
+    "reference": "2026-10-22 chat: 券商你来定 本金5000 杠杆30倍 同意",
+    "tester_orders_authorized": true,
+    "single_layer": true,
+    "ai_enabled": false,
+    "macro_enabled": false,
+    "live_or_demo_orders_authorized": false,
+    "merge_authorized": false,
+    "optimization_authorized": false
+  },
+  "account": {
+    "reference_broker": "Dukascopy Bank SA",
+    "broker_selection_basis": "Official public XAU/USD two-sided history and published MT5 contract specification. No brokerage account opened or connected.",
+    "deposit": 5000,
+    "currency": "USD",
+    "currency_basis": "USD declared in preceding assistant message; user did not specify another currency",
+    "leverage_ratio": 30,
+    "mode": "RETAIL_HEDGING"
+  },
+  "production": {
+    "entry_locks_preserved": true,
+    "ea_sha256": "669f2ab269e6451bbdd32bb0f8bc272bf93b6b5c49ce4edcbd638ef521145e0d",
+    "lifecycle_sha256": "3d11d861a3c6f1402cabf631bf8881bb4c3e3dac5118716bda74e676f29062fd"
+  },
+  "risk": {
+    "initial_price_to_stop_risk_pct_ceiling": 0.25,
+    "fixed_initial_equity_loss_stop_pct": 5,
+    "initial_stop_equity_usd": 4750,
+    "maximum_high_water_equity_drawdown_guaranteed": false,
+    "basket_stop_usd": 35,
+    "daily_loss_stop_usd": 75,
+    "base_lots_cap": 0.01,
+    "grid_layers": 1,
+    "basket_lots_cap": 0.03,
+    "total_lots_cap": 0.05,
+    "sticky_halt_resets_daily": false,
+    "stop_atr_multiplier": 2,
+    "profitable_only_time_exit_minutes": 180,
+    "spread_ceiling_points": 80
+  },
+  "frozen_design_before_strategy_returns_seen": {
+    "returns_not_yet_calculated": true,
+    "first_evaluation_from_utc": "2024-01-01T00:00:00Z",
+    "first_evaluation_to_utc_exclusive": "2025-01-01T00:00:00Z",
+    "warmup_from_utc": "2023-11-01T00:00:00Z",
+    "minimum_closed_h1_bars": 500,
+    "minimum_closed_m5_bars": 500,
+    "warmup_orders_or_scoring": false,
+    "trial_budget": 1,
+    "split_interpretation": "First fixed baseline, no optimization; not yet certified as an unseen final holdout",
+    "end_window_policy": "Preserve pre-termination open positions and mark-to-market; disclose actual tester-forced liquidation separately"
+  },
+  "data": {
+    "provider": "Dukascopy",
+    "candidate_endpoint_pattern": "https://www.dukascopy.com/datafeed/XAUUSD/YYYY/MM0/DD/HHh_ticks.bi5",
+    "format": "LZMA compressed big-endian >IIIff, legacy hourly UTC millisecond offsets",
+    "price_divisor_candidate": 1000,
+    "price_scale_cross_validation_status": "PENDING",
+    "two_sided_full_year_coverage": "NOT_VALIDATED",
+    "raw_data_redistribution": false,
+    "license_status": "Private-use terms reviewed; no republication permission claimed",
+    "mt5_import_readback": "NOT_RUN"
+  },
+  "costs": {
+    "historical_effective_dated_broker_costs": "NOT_AVAILABLE",
+    "fixed_scenario_approved_for_execution": false,
+    "commission_model": null,
+    "swap_model": null,
+    "future_cost_reserve_model": null,
+    "actual_tester_charge_reconciliation": "NOT_RUN",
+    "unknown_costs_veto": true
+  },
+  "execution": {
+    "performance_variant": "NOT_READY",
+    "successful_open_close_sl_fee_smoke": "NOT_RUN",
+    "real_tick_tester_run": "NOT_RUN",
+    "net_profit": null,
+    "profit_factor": null,
+    "trade_count": null,
+    "equity_drawdown": null,
+    "charts": "NOT_GENERATED_NO_RETURNS"
+  },
+  "source_references": [
+    "https://www.dukascopy.com/swiss/english/forex/mt4-accounts/",
+    "https://www.dukascopy.com/wiki/en/development/data-export/"
+  ],
+  "blocking_technical_evidence": [
+    "Complete validated two-sided history and scale/time reference",
+    "Explicit historical or clearly labelled fixed contract/cost model actually charged by tester",
+    "Bound future holding costs through finite frozen run endpoint",
+    "Test-only execution variant, real open-close-SL-fee smoke and full importer readback"
+  ]
+}
