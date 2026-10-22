@@ -1,3 +1,5 @@
+> **2026-10-22：** 真实离线 MQL 原生测试 **50/50 通过**；生产 EA 和测试脚本编译均为 **0 错误、0 警告**；Python／源码／API 检查 **188 项通过**。历史回测计划已准备，绩效回测仍未运行，交易锁保持不变。详见[原生测试证据](docs/NATIVE_TEST_RESULTS_20261022.md)。
+
 > **2026-10-21 latest:** Genuine signed MetaEditor 5.0.0.6274 compilation PASSED: **0 errors, 0 warnings**, fresh EX5 hash recorded. Authorized offline initialization generated the official standard library; firewall and process exit verified. Backtest/EA execution remain NOT RUN; all trading locks and risk limits remain unchanged. Earlier compilation failures below are historical. See [Windows evidence](tests/windows/CLOUD_COMPILE.md).
 
 # AnticipatoryGold AI v1：研究开发版，交易锁定
