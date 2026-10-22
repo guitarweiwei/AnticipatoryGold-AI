@@ -92,5 +92,39 @@
     "Explicit historical or clearly labelled fixed contract/cost model actually charged by tester",
     "Bound future holding costs through finite frozen run endpoint",
     "Test-only execution variant, real open-close-SL-fee smoke and full importer readback"
-  ]
+  ],
+  "reference_replay": {
+    "status": "IMPLEMENTATION_PENDING",
+    "method": "MT5_NATIVE_INDICATORS_PLUS_PYTHON_TICK_EXECUTION_REFERENCE",
+    "is_mt5_strategy_tester_performance": false,
+    "is_production_execution_ledger_validation": false,
+    "cost_model_type": "EXPLICIT_FIXED_RESEARCH_SCENARIOS_NOT_BROKER_HISTORICAL_FEES",
+    "scenarios": [
+      {
+        "name": "BASE_FIXED",
+        "commission_usd_per_lot_per_side": 20,
+        "fee_usd_per_lot_per_side": 0,
+        "swap_debit_usd_per_lot_per_rollover_long": 150,
+        "swap_debit_usd_per_lot_per_rollover_short": 150,
+        "adverse_slippage_points": 30
+      },
+      {
+        "name": "STRESS_DOUBLE",
+        "commission_usd_per_lot_per_side": 40,
+        "fee_usd_per_lot_per_side": 0,
+        "swap_debit_usd_per_lot_per_rollover_long": 300,
+        "swap_debit_usd_per_lot_per_rollover_short": 300,
+        "adverse_slippage_points": 60
+      }
+    ],
+    "rollover_policy": "00:00 UTC Wednesday 3x, Saturday/Sunday 0x, otherwise 1x; fixed hypothetical schedule, not authenticated historical broker schedule",
+    "point": 0.001,
+    "raw_bid_ask_preserved": true,
+    "spread_ceiling_points": 80,
+    "strategy_parameter_optimization": false,
+    "cost_scenarios_are_not_separate_strategy_parameter_trials": true,
+    "production_intent_risk_and_durable_journal_not_reproduced": true,
+    "production_future_cost_veto_not_validated_or_unlocked": true,
+    "all_results_not_yet_run": true
+  }
 }
