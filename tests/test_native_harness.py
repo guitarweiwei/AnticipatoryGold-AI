@@ -42,6 +42,36 @@ class NativeHarnessStructureTests(unittest.TestCase):
         self.assertIn("#define OrderSend AGNativeOrderSendBlocked", self.code)
         self.assertIn("#define OrderSendAsync AGNativeOrderSendAsyncBlocked", self.code)
 
+    def test_trade_header_binds_sentinel_before_retcode_double(self):
+        header = self.code.index("#include <Trade/Trade.mqh>")
+        production = self.code.index('#include "../../Experts/AnticipatoryGold_AI_v1.mq5"')
+        for define in ("#define OrderSend AGNativeOrderSendBlocked", "#define OrderSendAsync AGNativeOrderSendAsyncBlocked"):
+            self.assertLess(self.code.index(define), header)
+        self.assertLess(header, self.code.index("class AGNativeTrade:public CTrade"))
+        self.assertLess(self.code.index("#define CTrade AGNativeTrade"), production)
+        self.assertGreater(self.code.index("#undef CTrade"), production)
+        body = function_body(self.code, "NativeRetcodeVeto")
+        self.assertIn("VerifyOpenFill()", body)
+        self.assertIn("VerifyCloseFill()", body)
+        self.assertIn("before==after", body)
+        self.assertIn("g_intentKind==kind", body)
+        self.assertNotRegex(body, r'\b(?:OpenPosition|CloseAll|OrderSend|OrderSendAsync|AGNativeProduction\w+)\s*\(')
+
+    def test_retcode_fixture_has_a_positive_branch_control(self):
+        # A missing order alone must not make all negative-retcode tests pass.
+        # Getter access is observed without inventing a broker order or deal.
+        self.assertIn("return CTrade::ResultOrder();", self.code)
+        self.assertIn("return CTrade::ResultDeal();", self.code)
+        self.assertIn("g_nativeRetcodeReads++", self.code)
+        self.assertIn("g_nativeOrderReads++", self.code)
+        self.assertIn("g_nativeDealReads++", self.code)
+        self.assertIn('NativeRetcodeVeto("OPEN",TRADE_RETCODE_DONE,true)', self.code)
+        body = function_body(self.code, "NativeRetcodeVeto")
+        self.assertIn("g_nativeRetcodeReads=0;g_nativeOrderReads=0;g_nativeDealReads=0;", body)
+        self.assertIn("g_nativeOrderReads==1", body)
+        self.assertIn("g_nativeOrderReads==0", body)
+        self.assertIn("g_nativeDealReads==0", body)
+
     def test_io_adapter_restricts_prefix_and_avoids_common_config(self):
         adapter = function_body(self.code, "AGNativeFileOpen")
         self.assertIn('StringFind(name,g_nativePrefix)!=0', adapter)
