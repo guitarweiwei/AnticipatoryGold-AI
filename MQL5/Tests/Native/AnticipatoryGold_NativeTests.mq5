@@ -33,9 +33,12 @@ bool AGNativeOrderSendAsyncBlocked(const MqlTradeRequest &request,MqlTradeResult
 // guard is set. Only the subsequent production CTrade variable is substituted.
 #include <Trade/Trade.mqh>
 uint g_nativeResultCode=0;
+int g_nativeRetcodeReads=0,g_nativeOrderReads=0,g_nativeDealReads=0;
 class AGNativeTrade:public CTrade {
  public:
-  uint ResultRetcode(void) const {return g_nativeResultCode;}
+  uint ResultRetcode(void) const {g_nativeRetcodeReads++;return g_nativeResultCode;}
+  ulong ResultOrder(void) const {g_nativeOrderReads++;return CTrade::ResultOrder();}
+  ulong ResultDeal(void) const {g_nativeDealReads++;return CTrade::ResultDeal();}
 };
 #define CTrade AGNativeTrade
 #include "../../Experts/AnticipatoryGold_AI_v1.mq5"
@@ -87,17 +90,21 @@ void NativeReset(string id){
  g_scopeLock=FileOpen(g_statePath+".lock",FILE_READ|FILE_WRITE|FILE_BIN);
 }
 bool NativeSeedJournal(){return g_scopeLock!=INVALID_HANDLE&&PublishRecord(JournalPath()+".started","AG3_STARTED|"+g_stateKey)&&SaveExecutionJournal();}
-bool NativeRetcodeVeto(string kind,uint retcode){
+bool NativeRetcodeVeto(string kind,uint retcode,bool doneControl=false){
  NativeReset("retcode_"+kind+"_"+IntegerToString((long)retcode));
  g_intentKind=kind;g_intentDirection=kind=="OPEN"?1:-1;
  g_intentVolume=0.01;g_intentEntry=2000;g_intentStop=1990;g_intentRisk=10;g_intentTicket=123;
  bool seeded=NativeSeedJournal();string before,after;
  bool readBefore=ReadOneRecord(JournalPath(),before);g_nativeResultCode=retcode;
+ g_nativeRetcodeReads=0;g_nativeOrderReads=0;g_nativeDealReads=0;
  // These are the actual production verifier functions, with only retcode
  // supplied by a test double. No order/deal/fill or broker fault is generated.
  bool accepted=kind=="OPEN"?VerifyOpenFill():VerifyCloseFill();
  bool readAfter=ReadOneRecord(JournalPath(),after);g_nativeResultCode=0;
- return seeded&&readBefore&&readAfter&&!accepted&&g_intentKind==kind&&before==after&&!g_riskHalt&&g_nativeSendAttempts==0;
+ // Negative retcodes must reject BEFORE touching order/deal getters. The DONE
+ // control must reach the real zero-order getter, proving branch discrimination.
+ bool branch=doneControl?(g_nativeRetcodeReads==1&&g_nativeOrderReads==1&&g_nativeDealReads==0):(g_nativeRetcodeReads==1&&g_nativeOrderReads==0&&g_nativeDealReads==0);
+ return seeded&&readBefore&&readAfter&&!accepted&&branch&&g_intentKind==kind&&before==after&&!g_riskHalt&&g_nativeSendAttempts==0;
 }
 void NativeSummary(){
  string line="{\"type\":\"summary\",\"schema_version\":1,\"total\":"+IntegerToString(g_nativeTotal)+",\"passed\":"+IntegerToString(g_nativePassed)+",\"failed\":"+IntegerToString(g_nativeTotal-g_nativePassed)+",\"send_attempts\":"+IntegerToString(g_nativeSendAttempts)+",\"denied_file_opens\":"+IntegerToString(g_nativeDeniedFiles)+",\"broker_fault_tests\":\"NOT_RUN\",\"performance_backtest\":\"NOT_RUN\"}";
@@ -185,6 +192,7 @@ void OnStart(){
  NativeCase("CLOSE_TIMEOUT_RETCODE_VETO",NativeRetcodeVeto("CLOSE",TRADE_RETCODE_TIMEOUT),"mock_retcode_only_not_broker_or_network_timeout","NATIVE-MOCKSTATE");
  NativeCase("OPEN_UNKNOWN_RETCODE_VETO",NativeRetcodeVeto("OPEN",0),"mock_unknown_retcode_no_order_or_deal","NATIVE-MOCKSTATE");
  NativeCase("CLOSE_UNKNOWN_RETCODE_VETO",NativeRetcodeVeto("CLOSE",0),"mock_unknown_retcode_no_order_or_deal","NATIVE-MOCKSTATE");
+ NativeCase("OPEN_DONE_ZERO_ORDER_CONTROL",NativeRetcodeVeto("OPEN",TRADE_RETCODE_DONE,true),"done_reaches_real_zero_order_getter_deal_not_read_pending_retained","NATIVE-MOCKSTATE");
  NativeReset("costs");double bound=-1;
  NativeCase("FUTURE_COST_UNKNOWN_VETO",!FutureCostsKnown(bound),"no_verified_approved_costs","NATIVE-GUARD");
  Signal base,out;base.direction=1;base.confidence=0.7;base.regime="TEST";base.setup="TEST";base.reason="synthetic";
