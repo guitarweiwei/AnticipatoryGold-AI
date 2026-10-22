@@ -5,6 +5,7 @@ param(
     [Parameter(Mandatory=$true)][string]$Source,
     [Parameter(Mandatory=$true)][string]$IncludeRoot,
     [Parameter(Mandatory=$true)][string]$EvidenceDirectory,
+    [string]$SourceTreeRoot = '',
     [ValidateRange(10,600)][int]$TimeoutSeconds = 120
 )
 $ErrorActionPreference = 'Stop'
@@ -33,7 +34,9 @@ try {
     $work = Join-Path $evidencePath 'source'
     New-Item -ItemType Directory -Path $work | Out-Null
     # Copy sibling relative include files as well as the main mq5; never reuse ex5/log.
-    $sourceFolder = Split-Path -Parent $sourcePath
+    $sourceFolder = if ($SourceTreeRoot) { (Resolve-Path -LiteralPath $SourceTreeRoot).Path } else { Split-Path -Parent $sourcePath }
+    $relativeSource = [IO.Path]::GetRelativePath($sourceFolder, $sourcePath)
+    if ($relativeSource.StartsWith('..') -or [IO.Path]::IsPathRooted($relativeSource)) { throw 'Source must be inside SourceTreeRoot.' }
     Get-ChildItem -LiteralPath $sourceFolder -Recurse -File | Where-Object { $_.Extension -in '.mq5','.mqh' } | ForEach-Object {
         $relative = [IO.Path]::GetRelativePath($sourceFolder, $_.FullName)
         $target = Join-Path $work $relative
@@ -49,7 +52,7 @@ try {
         [ordered]@{ path = [IO.Path]::GetRelativePath($includePath,$_.FullName); sha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $_.FullName).Hash }
     })
     ConvertTo-Json -InputObject $libraryManifest -Depth 4 | Set-Content -LiteralPath (Join-Path $evidencePath 'standard-library-manifest.json') -Encoding utf8
-    $compileSource = Join-Path $work (Split-Path -Leaf $sourcePath)
+    $compileSource = Join-Path $work $relativeSource
     $nativeLog = [IO.Path]::ChangeExtension($compileSource, '.log')
     $binary = [IO.Path]::ChangeExtension($compileSource, '.ex5')
     $result.started_utc = [DateTime]::UtcNow.ToString('o')
