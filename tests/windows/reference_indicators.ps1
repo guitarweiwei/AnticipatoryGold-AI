@@ -79,6 +79,12 @@ ShutdownTerminal=1
  }
  $native=Get-Content -Raw (Join-Path $evidence 'AG_REF_INDICATORS_RESULT.json') | ConvertFrom-Json
  if ($native.passed -isnot [bool] -or -not $native.passed) { throw 'Native data/indicator result did not pass.' }
+ $deployedM1Hash=(Get-FileHash -LiteralPath (Join-Path $files 'AG_REF_M1.csv') -Algorithm SHA256).Hash
+ if ($native.input_sha256 -ne $report.input_m1_sha256 -or $native.input_sha256 -ne $deployedM1Hash) { throw 'Native input hash does not match actual source and deployed M1 bytes.' }
+ foreach ($pair in @(@('AG_REF_M5.csv','m5_rows'),@('AG_REF_H1.csv','h1_rows'))) {
+  $rows=(Get-Content -LiteralPath (Join-Path $evidence $pair[0]) | Measure-Object -Line).Lines-1
+  if ($rows -le 0 -or $rows -ne $native.($pair[1])) { throw 'Native CSV row count and result mismatch.' }
+ }
  $report.status='PASSED'
 } catch { $report.status='FAILED';$report.failure=$_.Exception.Message;throw }
 finally {
