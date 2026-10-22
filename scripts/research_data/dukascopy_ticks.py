@@ -77,7 +77,9 @@ class SameHostRedirect(urllib.request.HTTPRedirectHandler):
     def redirect_request(self, request, fp, code, msg, headers, newurl):
         old = urllib.parse.urlsplit(request.full_url)
         new = urllib.parse.urlsplit(newurl)
-        if old.hostname not in PUBLIC_HOSTS or new.hostname not in PUBLIC_HOSTS or new.scheme not in ('http', 'https'):
+        if (old.hostname not in PUBLIC_HOSTS or new.hostname not in PUBLIC_HOSTS
+                or new.scheme not in ('http', 'https') or new.username is not None
+                or new.password is not None or new.port not in (None, 443)):
             self.chain.append({'status': code, 'from': request.full_url, 'to': newurl, 'accepted': False})
             raise urllib.error.URLError('Nonofficial redirect refused; review source explicitly')
         # Some official legacy www links advertise HTTP. Upgrade transport before
