@@ -43,6 +43,7 @@
     "CLOSE_TIMEOUT_RETCODE_VETO",
     "OPEN_UNKNOWN_RETCODE_VETO",
     "CLOSE_UNKNOWN_RETCODE_VETO",
+    "OPEN_DONE_ZERO_ORDER_CONTROL",
     "FUTURE_COST_UNKNOWN_VETO",
     "DISABLED_AI_VETO_BUY",
     "DISABLED_AI_VETO_SELL",
@@ -55,6 +56,7 @@
     "Expected cases, not execution results.",
     "Production functions included with fixed clock and bar adapters, unique-prefix CSV FileOpen redirection, and no-send API sentinel.",
     "Journal reload tests do not restart the process or emulate broker partial fills.",
-    "Partial/timeout/unknown return-code cases substitute ResultRetcode only; no broker fill/timeout or caller halt is exercised."
+    "Partial/timeout/unknown return-code cases substitute ResultRetcode only; no broker fill/timeout or caller halt is exercised.",
+    "Getter-access counters distinguish non-DONE early rejection from DONE with the genuine zero-order result."
   ]
 }
