@@ -242,6 +242,7 @@ class Engine:
     def close(self,clock,bid,ask,reason):
         p=self.position
         if p is None: return
+        self.max_floating_loss=max(self.max_floating_loss,-self.basket(bid,ask))
         executable=(bid if p.direction>0 else ask)-p.direction*self.scenario.slippage_points
         if executable<=0: raise ValueError('Slippage produced nonpositive execution price')
         gross=p.direction*(executable-p.entry_units)*POINT*CONTRACT*p.lots
@@ -270,6 +271,7 @@ class Engine:
         if self.day is None:
             self.day=new_day;self.day_equity=self.equity(bid,ask);return
         if new_day<self.day: raise ValueError('UTC day moved backward')
+        if new_day==self.day: return
         for day in range(self.day+1,new_day+1):
             # Synthetic scenario charge at each UTC midnight crossed while held.
             if self.position:
