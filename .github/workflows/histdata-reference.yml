@@ -1,0 +1,103 @@
+name: Empirical HistData reference (not MT5 tester)
+on:
+  push:
+    branches: [dev/v1-p0-hardening]
+    paths:
+      - '.github/workflows/histdata-reference.yml'
+      - 'tests/windows/reference_indicators.ps1'
+      - 'MQL5/Tests/Performance/ExportReferenceIndicators.mq5'
+      - 'scripts/research_backtest/**'
+      - 'scripts/research_data/**'
+      - 'config/research/**'
+permissions:
+  contents: read
+jobs:
+  reference-replay:
+    if: contains(github.event.head_commit.message, '[histdata-reference-authorized]')
+    runs-on: windows-2022
+    timeout-minutes: 180
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
+      - name: Run data and reference execution fault tests
+        run: |
+          python -c "import hashlib,pathlib; expected={'scripts/research_backtest/reference_replay.py': 'eeaab4c644f65dcb70b067336e37fae2408f25a4153cbcdb31a44e4cfff04267', 'scripts/research_backtest/test_reference_replay.py': 'fa6b3f70b6ba818f01f5f6d295bfb83aa11a42f21f1ddf9f76c33660dd7d4f14', 'tests/windows/reference_indicators.ps1': '9916b49c0e56539bcd468c5aec6bc54917583cc57f32ec177717b2a68d245c61', 'MQL5/Tests/Performance/ExportReferenceIndicators.mq5': '9726bcf46729e187095ddae237fca8066f564dd0b84e2aae52c334df0c3f9dd1', 'scripts/research_data/fetch_histdata_frozen.py': 'ca9d7e3d1043d3ed7266ddb95e3530b902b0b52dfb44aad8e58ab968a72986db', 'scripts/research_data/histdata_source_hashes.json': '5a527d0d69c0859652619bdf944fc5007d4cea9f5045dad4f895580cd7dc6234', 'scripts/research_data/repair_histdata_duplicates.py': '661a15e98e3bcca6b1e572d36515c34d05a4a4f31f378e4c4cfdc923a21531bc', 'scripts/research_data/test_repair_histdata_duplicates.py': 'd2a5046f8d4e6f7615073614737b7a399c3783cec4a090e54d58a88d4022926c', 'scripts/research_data/frozen_histdata_input.py': '711140188be81438fe2ff749c631b54462e322a6c82eae756fe1998486ea3a1b', 'scripts/research_data/test_frozen_histdata_input.py': 'c4ba8cc2dfe0ae231eb975b5bb8066d7dd96f078606c81bcb904ad72f4095394'}; bad=[p for p,h in expected.items() if hashlib.sha256(pathlib.Path(p).read_bytes().replace(b'\r\n',b'\n')).hexdigest()!=h]; assert not bad,bad; print('Reviewed source hashes matched')"
+          if ($LASTEXITCODE -ne 0) { throw 'Reviewed source hash mismatch.' }
+          python -m unittest discover -s scripts/research_data -p 'test_*.py' -v
+          if ($LASTEXITCODE -ne 0) { throw 'Data tests failed.' }
+          python -m unittest discover -s scripts/research_backtest -p 'test_*.py' -v
+          if ($LASTEXITCODE -ne 0) { throw 'Reference engine tests failed.' }
+          foreach ($file in Get-ChildItem "$env:GITHUB_WORKSPACE/tests/windows" -Filter '*.ps1' -File) {
+            $tokens=$null; $parseErrors=$null
+            $null=[System.Management.Automation.Language.Parser]::ParseFile($file.FullName,[ref]$tokens,[ref]$parseErrors)
+            if ($parseErrors.Count -gt 0) { throw ($parseErrors | Out-String) }
+          }
+      - name: Prepare signed official native indicator runtime offline
+        run: |
+          & "$env:GITHUB_WORKSPACE/tests/windows/cloud_compile.ps1" -RepositoryRoot $env:GITHUB_WORKSPACE -EvidenceDirectory "$env:RUNNER_TEMP/reference-preparation" -AcceptMetaQuotesEula -AllowOfflineTerminalBootstrap -ApprovedInstallerSha256 'C8C0A73F86C58974DF62FB48F8256A099D6698518CF2DEFC2B3F169773729E22' -ApprovedSignerThumbprint '5A64A7AED24C33DED342D01D01FA5286F06DA6DC'
+      - name: Compile reviewed native exporter before historical acquisition
+        run: |
+          & "$env:GITHUB_WORKSPACE/tests/windows/compile.ps1" -MetaEditor "$env:RUNNER_TEMP/AnticipatoryGold-MetaQuotes/metaeditor64.exe" -Source "$env:GITHUB_WORKSPACE/MQL5/Tests/Performance/ExportReferenceIndicators.mq5" -SourceTreeRoot "$env:GITHUB_WORKSPACE/MQL5" -IncludeRoot "$env:RUNNER_TEMP/AnticipatoryGold-MetaQuotes/MQL5" -EvidenceDirectory "$env:RUNNER_TEMP/reference-exporter-precompile"
+      - name: Acquire hash-pinned HistData monthly archives privately
+        run: |
+          python scripts/research_data/fetch_histdata_frozen.py --output "$env:RUNNER_TEMP/private-reference-quotes"
+          if ($LASTEXITCODE -ne 0) { throw 'Incomplete or rate-limited acquisition: no returns computed.' }
+      - name: Build strictly conditional empirically calibrated research input
+        run: |
+          python scripts/research_data/frozen_histdata_input.py --archive-dir "$env:RUNNER_TEMP/private-reference-quotes" --output "$env:RUNNER_TEMP/AG_REF_ticks.csv" --quality "$env:RUNNER_TEMP/reference-quality.json"
+          if ($LASTEXITCODE -ne 0) { throw 'Source or empirical-input structural validation failed.' }
+          $q=Get-Content -Raw "$env:RUNNER_TEMP/reference-quality.json" | ConvertFrom-Json
+          if ($q.schema -ne 'agai.histdata-empirical-research-quality/1' -or $q.status -ne 'STRUCTURAL_CHECKS_PASSED' -or $q.rows -le 0 -or $q.expected_hours -ne 10248 -or $q.reference_scope -ne 'OBSERVED_TICKS_REFERENCE' -or $q.timebase_fully_certified -ne $false -or $q.full_2024_coverage_verified -ne $false) { throw 'Conditional research metadata mismatch.' }
+          # This is deliberately NOT a full-coverage or certified-clock gate.
+          # Unknown source gaps and empirical clock limitations must survive in results.
+      - name: Derive bid M1 bars without filling missing minutes
+        run: |
+          python scripts/research_backtest/reference_replay.py prepare-m1 --ticks "$env:RUNNER_TEMP/AG_REF_ticks.csv" --output "$env:RUNNER_TEMP/AG_REF_M1.csv" --metadata "$env:RUNNER_TEMP/reference-m1-metadata.json"
+          if ($LASTEXITCODE -ne 0) { throw 'M1 derivation failed.' }
+      - name: Export original MT5 indicators offline without orders
+        run: |
+          & "$env:GITHUB_WORKSPACE/tests/windows/reference_indicators.ps1" -RepositoryRoot $env:GITHUB_WORKSPACE -InstallationDirectory "$env:RUNNER_TEMP/AnticipatoryGold-MetaQuotes" -M1File "$env:RUNNER_TEMP/AG_REF_M1.csv" -EvidenceDirectory "$env:RUNNER_TEMP/reference-native" -ExplicitUserAuthorization
+          $native=Get-Content -Raw "$env:RUNNER_TEMP/reference-native/AG_REF_INDICATORS_RESULT.json" | ConvertFrom-Json
+          $m1=Get-Content -Raw "$env:RUNNER_TEMP/reference-m1-metadata.json" | ConvertFrom-Json
+          $quality=Get-Content -Raw "$env:RUNNER_TEMP/reference-quality.json" | ConvertFrom-Json
+          if ($native.input_sha256 -ne $m1.m1_sha256 -or $native.m1_bars -ne $m1.m1_count -or $m1.source_ticks_sha256 -ne $quality.normalized_sha256 -or $m1.tick_count -ne $quality.rows -or $native.h1_rows -le 500 -or $native.m5_rows -le 500) { throw 'Native and source data binding mismatch.' }
+      - name: Execute frozen Python quote scenarios using native indicators
+        run: |
+          python scripts/research_backtest/reference_replay.py replay --ticks "$env:RUNNER_TEMP/AG_REF_ticks.csv" --m5 "$env:RUNNER_TEMP/reference-native/AG_REF_M5.csv" --h1 "$env:RUNNER_TEMP/reference-native/AG_REF_H1.csv" --quality "$env:RUNNER_TEMP/reference-quality.json" --output "$env:RUNNER_TEMP/reference-results"
+          if ($LASTEXITCODE -ne 0) { throw 'Reference replay failed validity checks.' }
+          python -c "import json,pathlib,os; root=pathlib.Path(os.environ['RUNNER_TEMP']); p=root/'reference-results/summary.json'; r=json.loads(p.read_text()); q=json.loads((root/'reference-quality.json').read_text()); assert r['status']=='REFERENCE_REPLAY_COMPLETED' and q['timebase_fully_certified'] is False; r.update(reference_scope='CONDITIONAL_OBSERVED_TICKS_RESEARCH',full_2024_coverage_verified=False,source_provider=q['source_provider'],source_data_review={k:q[k] for k in ['coverage_status','timebase_status','timebase_rule','timebase_evidence','source_gap_review_status','unobserved_hour_count','first_utc_msc','last_utc_msc','whitelisted_exact_duplicate_repairs']}); r['limitations'].insert(0,'HistData research input uses empirical summer +4h / other +5h clock conversion and exact duplicate-block repair. Full-window clock and source-gap coverage are NOT certified. This is a conditional observed-ticks proxy, not complete broker or MT5 Strategy Tester performance.'); p.write_text(json.dumps(r,indent=2)+'\n',encoding='utf-8')"
+          if ($LASTEXITCODE -ne 0) { throw 'Conditional source limitations could not be attached to results.' }
+          "Conditional HistData clock-calibrated observed-tick research. **NOT an MT5 Strategy Tester run; full source coverage and clock are NOT certified.** No production trading." | Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY
+      - name: Preserve metadata and derived study results only
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: histdata-reference-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/reference-preparation/preflight-result.json
+            ${{ runner.temp }}/reference-preparation/offline-bootstrap/offline-bootstrap-result.json
+            ${{ runner.temp }}/reference-preparation/compile/compile-result.json
+            ${{ runner.temp }}/reference-exporter-precompile/compile-result.json
+            ${{ runner.temp }}/reference-exporter-precompile/source-manifest.json
+            ${{ runner.temp }}/reference-exporter-precompile/metaeditor.log
+            ${{ runner.temp }}/private-reference-quotes/acquisition.json
+            ${{ runner.temp }}/reference-quality.json
+            ${{ runner.temp }}/reference-m1-metadata.json
+            ${{ runner.temp }}/reference-native/native-indicators-run.json
+            ${{ runner.temp }}/reference-native/AG_REF_INDICATORS_RESULT.json
+            ${{ runner.temp }}/reference-native/indicators.ini
+            ${{ runner.temp }}/reference-native/compile/compile-result.json
+            ${{ runner.temp }}/reference-native/compile/source-manifest.json
+            ${{ runner.temp }}/reference-native/compile/metaeditor.log
+            ${{ runner.temp }}/reference-native/logs/*.log
+            ${{ runner.temp }}/reference-native/MQL5/Logs/*.log
+            ${{ runner.temp }}/reference-results/summary.json
+            ${{ runner.temp }}/reference-results/failure.json
+            ${{ runner.temp }}/reference-results/*/equity.csv
+            ${{ runner.temp }}/reference-results/*/trades.csv
+          if-no-files-found: error
+          retention-days: 7

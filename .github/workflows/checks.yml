@@ -1,0 +1,24 @@
+name: Python and static safety checks
+on:
+  pull_request:
+  push:
+    branches-ignore: [main, master]
+permissions:
+  contents: read
+jobs:
+  deterministic-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: mac_ai/requirements.txt
+      - name: Install Python requirements
+        run: python -m pip install -r mac_ai/requirements.txt pytest
+      - name: Run offline Python tests and MQL5 source checks
+        run: python tests/run_checks.py

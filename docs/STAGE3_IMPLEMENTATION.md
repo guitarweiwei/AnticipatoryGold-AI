@@ -1,0 +1,41 @@
+# Stage 3 — authorized data, lifecycle and ledger implementation
+
+Status: research source behind unchanged execution locks. The user authorized items 1–3 of the proposed next steps on 2026-10-21: data validity, durable order/fill reconciliation, and basket cash/cost accounting. This does not authorize risk-policy changes, trade unlocks, MetaQuotes EULA acceptance, software installation, merge or live/demo execution.
+
+## 1. Data validity and explicit protocol migration
+
+CSV schema 2 preserves original observation times for DXY, US10Y and real yields, plus calendar observation and valid-until timestamps. Assembled and numeric-source ages are checked separately against the existing 15-minute limit at every consumption. Calendar expiry is checked independently, using the declared interval. A new assembled timestamp cannot renew older source evidence. Exact-second UTC Z timestamps, finite unquoted decimal fields, a single row and all 12 fields are required; old five-column CSV is rejected.
+
+The manual publisher verifies the archived manifest's source, instrument, units, observation window, license note and observed/published/received ordering, matches original timestamps/expiry to CSV, and verifies SHA256 of sorted-key compact ensure_ascii JSON with no newline. It flushes and replaces one validity artifact. The consumer checks the digest's shape, not the source's truthfulness or archive availability. Neither a hash nor a current timestamp proves licensed/live observations; those are still release gates. Sample data remains expired and news-blocked.
+
+API 1.1 requires nested macro version 2, uses the shared Python consumer policy, rejects old schemas and rejects candidate/canonical mismatches before the model call. After the provider await it checks original request validity again, re-reads canonical data and rejects expired, unavailable, blocked or changed observations. Real models are not called by the tests. The EA online advisory integration remains an unconditional veto; JSON protocol/runtime parity is not established by these changes.
+
+MQL5 `ClosedRates` requests the complete closed-bar window using shift 1. It checks copy count, synchronization, ordering, OHLC positivity/finite/EMPTY_VALUE, candle bounds, current-bar consistency and closure. Indicator values also reject EMPTY_VALUE/nonfinite data. Original trend/squeeze/ADX/level formulas and coefficients remain unchanged. Legal weekend gaps are retained. This validates selected source wiring, not broker history completeness or runtime absence of lookahead; monthly/nondefault timeframe semantics still require actual validation.
+
+## 2. Durable intents and conservative reconciliation
+
+`MQL5/Experts/Include/ResearchLifecycle.mqh` adds the execution journal scoped by the existing exclusive AG2 lock. Before opening, the closed-bar identity and intended direction/volume/entry/SL/price-risk are persisted; before closing, the target position identifier and volume are persisted. The same or older consumed bar cannot send again. Serialization is checksummed, staged, flushed and read back before publication and afterwards.
+
+A retained OPEN/CLOSE intent, pending order, corrupt/missing initialized journal, incomplete write or ambiguous history fails closed. Restart never resends a pending intent or automatically clears a halt. The implementation inspects complete fills, order/deal/position correlation, expected volume, direction, actual entry/SL and modeled price loss. Partial fills and ambiguous/rejected responses retain the intent and halt for review, without top-ups or automatic retries. Persisted position IDs, entry-order IDs, volumes, stops and risk ceilings enable subsequent ledger checks. Unknown property reads are failures, not default zero evidence.
+
+New files beneath the existing local tester state path include `.execution`, `.execution.started`, staged `.tmp` files and per-basket `.closed` archives. A scope that already has AG2 risk state but no execution journal is rejected; there is no silent migration/rebasing. Preserve its files. A new deliberately isolated test run may use a fresh run ID and flat dedicated test account as already documented in MQL5/STAGE2.md; this is not permission to discard an existing halt or account exposure.
+
+Storage ordering remains unverified on Windows/hardware failure. Checksums detect accidental corruption, not adversarial editing. Journals are per symbol/magic/test-run scope, not a coordinated multi-EA account-wide transaction service. No operator reset or pending-intent recovery tool is provided.
+
+## 3. Complete known cash flows and unknown future costs
+
+The supported hedging lifecycle is rebuilt from every registered position's entry and exit deals, including fully closed positions while the basket remains active. Signed realized profit, commission, fee and swap are counted once. Only remaining open POSITION_PROFIT and POSITION_SWAP are added to current basket valuation; entry fees are not added twice. Expected entry volumes and live residuals are checked in broker volume-step integer units. Reversals/close-by and unallocated cash/charges are unsupported and reject; incomplete/truncated or mismatched history does not mean zero cost.
+
+Risk budgeting separately accumulates negative realized profit and negative commission/fee/swap per deal. Realized gains, rebates and positive swaps never offset those recorded debits or prospective stop exposure. Remaining original-entry-to-SL loss and negative open swap are added using the existing basket ceiling. After a fully closed basket is reconciled and risk checked, an exact verified final archive is published before retiring its active membership; consumed-bar state remains. Failed retirement or conflicting archives halt.
+
+`FutureCostBudget` carries explicit authorized/verified/known flags, currency, validity and provenance. No setter, file loader or approved broker-cost assumption exists. Its flags remain false; a second unconditional budget veto is retained. Consequently all candidates still fail, even if their known price/cost calculations fit. This implements an honest unknown-cost interface; it does not produce a verified future-cost bound, guaranteed loss cap, slippage bound or broker fee schedule.
+
+## Verification and remaining gates
+
+Actual test outcomes are in docs/VALIDATION_RESULTS.md. Python reference fixtures illustrate independent transaction/ledger policies using synthetic Decimal amounts and injected abstract storage faults; they do not execute the MQL implementation or prove filesystem/broker equivalence. Selected source tests verify guard placement only. Actual MetaEditor compilation, MT5 execution, PowerShell, broker costs, licensed data, provider calls and Windows crash/partial-fill tests remain NOT RUN.
+
+Before any trading-test unlock: obtain genuine compiler evidence; exercise state corruption/torn writes, lost acknowledgements, multi-deal/partial fills, missing/changed SL, duplicate signals and fees on Windows; verify broker history coverage/cost attribution; implement reviewed prospective costs and quote freshness policy; review active strict EA/API parsing and real historical replay. Any important policy change or unlock requires user confirmation. Existing 35 EA inputs, 2×M5 ATR policy, 75 daily loss, 35 basket loss, 5% initial-equity drawdown and all lot/risk ceilings remain unchanged. No merge or live/demo execution occurred.
+
+## Independent source-review disposition
+
+The independent risk auditor reran175 checks successfully and approved presentation of an execution-disabled research PR only. The reviewer challenged exposure enumeration, property-read failures, signed net-cash offsets, step-volume precision, order correlation and exit-cost checks before archive; those source issues were corrected while preserving all locks. Frozen source hashes and exact test categories are recorded in VALIDATION_RESULTS.md. No source review constitutes trading or release approval.

@@ -1,0 +1,6 @@
+
+
+D:\a\_temp\metaquotes-compile-evidence\compile\source\AnticipatoryGold_AI_v1.mq5 : information: compiling D:\a\_temp\metaquotes-compile-evidence\compile\source\AnticipatoryGold_AI_v1.mq5
+D:\a\_temp\metaquotes-compile-evidence\compile\source\AnticipatoryGold_AI_v1.mq5 : information: including D:\a\_temp\AnticipatoryGold-MetaQuotes\MQL5\Include\Trade\Trade.mqh
+D:\a\_temp\metaquotes-compile-evidence\compile\source\AnticipatoryGold_AI_v1.mq5(8,10) : error 106: file 'Include\Trade\Trade.mqh' not found
+Result: 1 errors, 0 warnings

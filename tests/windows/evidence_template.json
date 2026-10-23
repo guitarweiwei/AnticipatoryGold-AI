@@ -1,0 +1,14 @@
+{
+  "status": "NOT RUN",
+  "source_commit": null,
+  "source_sha256": null,
+  "metaeditor": {"status": "NOT RUN", "build": null, "errors": null, "warnings": null, "log_file": null},
+  "mt5": {"status": "NOT RUN", "build": null, "broker_symbol": null, "symbol_spec_file": null, "account_mode": null, "account_currency": null, "server_timezone": null, "tester_ini_file": null, "inputs_set_file": null, "report_file": null, "journal_file": null},
+  "data": {"from_utc": null, "to_utc": null, "tick_model": null, "data_source": null, "quality": null, "holdout_frozen_at_utc": null, "walk_forward_windows": []},
+  "costs": {"spread_model": null, "commission_model": null, "swap_model": null, "slippage_model": null},
+  "variant": null,
+  "metrics": {"status": "NOT RUN", "net_profit": null, "expectancy_per_trade": null, "profit_factor": null, "max_balance_drawdown": null, "max_equity_drawdown": null, "max_floating_drawdown": null, "worst_basket": null, "average_win": null, "average_loss": null, "time_in_market_pct": null, "peak_lots": null, "trade_count": null},
+  "stress_results": [],
+  "reviewer": null,
+  "limitations": ["No MetaEditor or MT5 runtime evidence is included in this template."]
+}

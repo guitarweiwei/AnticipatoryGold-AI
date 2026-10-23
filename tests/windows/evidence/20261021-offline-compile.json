@@ -1,0 +1,3387 @@
+{
+  "run_url": "https://github.com/guitarweiwei/AnticipatoryGold-AI/actions/runs/39680977181",
+  "artifact_sha256": "e3ae521a38b8d1f0c86b0f6e323917c84bbe6bbaf9ea3d1dfa90504a75d3b4f4",
+  "files": {
+    "preflight-result.json": {
+      "original_sha256": "63788d1626701681ba3fa1416a9fd752fdc517a7be5a11ab693f090b00197143",
+      "original_bytes": 907,
+      "json": {
+        "status": "COMPILED",
+        "compile": "PASSED - SEE REAL COMPILER LOG",
+        "backtest": "NOT RUN",
+        "installer_url": "https://download.terminal.free/cdn/web/metaquotes.ltd/mt5/mt5setup.exe",
+        "eula_url": "https://www.metaquotes.net/licenses/terminal/mt5",
+        "eula_accepted": true,
+        "source_commit": "2694ada19f94ca5bf30f4fd19c89e987c3d175e4",
+        "signer_subject": "CN=MetaQuotes Ltd., O=MetaQuotes Ltd., S=Lemesos, C=CY",
+        "signer_thumbprint": "5A64A7AED24C33DED342D01D01FA5286F06DA6DC",
+        "installer_sha256": "C8C0A73F86C58974DF62FB48F8256A099D6698518CF2DEFC2B3F169773729E22",
+        "failure": null,
+        "signature_status": "Valid",
+        "terminal_firewall_profiles_enabled": true,
+        "terminal_firewall_rule_verified": true,
+        "installer_exit_code": 1,
+        "offline_initialization": "ATTEMPTED - SEE OFFLINE REPORT",
+        "standard_library_root": "D:\\a\\_temp\\AnticipatoryGold-MetaQuotes\\MQL5"
+      }
+    },
+    "installation-files.json": {
+      "original_sha256": "1310f03441f773c1d625d688aa8016612b930438d35b98554fed1d469a60a186",
+      "original_bytes": 55552,
+      "json": [
+        {
+          "path": "MetaEditor64.exe",
+          "bytes": 118400360
+        },
+        {
+          "path": "metatester64.exe",
+          "bytes": 23788600
+        },
+        {
+          "path": "Terminal.ico",
+          "bytes": 410598
+        },
+        {
+          "path": "terminal64.exe",
+          "bytes": 130360184
+        },
+        {
+          "path": "uninstall.exe",
+          "bytes": 22902352
+        },
+        {
+          "path": "Bases\\Default\\History\\EURUSD\\2023.hcc",
+          "bytes": 9827739
+        },
+        {
+          "path": "Bases\\Default\\History\\EURUSD\\2024.hcc",
+          "bytes": 14518323
+        },
+        {
+          "path": "Bases\\Default\\History\\GBPUSD\\2023.hcc",
+          "bytes": 9913566
+        },
+        {
+          "path": "Bases\\Default\\History\\GBPUSD\\2024.hcc",
+          "bytes": 16253196
+        },
+        {
+          "path": "Bases\\Default\\History\\USDCHF\\2023.hcc",
+          "bytes": 9907746
+        },
+        {
+          "path": "Bases\\Default\\History\\USDCHF\\2024.hcc",
+          "bytes": 15232056
+        },
+        {
+          "path": "Bases\\Default\\History\\USDJPY\\2023.hcc",
+          "bytes": 9909846
+        },
+        {
+          "path": "Bases\\Default\\History\\USDJPY\\2024.hcc",
+          "bytes": 16251036
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.arabic.welcome",
+          "bytes": 19942
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.bengali.welcome",
+          "bytes": 20130
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.bulgarian.welcome",
+          "bytes": 21180
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.chinese (simplified).welcome",
+          "bytes": 18886
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.chinese (traditional).welcome",
+          "bytes": 17936
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.croatian.welcome",
+          "bytes": 19652
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.czech.welcome",
+          "bytes": 20704
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.danish.welcome",
+          "bytes": 19536
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.default.welcome",
+          "bytes": 20864
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.dutch.welcome",
+          "bytes": 21054
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.english.welcome",
+          "bytes": 20864
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.estonian.welcome",
+          "bytes": 19854
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.finnish.welcome",
+          "bytes": 19946
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.french.welcome",
+          "bytes": 21484
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.georgian.welcome",
+          "bytes": 19924
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.german.welcome",
+          "bytes": 21256
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.greek.welcome",
+          "bytes": 20152
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.hausa.welcome",
+          "bytes": 20268
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.hebrew.welcome",
+          "bytes": 18890
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.hindi.welcome",
+          "bytes": 19470
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.hungarian.welcome",
+          "bytes": 21312
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.indonesian.welcome",
+          "bytes": 19910
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.italian.welcome",
+          "bytes": 21258
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.japanese.welcome",
+          "bytes": 19196
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.javanese.welcome",
+          "bytes": 19602
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.korean.welcome",
+          "bytes": 19988
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.latvian.welcome",
+          "bytes": 19626
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.lithuanian.welcome",
+          "bytes": 19770
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.malay.welcome",
+          "bytes": 19610
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.marathi.welcome",
+          "bytes": 19520
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.mongolian.welcome",
+          "bytes": 19702
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.persian.welcome",
+          "bytes": 19732
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.polish.welcome",
+          "bytes": 19768
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.portuguese.welcome",
+          "bytes": 21522
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.punjabi (india).welcome",
+          "bytes": 19612
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.punjabi (pakistan).welcome",
+          "bytes": 19750
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.romanian.welcome",
+          "bytes": 20162
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.russian.welcome",
+          "bytes": 21460
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.serbian.welcome",
+          "bytes": 19680
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.slovak.welcome",
+          "bytes": 20432
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.slovenian.welcome",
+          "bytes": 19638
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.spanish.welcome",
+          "bytes": 21734
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.swahili.welcome",
+          "bytes": 19800
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.swedish.welcome",
+          "bytes": 19858
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.tajik.welcome",
+          "bytes": 21030
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.tamil.welcome",
+          "bytes": 20054
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.telugu.welcome",
+          "bytes": 20720
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.thai.welcome",
+          "bytes": 19120
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.turkish.welcome",
+          "bytes": 20808
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.ukrainian.welcome",
+          "bytes": 21070
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.urdu.welcome",
+          "bytes": 19674
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.uzbek.welcome",
+          "bytes": 21100
+        },
+        {
+          "path": "Bases\\Default\\Mail\\1.welcome.vietnamese.welcome",
+          "bytes": 20632
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.arabic.welcome",
+          "bytes": 19636
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.bengali.welcome",
+          "bytes": 20226
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.bulgarian.welcome",
+          "bytes": 20622
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.chinese (simplified).welcome",
+          "bytes": 17254
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.chinese (traditional).welcome",
+          "bytes": 17278
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.croatian.welcome",
+          "bytes": 20066
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.czech.welcome",
+          "bytes": 21798
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.danish.welcome",
+          "bytes": 20600
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.dutch.welcome",
+          "bytes": 20796
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.english.welcome",
+          "bytes": 20436
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.estonian.welcome",
+          "bytes": 20488
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.finnish.welcome",
+          "bytes": 20830
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.french.welcome",
+          "bytes": 21464
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.georgian.welcome",
+          "bytes": 20520
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.german.welcome",
+          "bytes": 21418
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.greek.welcome",
+          "bytes": 20778
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.hausa.welcome",
+          "bytes": 20782
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.hebrew.welcome",
+          "bytes": 19038
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.hindi.welcome",
+          "bytes": 19976
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.hungarian.welcome",
+          "bytes": 22552
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.indonesian.welcome",
+          "bytes": 20750
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.italian.welcome",
+          "bytes": 20880
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.japanese.welcome",
+          "bytes": 17960
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.javanese.welcome",
+          "bytes": 19980
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.korean.welcome",
+          "bytes": 18124
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.latvian.welcome",
+          "bytes": 20298
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.lithuanian.welcome",
+          "bytes": 20154
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.malay.welcome",
+          "bytes": 20300
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.marathi.welcome",
+          "bytes": 19738
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.mongolian.welcome",
+          "bytes": 20396
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.persian.welcome",
+          "bytes": 20286
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.polish.welcome",
+          "bytes": 20496
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.portuguese.welcome",
+          "bytes": 20806
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.punjabi (india).welcome",
+          "bytes": 20024
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.punjabi (pakistan).welcome",
+          "bytes": 20582
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.romanian.welcome",
+          "bytes": 21072
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.russian.welcome",
+          "bytes": 20506
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.serbian.welcome",
+          "bytes": 20082
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.slovak.welcome",
+          "bytes": 21508
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.slovenian.welcome",
+          "bytes": 20108
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.spanish.welcome",
+          "bytes": 20992
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.swahili.welcome",
+          "bytes": 20628
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.swedish.welcome",
+          "bytes": 20752
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.tamil.welcome",
+          "bytes": 21002
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.telugu.welcome",
+          "bytes": 20476
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.thai.welcome",
+          "bytes": 19248
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.turkish.welcome",
+          "bytes": 20538
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.ukrainian.welcome",
+          "bytes": 20212
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.urdu.welcome",
+          "bytes": 20552
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.uzbek.welcome",
+          "bytes": 20668
+        },
+        {
+          "path": "Bases\\Default\\Mail\\10.developers.vietnamese.welcome",
+          "bytes": 21610
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.arabic.welcome",
+          "bytes": 9606
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.bengali.welcome",
+          "bytes": 9718
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.bulgarian.welcome",
+          "bytes": 9996
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.chinese (simplified).welcome",
+          "bytes": 8550
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.chinese (traditional).welcome",
+          "bytes": 8554
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.croatian.welcome",
+          "bytes": 9644
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.czech.welcome",
+          "bytes": 10420
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.danish.welcome",
+          "bytes": 9762
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.default.welcome",
+          "bytes": 9912
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.dutch.welcome",
+          "bytes": 10206
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.english.welcome",
+          "bytes": 9912
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.estonian.welcome",
+          "bytes": 9720
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.finnish.welcome",
+          "bytes": 9986
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.french.welcome",
+          "bytes": 10278
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.georgian.welcome",
+          "bytes": 9872
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.german.welcome",
+          "bytes": 10314
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.greek.welcome",
+          "bytes": 9852
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.hausa.welcome",
+          "bytes": 9960
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.hebrew.welcome",
+          "bytes": 9220
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.hindi.welcome",
+          "bytes": 9554
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.hungarian.welcome",
+          "bytes": 10844
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.indonesian.welcome",
+          "bytes": 9942
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.italian.welcome",
+          "bytes": 10144
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.japanese.welcome",
+          "bytes": 8904
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.javanese.welcome",
+          "bytes": 9726
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.korean.welcome",
+          "bytes": 8962
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.latvian.welcome",
+          "bytes": 9736
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.lithuanian.welcome",
+          "bytes": 9786
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.malay.welcome",
+          "bytes": 9640
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.marathi.welcome",
+          "bytes": 9450
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.mongolian.welcome",
+          "bytes": 9698
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.persian.welcome",
+          "bytes": 9820
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.polish.welcome",
+          "bytes": 9758
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.portuguese.welcome",
+          "bytes": 10210
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.punjabi (india).welcome",
+          "bytes": 9536
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.punjabi (pakistan).welcome",
+          "bytes": 9612
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.romanian.welcome",
+          "bytes": 10048
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.russian.welcome",
+          "bytes": 10068
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.serbian.welcome",
+          "bytes": 9674
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.slovak.welcome",
+          "bytes": 10414
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.slovenian.welcome",
+          "bytes": 9598
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.spanish.welcome",
+          "bytes": 10378
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.swahili.welcome",
+          "bytes": 9772
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.swedish.welcome",
+          "bytes": 9944
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.tajik.welcome",
+          "bytes": 10012
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.tamil.welcome",
+          "bytes": 10082
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.telugu.welcome",
+          "bytes": 9856
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.thai.welcome",
+          "bytes": 9434
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.turkish.welcome",
+          "bytes": 9974
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.ukrainian.welcome",
+          "bytes": 9840
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.urdu.welcome",
+          "bytes": 9642
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.uzbek.welcome",
+          "bytes": 10276
+        },
+        {
+          "path": "Bases\\Default\\Mail\\2.signals.vietnamese.welcome",
+          "bytes": 10674
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.arabic.welcome",
+          "bytes": 9906
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.bengali.welcome",
+          "bytes": 9818
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.bulgarian.welcome",
+          "bytes": 10498
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.chinese (simplified).welcome",
+          "bytes": 8500
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.chinese (traditional).welcome",
+          "bytes": 8502
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.croatian.welcome",
+          "bytes": 9952
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.czech.welcome",
+          "bytes": 10600
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.danish.welcome",
+          "bytes": 10206
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.default.welcome",
+          "bytes": 10154
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.dutch.welcome",
+          "bytes": 10280
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.english.welcome",
+          "bytes": 10154
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.estonian.welcome",
+          "bytes": 10148
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.finnish.welcome",
+          "bytes": 10238
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.french.welcome",
+          "bytes": 10636
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.georgian.welcome",
+          "bytes": 10058
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.german.welcome",
+          "bytes": 10480
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.greek.welcome",
+          "bytes": 10252
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.hausa.welcome",
+          "bytes": 10376
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.hebrew.welcome",
+          "bytes": 9464
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.hindi.welcome",
+          "bytes": 9788
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.hungarian.welcome",
+          "bytes": 11472
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.indonesian.welcome",
+          "bytes": 10200
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.italian.welcome",
+          "bytes": 10356
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.japanese.welcome",
+          "bytes": 8914
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.javanese.welcome",
+          "bytes": 10088
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.korean.welcome",
+          "bytes": 8946
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.latvian.welcome",
+          "bytes": 9946
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.lithuanian.welcome",
+          "bytes": 9998
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.malay.welcome",
+          "bytes": 10024
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.marathi.welcome",
+          "bytes": 9866
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.mongolian.welcome",
+          "bytes": 10104
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.persian.welcome",
+          "bytes": 10158
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.polish.welcome",
+          "bytes": 10022
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.portuguese.welcome",
+          "bytes": 10854
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.punjabi (india).welcome",
+          "bytes": 9828
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.punjabi (pakistan).welcome",
+          "bytes": 9910
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.romanian.welcome",
+          "bytes": 10386
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.russian.welcome",
+          "bytes": 10676
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.serbian.welcome",
+          "bytes": 10020
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.slovak.welcome",
+          "bytes": 10620
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.slovenian.welcome",
+          "bytes": 9950
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.spanish.welcome",
+          "bytes": 11100
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.swahili.welcome",
+          "bytes": 10112
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.swedish.welcome",
+          "bytes": 10242
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.tajik.welcome",
+          "bytes": 10338
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.tamil.welcome",
+          "bytes": 10418
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.telugu.welcome",
+          "bytes": 10128
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.thai.welcome",
+          "bytes": 9614
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.turkish.welcome",
+          "bytes": 10258
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.ukrainian.welcome",
+          "bytes": 10284
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.urdu.welcome",
+          "bytes": 9978
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.uzbek.welcome",
+          "bytes": 10570
+        },
+        {
+          "path": "Bases\\Default\\Mail\\3.market.vietnamese.welcome",
+          "bytes": 10660
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.arabic.welcome",
+          "bytes": 17118
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.bengali.welcome",
+          "bytes": 17010
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.bulgarian.welcome",
+          "bytes": 18372
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.chinese (simplified).welcome",
+          "bytes": 17238
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.chinese (traditional).welcome",
+          "bytes": 16304
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.croatian.welcome",
+          "bytes": 16930
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.czech.welcome",
+          "bytes": 17372
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.danish.welcome",
+          "bytes": 17064
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.default.welcome",
+          "bytes": 18310
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.dutch.welcome",
+          "bytes": 18396
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.english.welcome",
+          "bytes": 18310
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.estonian.welcome",
+          "bytes": 17050
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.finnish.welcome",
+          "bytes": 17218
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.french.welcome",
+          "bytes": 18726
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.georgian.welcome",
+          "bytes": 17138
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.german.welcome",
+          "bytes": 18494
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.greek.welcome",
+          "bytes": 17258
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.hausa.welcome",
+          "bytes": 17290
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.hebrew.welcome",
+          "bytes": 16728
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.hindi.welcome",
+          "bytes": 16842
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.hungarian.welcome",
+          "bytes": 17726
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.indonesian.welcome",
+          "bytes": 17286
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.italian.welcome",
+          "bytes": 18444
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.japanese.welcome",
+          "bytes": 17518
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.javanese.welcome",
+          "bytes": 17004
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.korean.welcome",
+          "bytes": 17398
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.latvian.welcome",
+          "bytes": 17052
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.lithuanian.welcome",
+          "bytes": 17274
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.malay.welcome",
+          "bytes": 17066
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.marathi.welcome",
+          "bytes": 16806
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.mongolian.welcome",
+          "bytes": 17136
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.persian.welcome",
+          "bytes": 17184
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.polish.welcome",
+          "bytes": 17080
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.portuguese.welcome",
+          "bytes": 18476
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.punjabi (india).welcome",
+          "bytes": 16846
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.punjabi (pakistan).welcome",
+          "bytes": 16854
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.romanian.welcome",
+          "bytes": 17270
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.russian.welcome",
+          "bytes": 18386
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.serbian.welcome",
+          "bytes": 16952
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.slovak.welcome",
+          "bytes": 17412
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.slovenian.welcome",
+          "bytes": 16944
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.spanish.welcome",
+          "bytes": 18568
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.swahili.welcome",
+          "bytes": 17068
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.swedish.welcome",
+          "bytes": 17166
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.tajik.welcome",
+          "bytes": 18346
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.tamil.welcome",
+          "bytes": 17348
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.telugu.welcome",
+          "bytes": 17202
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.thai.welcome",
+          "bytes": 16790
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.turkish.welcome",
+          "bytes": 18132
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.ukrainian.welcome",
+          "bytes": 18270
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.urdu.welcome",
+          "bytes": 16850
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.uzbek.welcome",
+          "bytes": 18470
+        },
+        {
+          "path": "Bases\\Default\\Mail\\4.mobile.vietnamese.welcome",
+          "bytes": 17474
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.arabic.welcome",
+          "bytes": 8818
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.bengali.welcome",
+          "bytes": 9070
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.bulgarian.welcome",
+          "bytes": 9188
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.chinese (simplified).welcome",
+          "bytes": 8102
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.chinese (traditional).welcome",
+          "bytes": 8104
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.croatian.welcome",
+          "bytes": 9050
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.czech.welcome",
+          "bytes": 9446
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.danish.welcome",
+          "bytes": 9154
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.default.welcome",
+          "bytes": 9082
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.dutch.welcome",
+          "bytes": 9194
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.english.welcome",
+          "bytes": 9082
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.estonian.welcome",
+          "bytes": 9046
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.finnish.welcome",
+          "bytes": 8984
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.french.welcome",
+          "bytes": 9522
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.georgian.welcome",
+          "bytes": 9084
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.german.welcome",
+          "bytes": 9542
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.greek.welcome",
+          "bytes": 9304
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.hausa.welcome",
+          "bytes": 9096
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.hebrew.welcome",
+          "bytes": 8600
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.hindi.welcome",
+          "bytes": 8972
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.hungarian.welcome",
+          "bytes": 9810
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.indonesian.welcome",
+          "bytes": 9256
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.italian.welcome",
+          "bytes": 9238
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.japanese.welcome",
+          "bytes": 8276
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.javanese.welcome",
+          "bytes": 8964
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.korean.welcome",
+          "bytes": 8340
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.latvian.welcome",
+          "bytes": 9052
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.lithuanian.welcome",
+          "bytes": 9110
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.malay.welcome",
+          "bytes": 9082
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.marathi.welcome",
+          "bytes": 8874
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.mongolian.welcome",
+          "bytes": 9024
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.persian.welcome",
+          "bytes": 9124
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.polish.welcome",
+          "bytes": 9212
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.portuguese.welcome",
+          "bytes": 9358
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.punjabi (india).welcome",
+          "bytes": 9100
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.punjabi (pakistan).welcome",
+          "bytes": 9324
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.romanian.welcome",
+          "bytes": 9354
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.russian.welcome",
+          "bytes": 9202
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.serbian.welcome",
+          "bytes": 9140
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.slovak.welcome",
+          "bytes": 9372
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.slovenian.welcome",
+          "bytes": 8918
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.spanish.welcome",
+          "bytes": 9482
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.swahili.welcome",
+          "bytes": 9042
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.swedish.welcome",
+          "bytes": 9184
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.tajik.welcome",
+          "bytes": 9140
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.tamil.welcome",
+          "bytes": 9312
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.telugu.welcome",
+          "bytes": 9046
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.thai.welcome",
+          "bytes": 8766
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.turkish.welcome",
+          "bytes": 9276
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.ukrainian.welcome",
+          "bytes": 9028
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.urdu.welcome",
+          "bytes": 9296
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.uzbek.welcome",
+          "bytes": 9252
+        },
+        {
+          "path": "Bases\\Default\\Mail\\5.freelance.vietnamese.welcome",
+          "bytes": 9796
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.arabic.welcome",
+          "bytes": 11468
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.bengali.welcome",
+          "bytes": 11296
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.bulgarian.welcome",
+          "bytes": 11844
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.chinese (simplified).welcome",
+          "bytes": 8848
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.chinese (traditional).welcome",
+          "bytes": 8922
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.croatian.welcome",
+          "bytes": 11348
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.czech.welcome",
+          "bytes": 12928
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.danish.welcome",
+          "bytes": 11398
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.default.welcome",
+          "bytes": 11478
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.dutch.welcome",
+          "bytes": 11838
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.english.welcome",
+          "bytes": 11478
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.estonian.welcome",
+          "bytes": 11918
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.finnish.welcome",
+          "bytes": 12368
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.french.welcome",
+          "bytes": 12366
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.georgian.welcome",
+          "bytes": 11796
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.german.welcome",
+          "bytes": 12184
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.greek.welcome",
+          "bytes": 12160
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.hausa.welcome",
+          "bytes": 11852
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.hebrew.welcome",
+          "bytes": 10618
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.hindi.welcome",
+          "bytes": 11276
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.hungarian.welcome",
+          "bytes": 13682
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.indonesian.welcome",
+          "bytes": 11692
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.italian.welcome",
+          "bytes": 12116
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.japanese.welcome",
+          "bytes": 9530
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.javanese.welcome",
+          "bytes": 11418
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.korean.welcome",
+          "bytes": 9554
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.latvian.welcome",
+          "bytes": 11674
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.lithuanian.welcome",
+          "bytes": 11608
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.malay.welcome",
+          "bytes": 11574
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.marathi.welcome",
+          "bytes": 11308
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.mongolian.welcome",
+          "bytes": 11600
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.persian.welcome",
+          "bytes": 11184
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.polish.welcome",
+          "bytes": 11568
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.portuguese.welcome",
+          "bytes": 12468
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.punjabi (india).welcome",
+          "bytes": 11154
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.punjabi (pakistan).welcome",
+          "bytes": 11398
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.romanian.welcome",
+          "bytes": 12632
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.russian.welcome",
+          "bytes": 12370
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.serbian.welcome",
+          "bytes": 11362
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.slovak.welcome",
+          "bytes": 12782
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.slovenian.welcome",
+          "bytes": 11418
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.spanish.welcome",
+          "bytes": 12908
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.swahili.welcome",
+          "bytes": 11784
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.swedish.welcome",
+          "bytes": 12098
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.tajik.welcome",
+          "bytes": 11928
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.tamil.welcome",
+          "bytes": 12066
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.telugu.welcome",
+          "bytes": 11666
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.thai.welcome",
+          "bytes": 10930
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.turkish.welcome",
+          "bytes": 11578
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.ukrainian.welcome",
+          "bytes": 11606
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.urdu.welcome",
+          "bytes": 11382
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.uzbek.welcome",
+          "bytes": 11824
+        },
+        {
+          "path": "Bases\\Default\\Mail\\6.virtualhosting.vietnamese.welcome",
+          "bytes": 13152
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.arabic.welcome",
+          "bytes": 8236
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.bengali.welcome",
+          "bytes": 8868
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.bulgarian.welcome",
+          "bytes": 9266
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.chinese (simplified).welcome",
+          "bytes": 6416
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.chinese (traditional).welcome",
+          "bytes": 6416
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.croatian.welcome",
+          "bytes": 9000
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.czech.welcome",
+          "bytes": 9874
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.danish.welcome",
+          "bytes": 9226
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.default.welcome",
+          "bytes": 9080
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.dutch.welcome",
+          "bytes": 9238
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.english.welcome",
+          "bytes": 9080
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.estonian.welcome",
+          "bytes": 8876
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.finnish.welcome",
+          "bytes": 9598
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.french.welcome",
+          "bytes": 10092
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.georgian.welcome",
+          "bytes": 9348
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.german.welcome",
+          "bytes": 9666
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.greek.welcome",
+          "bytes": 9528
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.hausa.welcome",
+          "bytes": 9220
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.hebrew.welcome",
+          "bytes": 8088
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.hindi.welcome",
+          "bytes": 8916
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.hungarian.welcome",
+          "bytes": 10860
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.indonesian.welcome",
+          "bytes": 9278
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.italian.welcome",
+          "bytes": 9566
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.japanese.welcome",
+          "bytes": 6976
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.javanese.welcome",
+          "bytes": 8910
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.korean.welcome",
+          "bytes": 7138
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.latvian.welcome",
+          "bytes": 8990
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.lithuanian.welcome",
+          "bytes": 9052
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.malay.welcome",
+          "bytes": 9216
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.marathi.welcome",
+          "bytes": 8724
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.mongolian.welcome",
+          "bytes": 9122
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.persian.welcome",
+          "bytes": 8574
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.polish.welcome",
+          "bytes": 9218
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.portuguese.welcome",
+          "bytes": 9504
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.punjabi (india).welcome",
+          "bytes": 8996
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.punjabi (pakistan).welcome",
+          "bytes": 9044
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.romanian.welcome",
+          "bytes": 9916
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.russian.welcome",
+          "bytes": 9398
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.serbian.welcome",
+          "bytes": 9152
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.slovak.welcome",
+          "bytes": 9906
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.slovenian.welcome",
+          "bytes": 8934
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.spanish.welcome",
+          "bytes": 9546
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.swahili.welcome",
+          "bytes": 8832
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.swedish.welcome",
+          "bytes": 9514
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.tamil.welcome",
+          "bytes": 9364
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.telugu.welcome",
+          "bytes": 8966
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.thai.welcome",
+          "bytes": 8142
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.turkish.welcome",
+          "bytes": 9026
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.ukrainian.welcome",
+          "bytes": 9212
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.urdu.welcome",
+          "bytes": 8986
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.uzbek.welcome",
+          "bytes": 9666
+        },
+        {
+          "path": "Bases\\Default\\Mail\\7.risk-warning.vietnamese.welcome",
+          "bytes": 10244
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.arabic.welcome",
+          "bytes": 8278
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.bengali.welcome",
+          "bytes": 8318
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.bulgarian.welcome",
+          "bytes": 9690
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.chinese (simplified).welcome",
+          "bytes": 7144
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.chinese (traditional).welcome",
+          "bytes": 7146
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.croatian.welcome",
+          "bytes": 8432
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.czech.welcome",
+          "bytes": 8866
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.danish.welcome",
+          "bytes": 8522
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.default.welcome",
+          "bytes": 8472
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.dutch.welcome",
+          "bytes": 8814
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.english.welcome",
+          "bytes": 8472
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.estonian.welcome",
+          "bytes": 8766
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.finnish.welcome",
+          "bytes": 8768
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.french.welcome",
+          "bytes": 8926
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.georgian.welcome",
+          "bytes": 8592
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.german.welcome",
+          "bytes": 8814
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.greek.welcome",
+          "bytes": 8754
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.hausa.welcome",
+          "bytes": 8652
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.hebrew.welcome",
+          "bytes": 8048
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.hindi.welcome",
+          "bytes": 8410
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.hungarian.welcome",
+          "bytes": 9694
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.indonesian.welcome",
+          "bytes": 8664
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.italian.welcome",
+          "bytes": 8734
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.japanese.welcome",
+          "bytes": 7342
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.javanese.welcome",
+          "bytes": 8454
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.korean.welcome",
+          "bytes": 7476
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.latvian.welcome",
+          "bytes": 8484
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.lithuanian.welcome",
+          "bytes": 8516
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.malay.welcome",
+          "bytes": 8532
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.marathi.welcome",
+          "bytes": 8444
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.mongolian.welcome",
+          "bytes": 8562
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.persian.welcome",
+          "bytes": 8256
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.polish.welcome",
+          "bytes": 8580
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.portuguese.welcome",
+          "bytes": 9100
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.punjabi (india).welcome",
+          "bytes": 8380
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.punjabi (pakistan).welcome",
+          "bytes": 8486
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.romanian.welcome",
+          "bytes": 8924
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.russian.welcome",
+          "bytes": 8832
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.serbian.welcome",
+          "bytes": 8360
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.slovak.welcome",
+          "bytes": 8926
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.slovenian.welcome",
+          "bytes": 8402
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.spanish.welcome",
+          "bytes": 9146
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.swahili.welcome",
+          "bytes": 8538
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.swedish.welcome",
+          "bytes": 8756
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.tajik.welcome",
+          "bytes": 8620
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.tamil.welcome",
+          "bytes": 8792
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.telugu.welcome",
+          "bytes": 8674
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.thai.welcome",
+          "bytes": 8074
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.turkish.welcome",
+          "bytes": 8612
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.ukrainian.welcome",
+          "bytes": 8612
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.urdu.welcome",
+          "bytes": 8398
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.uzbek.welcome",
+          "bytes": 8838
+        },
+        {
+          "path": "Bases\\Default\\Mail\\8.reports.vietnamese.welcome",
+          "bytes": 9240
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.arabic.welcome",
+          "bytes": 7360
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.bengali.welcome",
+          "bytes": 7500
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.bulgarian.welcome",
+          "bytes": 7886
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.chinese (simplified).welcome",
+          "bytes": 6368
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.chinese (traditional).welcome",
+          "bytes": 6372
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.croatian.welcome",
+          "bytes": 7504
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.czech.welcome",
+          "bytes": 7910
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.danish.welcome",
+          "bytes": 7588
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.default.welcome",
+          "bytes": 7652
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.dutch.welcome",
+          "bytes": 7796
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.english.welcome",
+          "bytes": 7652
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.estonian.welcome",
+          "bytes": 7470
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.finnish.welcome",
+          "bytes": 7940
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.french.welcome",
+          "bytes": 8120
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.georgian.welcome",
+          "bytes": 7570
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.german.welcome",
+          "bytes": 7958
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.greek.welcome",
+          "bytes": 7748
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.hausa.welcome",
+          "bytes": 7542
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.hebrew.welcome",
+          "bytes": 7046
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.hindi.welcome",
+          "bytes": 7532
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.hungarian.welcome",
+          "bytes": 8410
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.indonesian.welcome",
+          "bytes": 7708
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.italian.welcome",
+          "bytes": 7870
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.japanese.welcome",
+          "bytes": 6702
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.javanese.welcome",
+          "bytes": 7454
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.korean.welcome",
+          "bytes": 6708
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.latvian.welcome",
+          "bytes": 7392
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.lithuanian.welcome",
+          "bytes": 7468
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.malay.welcome",
+          "bytes": 7550
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.marathi.welcome",
+          "bytes": 7432
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.mongolian.welcome",
+          "bytes": 7456
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.persian.welcome",
+          "bytes": 7606
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.polish.welcome",
+          "bytes": 7666
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.portuguese.welcome",
+          "bytes": 8180
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.punjabi (india).welcome",
+          "bytes": 7478
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.punjabi (pakistan).welcome",
+          "bytes": 7604
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.romanian.welcome",
+          "bytes": 7896
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.russian.welcome",
+          "bytes": 7798
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.serbian.welcome",
+          "bytes": 7480
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.slovak.welcome",
+          "bytes": 7960
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.slovenian.welcome",
+          "bytes": 7458
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.spanish.welcome",
+          "bytes": 8120
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.swahili.welcome",
+          "bytes": 7610
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.swedish.welcome",
+          "bytes": 7772
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.tajik.welcome",
+          "bytes": 7760
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.tamil.welcome",
+          "bytes": 7864
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.telugu.welcome",
+          "bytes": 7642
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.thai.welcome",
+          "bytes": 7266
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.turkish.welcome",
+          "bytes": 7904
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.ukrainian.welcome",
+          "bytes": 7700
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.urdu.welcome",
+          "bytes": 7586
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.uzbek.welcome",
+          "bytes": 7682
+        },
+        {
+          "path": "Bases\\Default\\Mail\\9.payments.vietnamese.welcome",
+          "bytes": 8268
+        },
+        {
+          "path": "Bases\\Default\\Symbols\\selected-0.dat",
+          "bytes": 15072
+        },
+        {
+          "path": "Bases\\Default\\Symbols\\symbols-0.dat",
+          "bytes": 4870144
+        },
+        {
+          "path": "Config\\servers.dat",
+          "bytes": 25476
+        },
+        {
+          "path": "Config\\terminal.lic",
+          "bytes": 35961
+        },
+        {
+          "path": "Profiles\\Charts\\British Pound\\chart01.chr",
+          "bytes": 4434
+        },
+        {
+          "path": "Profiles\\Charts\\British Pound\\chart02.chr",
+          "bytes": 4432
+        },
+        {
+          "path": "Profiles\\Charts\\British Pound\\chart03.chr",
+          "bytes": 4432
+        },
+        {
+          "path": "Profiles\\Charts\\British Pound\\chart04.chr",
+          "bytes": 4434
+        },
+        {
+          "path": "Profiles\\Charts\\British Pound\\order.wnd",
+          "bytes": 106
+        },
+        {
+          "path": "Profiles\\Charts\\Default\\chart01.chr",
+          "bytes": 2766
+        },
+        {
+          "path": "Profiles\\Charts\\Default\\chart02.chr",
+          "bytes": 2766
+        },
+        {
+          "path": "Profiles\\Charts\\Default\\chart03.chr",
+          "bytes": 3174
+        },
+        {
+          "path": "Profiles\\Charts\\Default\\chart04.chr",
+          "bytes": 3050
+        },
+        {
+          "path": "Profiles\\Charts\\Default\\order.wnd",
+          "bytes": 106
+        },
+        {
+          "path": "Profiles\\Charts\\Euro\\chart01.chr",
+          "bytes": 4434
+        },
+        {
+          "path": "Profiles\\Charts\\Euro\\chart02.chr",
+          "bytes": 4432
+        },
+        {
+          "path": "Profiles\\Charts\\Euro\\chart03.chr",
+          "bytes": 4432
+        },
+        {
+          "path": "Profiles\\Charts\\Euro\\chart04.chr",
+          "bytes": 4434
+        },
+        {
+          "path": "Profiles\\Charts\\Euro\\order.wnd",
+          "bytes": 106
+        },
+        {
+          "path": "Profiles\\Charts\\Market Overview\\chart01.chr",
+          "bytes": 5652
+        },
+        {
+          "path": "Profiles\\Charts\\Market Overview\\chart02.chr",
+          "bytes": 3166
+        },
+        {
+          "path": "Profiles\\Charts\\Market Overview\\chart03.chr",
+          "bytes": 3022
+        },
+        {
+          "path": "Profiles\\Charts\\Market Overview\\chart04.chr",
+          "bytes": 3168
+        },
+        {
+          "path": "Profiles\\Charts\\Market Overview\\order.wnd",
+          "bytes": 106
+        },
+        {
+          "path": "Profiles\\SymbolSets\\forex.all.set",
+          "bytes": 288
+        },
+        {
+          "path": "Profiles\\SymbolSets\\forex.crosses.set",
+          "bytes": 218
+        },
+        {
+          "path": "Profiles\\SymbolSets\\forex.major.set",
+          "bytes": 64
+        },
+        {
+          "path": "Profiles\\Templates\\ADX.tpl",
+          "bytes": 4082
+        },
+        {
+          "path": "Profiles\\Templates\\BollingerBands.tpl",
+          "bytes": 4866
+        },
+        {
+          "path": "Profiles\\Templates\\Momentum.tpl",
+          "bytes": 7214
+        },
+        {
+          "path": "Sounds\\alert.wav",
+          "bytes": 16620
+        },
+        {
+          "path": "Sounds\\alert2.wav",
+          "bytes": 20114
+        },
+        {
+          "path": "Sounds\\connect.wav",
+          "bytes": 13250
+        },
+        {
+          "path": "Sounds\\disconnect.wav",
+          "bytes": 7740
+        },
+        {
+          "path": "Sounds\\email.wav",
+          "bytes": 26758
+        },
+        {
+          "path": "Sounds\\expert.wav",
+          "bytes": 2842
+        },
+        {
+          "path": "Sounds\\news.wav",
+          "bytes": 25816
+        },
+        {
+          "path": "Sounds\\ok.wav",
+          "bytes": 2558
+        },
+        {
+          "path": "Sounds\\request.wav",
+          "bytes": 13402
+        },
+        {
+          "path": "Sounds\\stops.wav",
+          "bytes": 5212
+        },
+        {
+          "path": "Sounds\\tick.wav",
+          "bytes": 22676
+        },
+        {
+          "path": "Sounds\\timeout.wav",
+          "bytes": 20712
+        },
+        {
+          "path": "Sounds\\wait.wav",
+          "bytes": 5212
+        }
+      ]
+    },
+    "offline-bootstrap/offline-bootstrap-result.json": {
+      "original_sha256": "385df65aeae1dd1e85d695126283ff339e6ef937108cb2ad3c6fa37aa309d627",
+      "original_bytes": 475,
+      "json": {
+        "status": "OFFLINE INITIALIZATION ATTEMPTED - NOT A COMPILE OR BACKTEST RESULT",
+        "terminal_sha256": "BF906DF6D1DC321B4350956649D5132F1599AB7A9A1FF771465B659275E993C8",
+        "firewall_verified": true,
+        "account_supplied": false,
+        "expert_supplied": false,
+        "tester_started": false,
+        "trading_authorized": false,
+        "exit_verified": true,
+        "started_utc": "2026-10-21T21:43:34.6982553Z",
+        "finished_utc": "2026-10-21T21:44:04.9083272Z",
+        "failure": null
+      }
+    },
+    "offline-bootstrap/offline.ini": {
+      "original_sha256": "d68c738303aa8522f6b5f85fa7eec4ac9f5d476b02eaa884ba62b5c7c12d12d9",
+      "original_bytes": 306,
+      "decoded_utf16": "[Common]\r\nLogin=0\r\nKeepPrivate=0\r\nNewsEnable=0\r\nCertInstall=0\r\n[Experts]\r\nEnabled=0\r\nAllowLiveTrading=0\r\nAllowDllImport=0\r\n[StartUp]\r\nExpert=\r\nScript=\r\n"
+    },
+    "compile/compile-result.json": {
+      "original_sha256": "6cd15366232a8664192b213c397b76a792bdcd2048a945572f915c537baf2d55",
+      "original_bytes": 1036,
+      "json": {
+        "status": "PASSED",
+        "source_commit": "2694ada19f94ca5bf30f4fd19c89e987c3d175e4",
+        "source_sha256": "97A1C7E75B7681ED941700595E08B2F6BCFCE6AC74733F896FCA06B7785A72C5",
+        "compiler_path": "D:\\a\\_temp\\AnticipatoryGold-MetaQuotes\\metaeditor64.exe",
+        "compiler_sha256": "2506302A69DD673391A3F586CEF91DDADA16B3EEA03D902D5A4E608E8161EBA3",
+        "compiler_file_version": "5.0.0.6274",
+        "compiler_product_version": "5.0.0.6274",
+        "started_utc": "2026-10-21T21:44:06.0562015Z",
+        "finished_utc": "2026-10-21T21:44:09.6796138Z",
+        "process_exit_code": 1,
+        "errors": 0,
+        "warnings": 0,
+        "ex5_sha256": "4135628D2F73FDD2BDC486A71556FACA296203C86708664C294AEFCEAE150E31",
+        "compiler_result": "Result: 0 errors, 0 warnings, 2532 ms elapsed, cpu='X64 Regular'",
+        "failure": null,
+        "mt5_backtest": "NOT RUN",
+        "compiler_signer_subject": "CN=MetaQuotes Ltd., O=MetaQuotes Ltd., S=Lemesos, C=CY",
+        "compiler_signer_thumbprint": "5A64A7AED24C33DED342D01D01FA5286F06DA6DC",
+        "standard_library_present_before": true
+      }
+    },
+    "compile/source-manifest.json": {
+      "original_sha256": "7e5f35f924dc1559d0268b1334045807a15bfd23a591f2fdf5bb0ab1688c8ba1",
+      "original_bytes": 281,
+      "json": [
+        {
+          "path": "AnticipatoryGold_AI_v1.mq5",
+          "sha256": "97A1C7E75B7681ED941700595E08B2F6BCFCE6AC74733F896FCA06B7785A72C5"
+        },
+        {
+          "path": "Include\\ResearchLifecycle.mqh",
+          "sha256": "33947AA285AEBAFF1EB0601F2EA48C8C8531820EE6B3E1D6895B3F5D4CC10F57"
+        }
+      ]
+    },
+    "compile/standard-library-manifest.json": {
+      "original_sha256": "2c0b2b1d5db118152ed29faa8851295126260618ccb68c0ff2a3ec325315a4e3",
+      "original_bytes": 34323,
+      "json": [
+        {
+          "path": "Include\\MovingAverages.mqh",
+          "sha256": "1B4F2E671AF46E881C3A9C31F0D324CAAC165232F4987247BB2819E0E390D8C5"
+        },
+        {
+          "path": "Include\\Object.mqh",
+          "sha256": "DFAD4FDB6D1BF47CF43FCBC2882E52979459F17A776F75F250A7C32D0623AB35"
+        },
+        {
+          "path": "Include\\StdLibErr.mqh",
+          "sha256": "04BB2C47B1B04DCEB052E6DBA1F85E0330C53ABC602F341E2EA95EA1498AB28B"
+        },
+        {
+          "path": "Include\\VirtualKeys.mqh",
+          "sha256": "6EA56B99EF3713D624B8CBBBCC2066D86DD50F204A12CE9A28F54DBBCBB403A3"
+        },
+        {
+          "path": "Include\\Arrays\\Array.mqh",
+          "sha256": "2945E251C682A6BFE000E530CAF0DF19CBA544C29F4AE0DCC65850F08EB28B35"
+        },
+        {
+          "path": "Include\\Arrays\\ArrayChar.mqh",
+          "sha256": "DDC019E880A02A4D7447F81FAFF08A4D249E3ADFDA4962D894B2F442904F8D8E"
+        },
+        {
+          "path": "Include\\Arrays\\ArrayColor.mqh",
+          "sha256": "1E4109C7A573FA42F9D0989FA7B4DA90A82FD90AD79E2A58C49A2DDFE5AD0BBB"
+        },
+        {
+          "path": "Include\\Arrays\\ArrayDatetime.mqh",
+          "sha256": "BF5A3583F4A845CA97E7EE5C6C394D2B942269882B69C6432ABBF943AC36BA73"
+        },
+        {
+          "path": "Include\\Arrays\\ArrayDouble.mqh",
+          "sha256": "88206B8C69B75870B325F6C8BA16510400DA344DFE3B8F91AC7EA0C29D86B4E4"
+        },
+        {
+          "path": "Include\\Arrays\\ArrayFloat.mqh",
+          "sha256": "EF68904D3E26A98F4435A0BD860BCD53CDD34E9CA5EA4FAC0EFF081B92F0485D"
+        },
+        {
+          "path": "Include\\Arrays\\ArrayInt.mqh",
+          "sha256": "BD486D9BE621C0D48704A17D04763EBA691AD339606FAEC63AE339141DE309DE"
+        },
+        {
+          "path": "Include\\Arrays\\ArrayLong.mqh",
+          "sha256": "7CB1150249E8ECDA7EEED377DF12A18571DDFFB911DC4427DBBE735B84CA29E5"
+        },
+        {
+          "path": "Include\\Arrays\\ArrayObj.mqh",
+          "sha256": "D372820FCF77C782E54851C896DFE58C46B21FCFC478DDAE39ECB42B76663C27"
+        },
+        {
+          "path": "Include\\Arrays\\ArrayShort.mqh",
+          "sha256": "CF72DC4EBBD4CAAF424ACC95351B32B664124C4FBC976CB91B5EC447DC0F7E4B"
+        },
+        {
+          "path": "Include\\Arrays\\ArrayString.mqh",
+          "sha256": "05F81D68CD612A6430353FD11C501051A2DFCA55544E729E60BF2D26FF4A48DD"
+        },
+        {
+          "path": "Include\\Arrays\\ArrayUChar.mqh",
+          "sha256": "C6E6C3CC74502FDF5B381BB978D9BA9BE1105C566BC5F3346E1DE53657C239CE"
+        },
+        {
+          "path": "Include\\Arrays\\ArrayUInt.mqh",
+          "sha256": "A5991C2FD273A90AA8EAFAC0E45FF007733ACCC8071E97519D22F6E2A7593104"
+        },
+        {
+          "path": "Include\\Arrays\\ArrayULong.mqh",
+          "sha256": "E45738D5EEB5C11653B80C65E05D45E5DD3AEE32C8E46107F328A450ADD2955F"
+        },
+        {
+          "path": "Include\\Arrays\\ArrayUShort.mqh",
+          "sha256": "948281E7440F09B0A23AD8EDF8568DA77460B83B6D66BCA525A455839881D297"
+        },
+        {
+          "path": "Include\\Arrays\\List.mqh",
+          "sha256": "F7657AF8A8FCEA477D16B24AF699BD75E6BF21C2F9DE048DFB59A57D4A640A2B"
+        },
+        {
+          "path": "Include\\Arrays\\Tree.mqh",
+          "sha256": "B76F9B2318AE548B2E8D1DB3A1FA5B847BA5FA49F23D078EEAE69A552198F79D"
+        },
+        {
+          "path": "Include\\Arrays\\TreeNode.mqh",
+          "sha256": "5971ECAE6E63FA4364815A7352BDDEC93E787C0A65F33D7B2760088A202C8CD9"
+        },
+        {
+          "path": "Include\\Canvas\\Canvas.mqh",
+          "sha256": "D4BD7C6916104CE6CEABD31FE119E1B283658D4C639EC8B62171A2805DA84C48"
+        },
+        {
+          "path": "Include\\Canvas\\Canvas3D.mqh",
+          "sha256": "AC77CF8F3290E981F01E01B1D44876302089EF2BFC0F5E30638EDD69975E3510"
+        },
+        {
+          "path": "Include\\Canvas\\FlameCanvas.mqh",
+          "sha256": "E893F0E40B2E40D0050AC35A2FDEB478F18794981EB34FD3781DF39FC4615894"
+        },
+        {
+          "path": "Include\\Canvas\\Charts\\ChartCanvas.mqh",
+          "sha256": "163B4A53C4240CCAAFFE6A1850F902CAEE35913C1E7164A178494F22FFA12967"
+        },
+        {
+          "path": "Include\\Canvas\\Charts\\HistogramChart.mqh",
+          "sha256": "C3CA15E2E8DA6EDDE0D463772E7A7446FBFBCB7CCA57467D149B7860C3025D04"
+        },
+        {
+          "path": "Include\\Canvas\\Charts\\LineChart.mqh",
+          "sha256": "247044265C657F6ECA32EAF60A5076B187BC0090BDAD80658AC0AC3544F15B0B"
+        },
+        {
+          "path": "Include\\Canvas\\Charts\\PieChart.mqh",
+          "sha256": "FAB1D97E5A9840CDAC8335B47D77139CF8149B77B626FCF7116E1B2DAD63A162"
+        },
+        {
+          "path": "Include\\Canvas\\DX\\DXBox.mqh",
+          "sha256": "F8058D5E473E55EE5DEC9D95C083867426B84A9FCA003236045BC2027220D554"
+        },
+        {
+          "path": "Include\\Canvas\\DX\\DXBuffers.mqh",
+          "sha256": "DCF75BA6CEC8DF520D857C1484EAEF8B95AD7130908F9FAB846E06C72210AB25"
+        },
+        {
+          "path": "Include\\Canvas\\DX\\DXData.mqh",
+          "sha256": "9059CF9216DCC8240F65E69E18C29510CE0D6F6C25E22DBBF7369CCAC0F6694A"
+        },
+        {
+          "path": "Include\\Canvas\\DX\\DXDispatcher.mqh",
+          "sha256": "0534B2F6B077652039474F716C1E424CA2F9DB936CEBD9997F702C36F8B84624"
+        },
+        {
+          "path": "Include\\Canvas\\DX\\DXHandle.mqh",
+          "sha256": "864885811147D8497EC04F9DBD8062C572F63F9BD89E6D81E4D947CFB39EDA70"
+        },
+        {
+          "path": "Include\\Canvas\\DX\\DXInput.mqh",
+          "sha256": "22FCE58D55A0CBBF4A75736A432A3569ECA98253843C5DF430DC57D61CAF20D1"
+        },
+        {
+          "path": "Include\\Canvas\\DX\\DXMath.mqh",
+          "sha256": "63A9847F6692AC5826096EED25C13F3F286F6A75B0FF0D268ECC233706E9452C"
+        },
+        {
+          "path": "Include\\Canvas\\DX\\DXMesh.mqh",
+          "sha256": "41FBBFF23B778109ADA79699978D2E9F12170661AD593C14FF2400429BE0B904"
+        },
+        {
+          "path": "Include\\Canvas\\DX\\DXObject.mqh",
+          "sha256": "30C3F8957DC7ADC868F1E03FEBD4BFFB6E986AE704E6CE281E089A954FA3F979"
+        },
+        {
+          "path": "Include\\Canvas\\DX\\DXObjectBase.mqh",
+          "sha256": "2519CC800FB7B521E0E9E4986467106EEB4BCDD5F390AFBE5356F580DDAC4F50"
+        },
+        {
+          "path": "Include\\Canvas\\DX\\DXShader.mqh",
+          "sha256": "7F3FE44D6CB30F345B69EA6E3A4BFD5AA8F4638EF56625EA4B5F92A13617E473"
+        },
+        {
+          "path": "Include\\Canvas\\DX\\DXSurface.mqh",
+          "sha256": "29FF41205E1985338D831461937DBB307142469F88D16AA8793EA1C96A7E9101"
+        },
+        {
+          "path": "Include\\Canvas\\DX\\DXTexture.mqh",
+          "sha256": "C49A8957859668B6D6C91275D4ADF9A789ECA5C07241A062EC6D812CD113E455"
+        },
+        {
+          "path": "Include\\Canvas\\DX\\DXUtils.mqh",
+          "sha256": "937484656AAE04F8147F132EE6F46C1542C82817C88631DC312A2D1386209530"
+        },
+        {
+          "path": "Include\\ChartObjects\\ChartObject.mqh",
+          "sha256": "BB93B69AA4E346DA15BB0D60DBE9FD1A2E81C71187179D440BBBCD71E467C1A6"
+        },
+        {
+          "path": "Include\\ChartObjects\\ChartObjectPanel.mqh",
+          "sha256": "2BC1B2A3D3E1AA21A302645246AF15F44F2EA0CE46A970326AC00BF810C9080E"
+        },
+        {
+          "path": "Include\\ChartObjects\\ChartObjectsArrows.mqh",
+          "sha256": "2809115487F7BFC068FC74FF7A8910FE1D7A9DECA41D8B9BB3FFCA35987C5ECD"
+        },
+        {
+          "path": "Include\\ChartObjects\\ChartObjectsBmpControls.mqh",
+          "sha256": "868E79C3743C4F41A9F7BA853A3E7A04498CDC8B1B88C59F141AEFF96227E115"
+        },
+        {
+          "path": "Include\\ChartObjects\\ChartObjectsChannels.mqh",
+          "sha256": "8C7BB5067F3CC037AE214BE6F37DDDA4DA96082474568CABBC16FD9513925F8B"
+        },
+        {
+          "path": "Include\\ChartObjects\\ChartObjectsElliott.mqh",
+          "sha256": "DBC104095762A1E89868223817DB5714C8A15857A3184D24CABDA4110BD5BF05"
+        },
+        {
+          "path": "Include\\ChartObjects\\ChartObjectsFibo.mqh",
+          "sha256": "5FF60CA2CA00776929025DFEDCB5EFD5025C504569B3893633FC59542D059647"
+        },
+        {
+          "path": "Include\\ChartObjects\\ChartObjectsGann.mqh",
+          "sha256": "258A70A2EF33BF710BB36D6219E3159F973A3CCA2B08004200B2F4CF330E74EF"
+        },
+        {
+          "path": "Include\\ChartObjects\\ChartObjectsLines.mqh",
+          "sha256": "31584BB56BA188E5913C1D6D8B0A257D2B62CA24BD5AFEDBD75AD38BC7A11451"
+        },
+        {
+          "path": "Include\\ChartObjects\\ChartObjectsShapes.mqh",
+          "sha256": "E7279E91B904F54805036592E073C4375CCAB5966BE27744CD1D31EC0409F5F5"
+        },
+        {
+          "path": "Include\\ChartObjects\\ChartObjectsTxtControls.mqh",
+          "sha256": "261B1A92A84EAFDBA7CBC605B3EACCB4D8FA2A8A12BD2A9F389C5324E88C7842"
+        },
+        {
+          "path": "Include\\ChartObjects\\ChartObjectSubChart.mqh",
+          "sha256": "C85237DE01F5C403EF7D8EE569FEA135BCC07250CFB1A2208EC12DCDBEE9DE35"
+        },
+        {
+          "path": "Include\\Charts\\Chart.mqh",
+          "sha256": "B95980E797F2295711F63E7440A86E5808183DC2832BE71CF9A24B33E4325262"
+        },
+        {
+          "path": "Include\\Controls\\BmpButton.mqh",
+          "sha256": "7760F436BBA303ABD5628EA6E1B406A5CCEDECA9FD47888F210C7497983DD632"
+        },
+        {
+          "path": "Include\\Controls\\Button.mqh",
+          "sha256": "0DD1531E7EC012B7B842B02BEF6A14722C68770F87F82950E1079F16CB697DC0"
+        },
+        {
+          "path": "Include\\Controls\\CheckBox.mqh",
+          "sha256": "3E419D229EED2BCCFEA3A709FCA096DA902B13B14D79DB449111577550C145B5"
+        },
+        {
+          "path": "Include\\Controls\\CheckGroup.mqh",
+          "sha256": "37C658651825238865AAB480BCE912504512EAB27E3C1E42BA113108C8183D6A"
+        },
+        {
+          "path": "Include\\Controls\\ComboBox.mqh",
+          "sha256": "E630B70F0C5CBCA9D5BE5C4D52C2D30F3C027D6E1B336C377BC5CF469C917930"
+        },
+        {
+          "path": "Include\\Controls\\DateDropList.mqh",
+          "sha256": "C6EBCEF9C0335CCBC3ABC67483140008017B5600189A0805264557C2A608D2A1"
+        },
+        {
+          "path": "Include\\Controls\\DatePicker.mqh",
+          "sha256": "90D6D75F31800367EDCF9F269C8A7DA99D175CA8C78BD0FC7EBEF586B03C4B14"
+        },
+        {
+          "path": "Include\\Controls\\Defines.mqh",
+          "sha256": "1D42290C37ED8FD9A9BE8BA39CF19BCEE233EEC695ABD3FEEBD7BE0AA2341706"
+        },
+        {
+          "path": "Include\\Controls\\Dialog.mqh",
+          "sha256": "50011E9E518165A874BC7552BC5C7869FFCACAA4CFB7B6677D6D9350E7859B75"
+        },
+        {
+          "path": "Include\\Controls\\Edit.mqh",
+          "sha256": "C75EFD5DCF9A8C3423CDA6EEAB49C2FE0AA3F1D8EF84249F8450585B4E9955E4"
+        },
+        {
+          "path": "Include\\Controls\\Label.mqh",
+          "sha256": "EF876631599BD0586C23F2B2AC2063707A70D652AF285167DD11214FAF710228"
+        },
+        {
+          "path": "Include\\Controls\\ListView.mqh",
+          "sha256": "3C4D8149C25313CC8233AC38E99E1D862314C040806CAF669770BDBA673EBC7C"
+        },
+        {
+          "path": "Include\\Controls\\Panel.mqh",
+          "sha256": "0F3FCDBB04415AC8DE2F9DD703D04F6363E605E22B46C74CBFE495F4A330BEB3"
+        },
+        {
+          "path": "Include\\Controls\\Picture.mqh",
+          "sha256": "E792AC271010C3ED998A7AA5AD81969DF7A8B964969E9BEC352FA78677980098"
+        },
+        {
+          "path": "Include\\Controls\\RadioButton.mqh",
+          "sha256": "2F05666953D81B1080E7133C983CC195B24CD58DFD4025ED3944A1D493902AA4"
+        },
+        {
+          "path": "Include\\Controls\\RadioGroup.mqh",
+          "sha256": "0B73784946F7B4E77249BEBEFCD2199283E639B2709290395D9FFAB240E4D722"
+        },
+        {
+          "path": "Include\\Controls\\Rect.mqh",
+          "sha256": "C6A94653554997665B86A3DDE619EE5E2E04ACF4FC0165ABB1022AC858AB9F54"
+        },
+        {
+          "path": "Include\\Controls\\Scrolls.mqh",
+          "sha256": "9E25F574D19445DB5E4BAEC1846F5E0E3F16ACCE85B2CF76E46F77575FF9C703"
+        },
+        {
+          "path": "Include\\Controls\\SpinEdit.mqh",
+          "sha256": "CE0DE9DAECA9D8FE8413C3A4CF687AB159593C06C6AEBD7DF30F114A1931CFED"
+        },
+        {
+          "path": "Include\\Controls\\Wnd.mqh",
+          "sha256": "186CD7DB61713817E074C21D398CC1452CE3498C3763B13D6A6E91D4C1935646"
+        },
+        {
+          "path": "Include\\Controls\\WndClient.mqh",
+          "sha256": "C0567D56284337D8F5FB9F14F96BFD8B0E3792503D4B87E5AB464841EDAAE642"
+        },
+        {
+          "path": "Include\\Controls\\WndContainer.mqh",
+          "sha256": "4231FBD351C1D05916B0F41E45712D573EF8931C63AF34A8AC0B6811F13A1284"
+        },
+        {
+          "path": "Include\\Controls\\WndObj.mqh",
+          "sha256": "686A1917B056EA18D0847CDFD53C631CCB52A2E199FA754C84E8DDD79B8302FE"
+        },
+        {
+          "path": "Include\\Expert\\Expert.mqh",
+          "sha256": "30B4E2492D8290027DA3DD2DE96440445575D0A781650A2B36C63DBE947D208C"
+        },
+        {
+          "path": "Include\\Expert\\ExpertBase.mqh",
+          "sha256": "3C560E25F13E2B7CF747FD5901A0B96E43C8DDF2074894922B4F680D8E4EF7A4"
+        },
+        {
+          "path": "Include\\Expert\\ExpertMoney.mqh",
+          "sha256": "4C66AE4BAA7D80AF3C99249A8BF3A4048CA6491E3CE28FE07A928418E8265BFC"
+        },
+        {
+          "path": "Include\\Expert\\ExpertSignal.mqh",
+          "sha256": "85749F071AFFA3FF9DE1C415B41923494537EECD4D2F61D8A6CA377D6F1FC757"
+        },
+        {
+          "path": "Include\\Expert\\ExpertTrade.mqh",
+          "sha256": "1D408461A19D5C0FB736FE67D84437D4A737FFCB23E439D2B78EF48E94C88E4F"
+        },
+        {
+          "path": "Include\\Expert\\ExpertTrailing.mqh",
+          "sha256": "E95E0FE031681DECF912CE396BC2D8B22F1C9870EBEC09538CAC695C12B8344B"
+        },
+        {
+          "path": "Include\\Expert\\Money\\MoneyFixedLot.mqh",
+          "sha256": "77410A3A2F036A6C7CA7CC0613BB55CF1C8E6DC364C6BBF7422F6D3925E70C59"
+        },
+        {
+          "path": "Include\\Expert\\Money\\MoneyFixedMargin.mqh",
+          "sha256": "65EDD54FC05B1C959231936ECD4266A51E22298DE42BBF599531C2A044F5CAB6"
+        },
+        {
+          "path": "Include\\Expert\\Money\\MoneyFixedRisk.mqh",
+          "sha256": "605022D75D892FCEB0A8704976588F93B00311148835DE3BD2F64C6595F3E521"
+        },
+        {
+          "path": "Include\\Expert\\Money\\MoneyNone.mqh",
+          "sha256": "521FE840EBBD4EDECD8C4B0FF9292EB62FDD4B3C550913A16E751B71A8E1FB4C"
+        },
+        {
+          "path": "Include\\Expert\\Money\\MoneySizeOptimized.mqh",
+          "sha256": "2113329DC000E2A134AC6D5D0AA9CD7F3E212739F00F79DF7537D89775CB1BEF"
+        },
+        {
+          "path": "Include\\Expert\\Signal\\SignalAC.mqh",
+          "sha256": "190C11B999C1D8CF7DC4DABEECA77C418802F5963445793346B2C22574ACAE66"
+        },
+        {
+          "path": "Include\\Expert\\Signal\\SignalAMA.mqh",
+          "sha256": "52A2D3BEEBB6B4A2FB9EDFD84D069E7AECBB3375CE24A1E610010146A3DE9543"
+        },
+        {
+          "path": "Include\\Expert\\Signal\\SignalAO.mqh",
+          "sha256": "C0E8309B737434FBC57385FAF440FB0C8F1014BD2E09DFE349B8D9185AA6DF20"
+        },
+        {
+          "path": "Include\\Expert\\Signal\\SignalBearsPower.mqh",
+          "sha256": "564ABCC0C1A0DA4503B0CB5574758B81503156BEB613F3BBA952AF06616D635A"
+        },
+        {
+          "path": "Include\\Expert\\Signal\\SignalBullsPower.mqh",
+          "sha256": "7831E5A673C78DACD065022F65B2CF52DA677215B701EB6E9394A013677BBBA6"
+        },
+        {
+          "path": "Include\\Expert\\Signal\\SignalCCI.mqh",
+          "sha256": "9DE69EFE8A0BEB6A48DF4A22933F47B0AA1C412213B1D010EC8144C60ED1BF31"
+        },
+        {
+          "path": "Include\\Expert\\Signal\\SignalDEMA.mqh",
+          "sha256": "514785FBBBAAF5A39C132062496FF11581B970BDCC8A09187CE12A76652B1BDB"
+        },
+        {
+          "path": "Include\\Expert\\Signal\\SignalDeMarker.mqh",
+          "sha256": "D00B349FD40D5455BE8031E54AF53A87D3EB68FFF025ED2F5AE1072020B0BC4B"
+        },
+        {
+          "path": "Include\\Expert\\Signal\\SignalEnvelopes.mqh",
+          "sha256": "48F0F4B822F9520F3AD97D85FC546F4D1B38005FB784AE207149749A46393C60"
+        },
+        {
+          "path": "Include\\Expert\\Signal\\SignalFrAMA.mqh",
+          "sha256": "7652F6715DD3AE8285B069434A972CAB6B76EDB4AAF3B080409C2CA0CCF9286C"
+        },
+        {
+          "path": "Include\\Expert\\Signal\\SignalITF.mqh",
+          "sha256": "3F20AB4415AF9E95FB7E7F88CBF0016CC32C2E3458A1B88090DCA9070FC7E723"
+        },
+        {
+          "path": "Include\\Expert\\Signal\\SignalMA.mqh",
+          "sha256": "E6F6AD95EFE46F656CBCB8180D10D22E14C964309B8696E131C752391394C762"
+        },
+        {
+          "path": "Include\\Expert\\Signal\\SignalMACD.mqh",
+          "sha256": "91B9CB77C8620D6C76F85629D854BC27ED38C6569CAEABB73698111F61477A43"
+        },
+        {
+          "path": "Include\\Expert\\Signal\\SignalRSI.mqh",
+          "sha256": "848F84402A8E62CA9AA439FCDC7C4186C108136B8D283CBC480993F0E719F2F1"
+        },
+        {
+          "path": "Include\\Expert\\Signal\\SignalRVI.mqh",
+          "sha256": "5A7348AD0D579F62703AF346BC0D16A3F18F74F780C4F3F481FE0994EDEAF828"
+        },
+        {
+          "path": "Include\\Expert\\Signal\\SignalSAR.mqh",
+          "sha256": "90C1866597599DE75E2676ED59B9071AA49D872873934C0FC9327EA83020F023"
+        },
+        {
+          "path": "Include\\Expert\\Signal\\SignalStoch.mqh",
+          "sha256": "A1F82E4F7832218C90DBA1CD664CD6DC264EF0AC783BCF5E29650DEEF43F88C9"
+        },
+        {
+          "path": "Include\\Expert\\Signal\\SignalTEMA.mqh",
+          "sha256": "83531FA8D0980A880509D02D6E08C187EDBDB2FB4C0D4C847D2051C82F1DDDBA"
+        },
+        {
+          "path": "Include\\Expert\\Signal\\SignalTRIX.mqh",
+          "sha256": "5FB364F8038CCC7D9CE3995F856637AE01E4B7E54EB1E513502C7211A26032DE"
+        },
+        {
+          "path": "Include\\Expert\\Signal\\SignalWPR.mqh",
+          "sha256": "08F71DF2443C4E7503437B334CBC27623C069F111B4BDBDB3D3D1763A09F8129"
+        },
+        {
+          "path": "Include\\Expert\\Trailing\\TrailingFixedPips.mqh",
+          "sha256": "DF2078E0D24C620B342BC6BAA1C51370B82452309F836F58D830BD400477BFD3"
+        },
+        {
+          "path": "Include\\Expert\\Trailing\\TrailingMA.mqh",
+          "sha256": "B30E686285235B5BA4A37BA8B4049CA8E12961055EB304C82722E71A1A38911F"
+        },
+        {
+          "path": "Include\\Expert\\Trailing\\TrailingNone.mqh",
+          "sha256": "75A79819F396FC05F07CF284EE9CD6D17663ECD1E6F8F4E616DBE243E7806F14"
+        },
+        {
+          "path": "Include\\Expert\\Trailing\\TrailingParabolicSAR.mqh",
+          "sha256": "AE4E7B09534CA4DF0D8DF1A5DC9864FE718C45295A94B22094786EDEF1ED9E2B"
+        },
+        {
+          "path": "Include\\Files\\File.mqh",
+          "sha256": "8D61E0E660E008D87D686D5B20FCD7EC2D294EB3B6152022D214D55386FBF25F"
+        },
+        {
+          "path": "Include\\Files\\FileBin.mqh",
+          "sha256": "18EA9C6A3734D19E456C49594255B75417A63DCEA1265219A0373B46AA197B12"
+        },
+        {
+          "path": "Include\\Files\\FileBMP.mqh",
+          "sha256": "63F1F94E087E7FA10ED8F79A5F045306662C0FFFC5A32883C68218D248F6A783"
+        },
+        {
+          "path": "Include\\Files\\FilePipe.mqh",
+          "sha256": "D9D3E9D696F7258007081B9F2701636E53BCB2712F23A9B6BB820E44F8737CBC"
+        },
+        {
+          "path": "Include\\Files\\FileTxt.mqh",
+          "sha256": "91C9F05699FB4E1E68D65F658D0C1A3EF0D136BA30B4C301037CECF5BBC731F6"
+        },
+        {
+          "path": "Include\\Generic\\ArrayList.mqh",
+          "sha256": "225ABD626A18D272C1DB555BF931AF9303AA4A6A67E2DCB94E7842AD94DDDB71"
+        },
+        {
+          "path": "Include\\Generic\\HashMap.mqh",
+          "sha256": "F4E0BFBE3034E36A3D3BC8E4C1367508A1BA868ED6BD374C698A9A47A13F4AE6"
+        },
+        {
+          "path": "Include\\Generic\\HashSet.mqh",
+          "sha256": "510523E910AAE545708CC7C0F29265B46AFA1ED317C9C952FB38404DCBFE46E3"
+        },
+        {
+          "path": "Include\\Generic\\LinkedList.mqh",
+          "sha256": "8FAC6EA3D808592BED0054D4CF0825340F5C3997AE67E415EE61AFE4546D2B72"
+        },
+        {
+          "path": "Include\\Generic\\Queue.mqh",
+          "sha256": "3E0CCBA1E36490440748187D24810AE936A60FE025A9131D262A01E903402F82"
+        },
+        {
+          "path": "Include\\Generic\\RedBlackTree.mqh",
+          "sha256": "24BE8E5DDD49DAEC901F847A5E016D460AA267AAF035A0EC339F031D63186833"
+        },
+        {
+          "path": "Include\\Generic\\SortedMap.mqh",
+          "sha256": "1F5F6BEDFA7829BCFC703EF5BB89D2187A991DC6F49936FBBE292E289E110278"
+        },
+        {
+          "path": "Include\\Generic\\SortedSet.mqh",
+          "sha256": "0764233BFE27E43327B38E969D71AF947CD86C64571A316DBE9141B6D22B3BA6"
+        },
+        {
+          "path": "Include\\Generic\\Stack.mqh",
+          "sha256": "60F85FE955494235D560805C83359746EE3016EF80CBF7BF4A54404C1B72E676"
+        },
+        {
+          "path": "Include\\Generic\\Interfaces\\ICollection.mqh",
+          "sha256": "E14762BEC9FF9F59B7FC82B05BC015CE376E704047B1D7F90BBFB56453CE2886"
+        },
+        {
+          "path": "Include\\Generic\\Interfaces\\IComparable.mqh",
+          "sha256": "DE5E0EE72EA0F4EF177B20B5810C131C743F97749CFE3C9A4C365B7D648A3C88"
+        },
+        {
+          "path": "Include\\Generic\\Interfaces\\IComparer.mqh",
+          "sha256": "DEF9E6C22A00C5F42AF7C11AE421CAE066D4942AC06E1F18567CDA92D9B63127"
+        },
+        {
+          "path": "Include\\Generic\\Interfaces\\IEqualityComparable.mqh",
+          "sha256": "03171BFB29C7CA36823D978F32DAB4BB4B9240426F8B0FBE3B9D5A7751A472C9"
+        },
+        {
+          "path": "Include\\Generic\\Interfaces\\IEqualityComparer.mqh",
+          "sha256": "D4C744F2740DBD7D2FB5D1FEE4F6CDA03231AF6837D350F8024EDA6473D530FD"
+        },
+        {
+          "path": "Include\\Generic\\Interfaces\\IList.mqh",
+          "sha256": "B50C9708E6EE9B63453A998C50667E1C7CB49D2F2DD0A159D2354E8957133068"
+        },
+        {
+          "path": "Include\\Generic\\Interfaces\\IMap.mqh",
+          "sha256": "AB0E8C7AE3E5D34E43D6CD2F9623E56B7020897192541C42220B3D53D813C312"
+        },
+        {
+          "path": "Include\\Generic\\Interfaces\\ISet.mqh",
+          "sha256": "D491B2B5AF32C7F285FB8355BDAEE3C3DF51D497D62C5B26183AEB64F6CB4CCF"
+        },
+        {
+          "path": "Include\\Generic\\Internal\\ArrayFunction.mqh",
+          "sha256": "FB4DDB10C53BB6D0C4BB6E541B28A2ED574D988D77BFE396F7EA6B5F242A3513"
+        },
+        {
+          "path": "Include\\Generic\\Internal\\CompareFunction.mqh",
+          "sha256": "354707AF082C7BED145986DB1F48823068FF6F3CC109741D043EFE3A8174738D"
+        },
+        {
+          "path": "Include\\Generic\\Internal\\DefaultComparer.mqh",
+          "sha256": "A3A1175946C9D137A6B0270403AA3E7268371406B7AD1DA2646EF8A1C17ACB51"
+        },
+        {
+          "path": "Include\\Generic\\Internal\\DefaultEqualityComparer.mqh",
+          "sha256": "5FFBC048E31AC3B71EB6CE82E4A923FE293ADDB7E4D4993FA8EB3D770E64C5F0"
+        },
+        {
+          "path": "Include\\Generic\\Internal\\EqualFunction.mqh",
+          "sha256": "E8C7E159146ABCEA19E5718756032C3DA87C2906ED5B5E484EFB3B9F1D63DA4D"
+        },
+        {
+          "path": "Include\\Generic\\Internal\\HashFunction.mqh",
+          "sha256": "AC863B158C3013C9180A09EBFB1AC03FB263CD8CC5370CEC511AEBFD8C82C2B0"
+        },
+        {
+          "path": "Include\\Generic\\Internal\\Introsort.mqh",
+          "sha256": "E02880C7E024E7495645EE32A2C20BD0D19E266675996A2417F3DFC18F779DCA"
+        },
+        {
+          "path": "Include\\Generic\\Internal\\PrimeGenerator.mqh",
+          "sha256": "64A22C31FD927E23DF497FCAD3B3D7C958A30A59B9E7C4DB2F5E5D1ABA33CDF4"
+        },
+        {
+          "path": "Include\\Graphics\\Axis.mqh",
+          "sha256": "F7EDAFF3B7D7BBBC158481115DE2294042C83841C8FA9EA4C9C0DED36E9CFE2A"
+        },
+        {
+          "path": "Include\\Graphics\\ColorGenerator.mqh",
+          "sha256": "DB650A69779F29D2BFD6A5340619AC88844DF10DF879248AAFEB05081F438EE0"
+        },
+        {
+          "path": "Include\\Graphics\\Curve.mqh",
+          "sha256": "CA0F2698BE7769F02DEDA4E9B113FBD8458B4E655522CAC575902F397AB00A0D"
+        },
+        {
+          "path": "Include\\Graphics\\Graphic.mqh",
+          "sha256": "59ECCC9EEA0B5AB4FE3C2299358EA84BC68E346420E714B4E7482E4DA786E4EF"
+        },
+        {
+          "path": "Include\\Indicators\\BillWilliams.mqh",
+          "sha256": "ADD9317316AA3B8AF913E407E34C10968EC7A9B5E366DF26BB470E8FE0E471F9"
+        },
+        {
+          "path": "Include\\Indicators\\Custom.mqh",
+          "sha256": "640DAD8239615E70F5A34851FFA68D3D08ADD88C81084F8C47A8D1D2159712AC"
+        },
+        {
+          "path": "Include\\Indicators\\Indicator.mqh",
+          "sha256": "7E13BEFCF5D2897C34D93DBF7B83B39256096CAF80679400BD92C71A69BA3B26"
+        },
+        {
+          "path": "Include\\Indicators\\Indicators.mqh",
+          "sha256": "D097A0AFAB87D7D5E82E38FCAFBCB682B7110667FDBCB82C83568744EE670E07"
+        },
+        {
+          "path": "Include\\Indicators\\Oscilators.mqh",
+          "sha256": "55BBC72A57E0E56A115B230EA409D4072B6F4FDBB6F79E546BB954D2C8A691A4"
+        },
+        {
+          "path": "Include\\Indicators\\Series.mqh",
+          "sha256": "1072582C768B2E5D777E0F8947E2089C7D35C0FE328234C3DB32504BCDF764BE"
+        },
+        {
+          "path": "Include\\Indicators\\TimeSeries.mqh",
+          "sha256": "37CE77FF867EF971F5005AFFA522848EEE2E5E5D6CB17DD40366C860AF0E7EA3"
+        },
+        {
+          "path": "Include\\Indicators\\Trend.mqh",
+          "sha256": "3D710BBFB1A7A7477E5A14B468D427A57F66CF3C4B31B01B92B1B99531197E55"
+        },
+        {
+          "path": "Include\\Indicators\\Volumes.mqh",
+          "sha256": "EA6B8BD95AA9B7998E1E62255D50E24496FC179B690B4AC16FD07FEAC7DC75C7"
+        },
+        {
+          "path": "Include\\Math\\Alglib\\alglib.mqh",
+          "sha256": "12C32CE9953241E589BEAD21D1774979BE574A768F26E34E0E1D9226358C3F13"
+        },
+        {
+          "path": "Include\\Math\\Alglib\\alglibinternal.mqh",
+          "sha256": "A5763F6AFFF505E8398DABDA7FFFF01CDDC52BBAF71B51B17C292C46FEB2B5CE"
+        },
+        {
+          "path": "Include\\Math\\Alglib\\alglibmisc.mqh",
+          "sha256": "42B671BCC8D160CA30D31B1700D2EAF1DFD5F862C31F7C201C7CBFE6D5DB9398"
+        },
+        {
+          "path": "Include\\Math\\Alglib\\ap.mqh",
+          "sha256": "D86F6C8C7FA7D7E29D6AD695147E926FCF556DDD26E5189B1FC7AAC24EDA9B27"
+        },
+        {
+          "path": "Include\\Math\\Alglib\\arrayresize.mqh",
+          "sha256": "1DB599CD4677250F0876B6476B5FF1515612096B0B6FD27DDF8F2AA8D341499E"
+        },
+        {
+          "path": "Include\\Math\\Alglib\\bitconvert.mqh",
+          "sha256": "D842FEAF5EF6C7B828E45912FE9F7B4F1D721FAF224C4E550B0513D98AA1EE66"
+        },
+        {
+          "path": "Include\\Math\\Alglib\\dataanalysis.mqh",
+          "sha256": "C8455F401BDA48C81E3A90BC54DECA93DE02A16A953286B6A5D9AD71BFD03EE4"
+        },
+        {
+          "path": "Include\\Math\\Alglib\\delegatefunctions.mqh",
+          "sha256": "9E0F05159EAB49C78FFAD30584168BF1183504D0057033F7B6E13A14E5BFB773"
+        },
+        {
+          "path": "Include\\Math\\Alglib\\diffequations.mqh",
+          "sha256": "1D5C0982B079A191D663DFEBC4A387A97022B8A31E41D0FA9673A5CB0A9660F4"
+        },
+        {
+          "path": "Include\\Math\\Alglib\\fasttransforms.mqh",
+          "sha256": "330481C2E4AD3E4EDD718DE7F44EABC5F7502848ACCD78C3FE01250F9F06988A"
+        },
+        {
+          "path": "Include\\Math\\Alglib\\integration.mqh",
+          "sha256": "297DDF5EF480FE20E07EF4FD368EF03B27FEC2BFDA97A1477159C2FDB0D038B9"
+        },
+        {
+          "path": "Include\\Math\\Alglib\\interpolation.mqh",
+          "sha256": "6B348E9F45181AB5243D2D4465FBA904BC988F7EBC2D915D8C620AC6B4E570B3"
+        },
+        {
+          "path": "Include\\Math\\Alglib\\linalg.mqh",
+          "sha256": "042D6E804F8E17FA515C9CA0AB320845363F1E8A23C46DE4AB876D56F6437C77"
+        },
+        {
+          "path": "Include\\Math\\Alglib\\matrix.mqh",
+          "sha256": "3996E1462B9247C8668E47BFEABD9F09E0F73E4B81B52C361FD6AF91BB5E149A"
+        },
+        {
+          "path": "Include\\Math\\Alglib\\optimization.mqh",
+          "sha256": "B35DD0E8BDCF3E567723759EDAC1CF897DC77B3C1D381190139C47410C96F858"
+        },
+        {
+          "path": "Include\\Math\\Alglib\\solvers.mqh",
+          "sha256": "A499692C48C0F5981995B92787602FF264F1BB062D45A08F2C909F53C77FAA52"
+        },
+        {
+          "path": "Include\\Math\\Alglib\\specialfunctions.mqh",
+          "sha256": "A55BD9D9B8C5C93D7BFCB62BE70943D737098F34DDAE0E8AA3061494FB05E603"
+        },
+        {
+          "path": "Include\\Math\\Alglib\\statistics.mqh",
+          "sha256": "C953D2F48CB495FAC7ACDABF01753403F2DD427A89542CDEFB48595BD2C6410A"
+        },
+        {
+          "path": "Include\\Math\\Fuzzy\\dictionary.mqh",
+          "sha256": "39FC7A92C734AB72C0AF189517DB82D0AF7705DBC5658AA9715901DCFF765DC5"
+        },
+        {
+          "path": "Include\\Math\\Fuzzy\\fuzzyrule.mqh",
+          "sha256": "89FB72CD29295B6C48B2BB220D82D97833581F5E77D36F17104E40F21492769F"
+        },
+        {
+          "path": "Include\\Math\\Fuzzy\\fuzzyterm.mqh",
+          "sha256": "5796AA0C7D97517CB75F3D9542362D89BB22DAAD3839A2CBD1679C5DEC56301B"
+        },
+        {
+          "path": "Include\\Math\\Fuzzy\\fuzzyvariable.mqh",
+          "sha256": "E1CE74489B30290FA4F8EDFA0C1F21C94CC9463465A9F35066C4FB04467F8129"
+        },
+        {
+          "path": "Include\\Math\\Fuzzy\\genericfuzzysystem.mqh",
+          "sha256": "87FD206A401B67089B00BC1C725FC3B39234F666FF0B19B61100E71BFE0194B7"
+        },
+        {
+          "path": "Include\\Math\\Fuzzy\\helper.mqh",
+          "sha256": "8B988EB37686A317EDA844BC188C77AFDE4A113E2602E294BC6536277B858D09"
+        },
+        {
+          "path": "Include\\Math\\Fuzzy\\inferencemethod.mqh",
+          "sha256": "E797DF595B0383426D07BA66DA807630A5D45F9FD49EECC8FD6CA0621F75311B"
+        },
+        {
+          "path": "Include\\Math\\Fuzzy\\mamdanifuzzysystem.mqh",
+          "sha256": "6E44E7855B9034EC5EAACD093E70AAFE44D4A281E04E18F8F2E6FD57BD784845"
+        },
+        {
+          "path": "Include\\Math\\Fuzzy\\membershipfunction.mqh",
+          "sha256": "FB06F9D832A1E0CF8527E169B043FD5E50CFD08278C4A6E8C10B725DBED11A80"
+        },
+        {
+          "path": "Include\\Math\\Fuzzy\\ruleparser.mqh",
+          "sha256": "FDFBBBDD1FBE83CD13C8CFEF0D662E8890049760B616AE5FCCBB9596AC6925B9"
+        },
+        {
+          "path": "Include\\Math\\Fuzzy\\sugenofuzzysystem.mqh",
+          "sha256": "F69B30BEACEA2BB1D5A4976741358366670100631B307C2F5B84F83DF7374BD6"
+        },
+        {
+          "path": "Include\\Math\\Fuzzy\\sugenovariable.mqh",
+          "sha256": "FE5046CAD372529D5A809ED77979338E020FA1CB42FE358F4D881B89D59DF6CF"
+        },
+        {
+          "path": "Include\\Math\\Stat\\Beta.mqh",
+          "sha256": "50C99C766CD615F0D5069EFE348095E6C45C3F4680985178B4E6D028E2255148"
+        },
+        {
+          "path": "Include\\Math\\Stat\\Binomial.mqh",
+          "sha256": "799FFBEE800CD8635DDDE1D7CAD7EDC6A58D9810958A464DF36C9E01C909D77C"
+        },
+        {
+          "path": "Include\\Math\\Stat\\Cauchy.mqh",
+          "sha256": "C1CFE706A6FF72106EC97DC4FE5CF48CA369851D767C2A01CB66C6D3DD5615C4"
+        },
+        {
+          "path": "Include\\Math\\Stat\\ChiSquare.mqh",
+          "sha256": "A3046DF7429974F1FAEBF6BDEAB210457C31339A63F39C4537DB74A1009D6673"
+        },
+        {
+          "path": "Include\\Math\\Stat\\Exponential.mqh",
+          "sha256": "911A1E329C1E1E8D858EDE8D803DB0936945AF4691A1190A947CF90FC8083E0D"
+        },
+        {
+          "path": "Include\\Math\\Stat\\F.mqh",
+          "sha256": "6E043377C7267B8E0BE8176368D17EAD8BA999B92FE98CC71D58365668AD38C8"
+        },
+        {
+          "path": "Include\\Math\\Stat\\Gamma.mqh",
+          "sha256": "F7C9771D763BB47A77C968DBB84167367A0A949978F27A3FC7D9339A24CF215C"
+        },
+        {
+          "path": "Include\\Math\\Stat\\Geometric.mqh",
+          "sha256": "4ED44AF7871049B019490B1B97BE9E6C0DDD530D4AF5ECD1BB8728433DB7CD72"
+        },
+        {
+          "path": "Include\\Math\\Stat\\Hypergeometric.mqh",
+          "sha256": "1F6FCBDEFCD353C1AF2D79C273E0F93BE63AA64495F2628F419ADCE2EF6DE109"
+        },
+        {
+          "path": "Include\\Math\\Stat\\Logistic.mqh",
+          "sha256": "A3576780CDFB7A778FC26390FBD8D8CE8C3BBF13B79479C36CDE038B38EE13C7"
+        },
+        {
+          "path": "Include\\Math\\Stat\\Lognormal.mqh",
+          "sha256": "ECC7AEB5A36D0FEAAC27B4DA54AA2EFB1E56B4BFFDF5A8912AD467290641976B"
+        },
+        {
+          "path": "Include\\Math\\Stat\\Math.mqh",
+          "sha256": "BE94394DEFD24E590F09B3CFAC53B925CCEA47AEE7E24939C71F40DEE0A8B795"
+        },
+        {
+          "path": "Include\\Math\\Stat\\NegativeBinomial.mqh",
+          "sha256": "D26A4B3022E80B2D7159C207DA037C24898506EB5DEDCEA1864F61CCAFAB307F"
+        },
+        {
+          "path": "Include\\Math\\Stat\\NoncentralBeta.mqh",
+          "sha256": "F9BA8D09375BF570D500FE55E61AB54801ACECC3E9BE818F476581162F388BDE"
+        },
+        {
+          "path": "Include\\Math\\Stat\\NoncentralChiSquare.mqh",
+          "sha256": "D557B1744ABB019707D14B606453A32F6F3BEA79DDC2A3569B2F5DBF02A5F358"
+        },
+        {
+          "path": "Include\\Math\\Stat\\NoncentralF.mqh",
+          "sha256": "C98B1CD43F7171B9A79998D82641189116BF2C1B6825931E89E9C1C75958106D"
+        },
+        {
+          "path": "Include\\Math\\Stat\\NoncentralT.mqh",
+          "sha256": "45603105F9518E280BE013E341F2126865F33F90E7D2E6251456BC51715B4BC0"
+        },
+        {
+          "path": "Include\\Math\\Stat\\Normal.mqh",
+          "sha256": "F233B1348AED9608EFDFA68035C584351B1D0FAAFD126FB758C2DCCB59F464F9"
+        },
+        {
+          "path": "Include\\Math\\Stat\\Poisson.mqh",
+          "sha256": "8DCA9D5C6BFFC51AFEDBDCFDF49AA0666B9D05144485DC3A5DFF47487FC86D52"
+        },
+        {
+          "path": "Include\\Math\\Stat\\Stat.mqh",
+          "sha256": "8AD8556A8C38B0DB7F0E09BAE1FA9DEA14CFC8E540FB18E1F353D73CBAAEDB84"
+        },
+        {
+          "path": "Include\\Math\\Stat\\T.mqh",
+          "sha256": "7C019F3526D4BB811ED74D48D52D6BC6A957A146DA7E1EB523E5F37EE97AF773"
+        },
+        {
+          "path": "Include\\Math\\Stat\\Uniform.mqh",
+          "sha256": "49DA56F1C71889F908FA29EACBC23C9AF29518F3F92D44B219A691E48CBC5CFF"
+        },
+        {
+          "path": "Include\\Math\\Stat\\Weibull.mqh",
+          "sha256": "4B876D377C9BF405615B33AEC26968E84609A7CF45484FD9D7300BE14FBE8BBD"
+        },
+        {
+          "path": "Include\\OpenCL\\OpenCL.mqh",
+          "sha256": "F08B8CCC298F3479660064654B0FB417DAFDFAE0388D696073A14C0F5535F67C"
+        },
+        {
+          "path": "Include\\Strings\\String.mqh",
+          "sha256": "1180213F8F38FACFC6AA1B7753F5B875A478AE432F127E5E8BA7E5B685CEE2CE"
+        },
+        {
+          "path": "Include\\Tools\\DateTime.mqh",
+          "sha256": "4622EDA26D8F2CCB2DE2B7D36EA6756241E03839AA8880272D44F23A2BF1725C"
+        },
+        {
+          "path": "Include\\Trade\\AccountInfo.mqh",
+          "sha256": "F0230A9DF2866A09DB226C4382A3B53C8C691CBDAEF1C4656F41F035A4C8B31B"
+        },
+        {
+          "path": "Include\\Trade\\DealInfo.mqh",
+          "sha256": "9D6FB4E7D8754EAEE761E43943DC49CDC3A32793EE8438119D939EA7BAD71880"
+        },
+        {
+          "path": "Include\\Trade\\HistoryOrderInfo.mqh",
+          "sha256": "E88F6BE450462A045470315887EF751A4510DA65A5115325DC88542743FC52F8"
+        },
+        {
+          "path": "Include\\Trade\\OrderInfo.mqh",
+          "sha256": "D0E479578EF91D2EF1B07AE63D28AE54E15CEBB914DD10E5D4510C269A9CA999"
+        },
+        {
+          "path": "Include\\Trade\\PositionInfo.mqh",
+          "sha256": "DD720B755C7F23DCC109FC81BCF0772B907411D545E4A1117421737BB9FF6897"
+        },
+        {
+          "path": "Include\\Trade\\SymbolInfo.mqh",
+          "sha256": "58D0EEDD27CA11D93F4C81CAB4C9FE0531FE2B844F871B54E200C32A3574C0E1"
+        },
+        {
+          "path": "Include\\Trade\\TerminalInfo.mqh",
+          "sha256": "19A74C4B59BD27D3C71E4E80A6E437B9C8AA7AAD16EEF4E17AB6BC5EAA8C2482"
+        },
+        {
+          "path": "Include\\Trade\\Trade.mqh",
+          "sha256": "96E6781624534377FE7971CBA52CCA3D62D1B030BC10D5E4EBF3ED8C541399ED"
+        },
+        {
+          "path": "Include\\WinAPI\\errhandlingapi.mqh",
+          "sha256": "0704BB773EFF846F65CA09A373FEFBC7DCA274ADD04E582B3BCDE3243D805C7E"
+        },
+        {
+          "path": "Include\\WinAPI\\fileapi.mqh",
+          "sha256": "F5613D4677D764AFA8B57E5E6A02AA3D07E5AE6CC45B225891A6AF7E48769A0A"
+        },
+        {
+          "path": "Include\\WinAPI\\handleapi.mqh",
+          "sha256": "AE04961E7A5B7BA777D7E29E198881BD836C0DB0785388FC458B411F0DB7AEA5"
+        },
+        {
+          "path": "Include\\WinAPI\\libloaderapi.mqh",
+          "sha256": "28D38979ABD0274754A05A597496C85CE7ACEFDC0315CAFE9C9ED8CA04D894CD"
+        },
+        {
+          "path": "Include\\WinAPI\\memoryapi.mqh",
+          "sha256": "BE31F67F14D4F6D71E0679F93D6F14B796C70808D1E88D117BA985D8C94123C0"
+        },
+        {
+          "path": "Include\\WinAPI\\processenv.mqh",
+          "sha256": "2F7157F47056CE05E34E0B60D6F9C2F5F1936934BC38BB1CA91F7DFE213F240E"
+        },
+        {
+          "path": "Include\\WinAPI\\processthreadsapi.mqh",
+          "sha256": "FA8BC32840D9554DE123A436CC6BC753FBCFE8ADE03D661DB6D91645837090FD"
+        },
+        {
+          "path": "Include\\WinAPI\\securitybaseapi.mqh",
+          "sha256": "0CA758354310149B116A0B46559296C319721CBACE1D22B743AF3EAD5061A574"
+        },
+        {
+          "path": "Include\\WinAPI\\sysinfoapi.mqh",
+          "sha256": "01435555838DF6E14640985CFCB2DE4E15D17676B068E1D278F274A69C9ACC65"
+        },
+        {
+          "path": "Include\\WinAPI\\winapi.mqh",
+          "sha256": "6E26412D54376EACA7C1DC3C53A19A25E9BE6D060D4537C7B8D1D3681748BEBB"
+        },
+        {
+          "path": "Include\\WinAPI\\winbase.mqh",
+          "sha256": "1B1C2E4EF8B8A8B30C59F240F8F73C35273D1E1800542E663B0C23D574FE048D"
+        },
+        {
+          "path": "Include\\WinAPI\\windef.mqh",
+          "sha256": "0AAA38FFD9C9A8B5F7EF955EB389616C298207DB99A59DC15F24F2D306279162"
+        },
+        {
+          "path": "Include\\WinAPI\\wingdi.mqh",
+          "sha256": "433021EC7CA1E16D967F677830409CA89DFA4149FB851839B36B043F88D04B95"
+        },
+        {
+          "path": "Include\\WinAPI\\winnt.mqh",
+          "sha256": "1CE3D7B033CE09C0E5DC2C7D2BFFB53A0BB4DEB71ED45F980571E1099E43DA6E"
+        },
+        {
+          "path": "Include\\WinAPI\\winreg.mqh",
+          "sha256": "50CCA441D2AAC61262B346EAA68178CB743B48C72CE2ED3EC0D335A17EAB4395"
+        },
+        {
+          "path": "Include\\WinAPI\\winuser.mqh",
+          "sha256": "F37F96E413D839784F428B9087CF78EE25B490307FFCBFC69C6A8F23EB65BE22"
+        }
+      ]
+    },
+    "compile/metaeditor.log": {
+      "original_sha256": "d3187118cf056bf6333e4d091643f1a720611b04ba93f656d715631d3e0e3266",
+      "original_bytes": 5788,
+      "decoded_utf16": "\r\n\r\nD:\\a\\_temp\\metaquotes-compile-evidence\\compile\\source\\AnticipatoryGold_AI_v1.mq5 : information: compiling D:\\a\\_temp\\metaquotes-compile-evidence\\compile\\source\\AnticipatoryGold_AI_v1.mq5\r\nD:\\a\\_temp\\metaquotes-compile-evidence\\compile\\source\\AnticipatoryGold_AI_v1.mq5 : information: including D:\\a\\_temp\\AnticipatoryGold-MetaQuotes\\MQL5\\Include\\Trade\\Trade.mqh\r\nD:\\a\\_temp\\AnticipatoryGold-MetaQuotes\\MQL5\\Include\\Trade\\Trade.mqh : information: including D:\\a\\_temp\\AnticipatoryGold-MetaQuotes\\MQL5\\Include\\Object.mqh\r\nD:\\a\\_temp\\AnticipatoryGold-MetaQuotes\\MQL5\\Include\\Object.mqh : information: including D:\\a\\_temp\\AnticipatoryGold-MetaQuotes\\MQL5\\Include\\StdLibErr.mqh\r\nD:\\a\\_temp\\AnticipatoryGold-MetaQuotes\\MQL5\\Include\\Trade\\Trade.mqh : information: including D:\\a\\_temp\\AnticipatoryGold-MetaQuotes\\MQL5\\Include\\Trade\\OrderInfo.mqh\r\nD:\\a\\_temp\\AnticipatoryGold-MetaQuotes\\MQL5\\Include\\Trade\\Trade.mqh : information: including D:\\a\\_temp\\AnticipatoryGold-MetaQuotes\\MQL5\\Include\\Trade\\HistoryOrderInfo.mqh\r\nD:\\a\\_temp\\AnticipatoryGold-MetaQuotes\\MQL5\\Include\\Trade\\Trade.mqh : information: including D:\\a\\_temp\\AnticipatoryGold-MetaQuotes\\MQL5\\Include\\Trade\\PositionInfo.mqh\r\nD:\\a\\_temp\\AnticipatoryGold-MetaQuotes\\MQL5\\Include\\Trade\\Trade.mqh : information: including D:\\a\\_temp\\AnticipatoryGold-MetaQuotes\\MQL5\\Include\\Trade\\DealInfo.mqh\r\nD:\\a\\_temp\\metaquotes-compile-evidence\\compile\\source\\AnticipatoryGold_AI_v1.mq5 : information: including D:\\a\\_temp\\metaquotes-compile-evidence\\compile\\source\\Include\\ResearchLifecycle.mqh\r\n : information: generating code\r\n : information: generating code 3%\r\n : information: generating code 6%\r\n : information: generating code 9%\r\n : information: generating code 12%\r\n : information: generating code 15%\r\n : information: generating code 18%\r\n : information: generating code 21%\r\n : information: generating code 24%\r\n : information: generating code 27%\r\n : information: generating code 30%\r\n : information: generating code 33%\r\n : information: generating code 36%\r\n : information: generating code 39%\r\n : information: generating code 42%\r\n : information: generating code 45%\r\n : information: generating code 48%\r\n : information: generating code 51%\r\n : information: generating code 54%\r\n : information: generating code 57%\r\n : information: generating code 60%\r\n : information: generating code 63%\r\n : information: generating code 66%\r\n : information: generating code 69%\r\n : information: generating code 72%\r\n : information: generating code 75%\r\n : information: generating code 78%\r\n : information: generating code 81%\r\n : information: generating code 84%\r\n : information: generating code 87%\r\n : information: generating code 90%\r\n : information: generating code 93%\r\n : information: generating code 95%\r\n : information: generating code 100%\r\n : information: code generated\r\nResult: 0 errors, 0 warnings, 2532 ms elapsed, cpu='X64 Regular'\r\n"
+    }
+  }
+}

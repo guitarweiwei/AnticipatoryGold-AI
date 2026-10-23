@@ -1,0 +1,2 @@
+schema_version,timestamp_utc,dxy_change_pct,us10y_change_bps,real_yield_change_bps,high_impact_news_block,dxy_observed_at_utc,us10y_observed_at_utc,real_yield_observed_at_utc,news_observed_at_utc,news_valid_until_utc,provenance_sha256
+2,2026-01-01T00:00:00Z,0.00,0.0,0.0,1,2026-01-01T00:00:00Z,2026-01-01T00:00:00Z,2026-01-01T00:00:00Z,2026-01-01T00:00:00Z,2026-01-01T00:01:00Z,0000000000000000000000000000000000000000000000000000000000000000

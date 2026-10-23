@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.1",
+  "request": {
+    "schema_version": "1.1",
+    "request_id": "unique-per-candidate",
+    "symbol": "XAUUSD",
+    "timeframe": "M5",
+    "bar_time_utc": "ISO-8601 UTC timestamp",
+    "regime": "STRONG_DOWNTREND",
+    "setup": "TREND_CONTINUATION",
+    "direction": "SELL",
+    "confidence": 0.6,
+    "close": 4000.0,
+    "atr": 5.0,
+    "ema_fast": 3995.0,
+    "ema_slow": 4010.0,
+    "adx": 24.0,
+    "macro": {
+      "schema_version": "2",
+      "timestamp_utc": "YYYY-MM-DDTHH:MM:SSZ",
+      "dxy_change_pct": 0.1,
+      "us10y_change_bps": 2.0,
+      "real_yield_change_bps": 1.0,
+      "high_impact_news_block": false,
+      "dxy_observed_at_utc": "YYYY-MM-DDTHH:MM:SSZ",
+      "us10y_observed_at_utc": "YYYY-MM-DDTHH:MM:SSZ",
+      "real_yield_observed_at_utc": "YYYY-MM-DDTHH:MM:SSZ",
+      "news_observed_at_utc": "YYYY-MM-DDTHH:MM:SSZ",
+      "news_valid_until_utc": "YYYY-MM-DDTHH:MM:SSZ",
+      "provenance_sha256": "64 lowercase hexadecimal characters binding the archived provenance manifest"
+    },
+    "reason": "Illustrative only"
+  },
+  "response": {
+    "request_id": "same-as-request",
+    "schema_version": "1.1",
+    "signal": "SELL",
+    "confidence": 0.62,
+    "reason": "Illustrative only",
+    "macro_summary": "Illustrative only",
+    "model": "configured-model-name",
+    "timestamp_utc": "ISO-8601 UTC timestamp"
+  },
+  "safety_rules": [
+    "AI may confirm or veto only; it cannot reverse direction or alter position sizing.",
+    "Missing/stale/future macro data returns HOLD.",
+    "Timeout, auth error, malformed response, request ID mismatch, or stale response returns HOLD.",
+    "Confidence is a model score, not a probability of profit.",
+    "API request/response schema_version is 1.1; the nested macro snapshot uses CSV schema_version 2. Missing, legacy or unknown versions are rejected.",
+    "The nested macro object must match the canonical single-row CSV snapshot exactly after shared parsing, before provider review.",
+    "Snapshot and each numeric source observation must be no older than 15 minutes; source observations cannot be after the snapshot. UTC macro timestamps use exact seconds ending Z.",
+    "News observation must not be after the snapshot; news_valid_until_utc must cover the current validation time. Missing source metadata, expired calendar or invalid provenance digest vetoes entry.",
+    "Revalidate request source validity and reload canonical CSV after provider review. An unavailable, blocked, expired or changed canonical snapshot invalidates approval.",
+    "provenance_sha256 binds an archived manual manifest; it is not evidence that a source or calendar is authentic or complete."
+  ]
+}

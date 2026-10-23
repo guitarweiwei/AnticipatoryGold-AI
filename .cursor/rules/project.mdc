@@ -1,0 +1,15 @@
+---
+description: AnticipatoryGold AI v1 project-wide engineering and safety rules
+alwaysApply: true
+---
+# Project rules
+- This is a research/testing project, not a proven profitable strategy. Never claim profitability without reproducible reports.
+- Read `docs/PROJECT_SPEC.md`, `docs/API_CONTRACT.json`, `docs/CODE_AUDIT.md`, and `tests/acceptance_checklist.md` before changing implementation. If a file is missing, report it; do not invent its contents.
+- Keep MQL5 execution and risk enforcement authoritative. AI can approve/reject a signal but cannot set lots, raise risk caps, remove stops, or force a trade.
+- Fail closed: AI timeout, malformed response, stale/missing macro feed, invalid symbol/quotes, or uncertain state => no new entries.
+- No live trading. Do not turn on live-trading flags, connect broker credentials, or place real orders.
+- Do not invent test results. Separate tests actually run from suggested tests. For MQL5, compile evidence must come from MetaEditor/MT5 on Windows.
+- Never commit `.env`, API keys, passwords, broker credentials, personal account identifiers, or raw sensitive logs.
+- Make narrow changes. Do not silently change strategy semantics or API contracts. Update tests and docs with implementation.
+- All material changes require human review. Never merge PRs or push directly to `main`.
+- Prefer deterministic tests, fixed fixtures, UTC timestamps, explicit units, and reproducible commands.
