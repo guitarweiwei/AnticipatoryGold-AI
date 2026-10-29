@@ -53,6 +53,12 @@ datetime g_macroTime=0,g_macroOldest=0,g_newsObserved=0,g_newsValidUntil=0;
 
 struct Signal { int direction; double confidence; string regime; string setup; string reason; };
 #include "Include/ResearchLifecycle.mqh"
+#include "Include/AIFVGGridResearch.mqh"
+// Signal-only comparison: no trade path is unlocked.
+input AGResearchMode InpResearchSignalMode=AG_AI_GRID;
+input int InpResearchGridMaxLayers=10;
+input double InpFVGMinGapPoints=20.0;
+input double InpFVGMinScore=50.0;
 
 // Hard research boundary: there is deliberately no input that enables terminal trading.
 bool ResearchExecutionAllowed(){return (bool)MQLInfoInteger(MQL_TESTER);}
@@ -63,7 +69,7 @@ int OnInit(){
  if(!ResearchExecutionAllowed()){Print("RESEARCH ONLY: attach/run in Strategy Tester; terminal execution is disabled.");return INIT_FAILED;}
  // Position count is a layer count only for hedging accounts. Netting needs a deal ledger.
  if(AccountInfoInteger(ACCOUNT_MARGIN_MODE)!=ACCOUNT_MARGIN_MODE_RETAIL_HEDGING){Print("Netting/exchange accounting is unsupported: layer cap cannot be reconciled safely.");return INIT_FAILED;}
- if(InpBaseLots<=0||InpLotMultiplier<=0||InpMaxGridLayers<1||InpMaxLotsPerBasket<=0||InpMaxTotalLots<=0||InpBasketStopMoney<=0||InpDailyLossLimitMoney<=0||InpMaxEquityDrawdownPct<=0||InpRiskPctPerInitialTrade<=0||InpAIMinConfidence<0||InpAIMinConfidence>1||InpMaxSpreadPoints<0||InpLevelLookback<1){Print("Invalid research inputs");return INIT_PARAMETERS_INCORRECT;}
+ if(InpBaseLots<=0||InpLotMultiplier<=0||InpMaxGridLayers<1||InpMaxLotsPerBasket<=0||InpMaxTotalLots<=0||InpBasketStopMoney<=0||InpDailyLossLimitMoney<=0||InpMaxEquityDrawdownPct<=0||InpRiskPctPerInitialTrade<=0||InpAIMinConfidence<0||InpAIMinConfidence>1||InpMaxSpreadPoints<0||InpLevelLookback<1||InpResearchGridMaxLayers<1||InpResearchGridMaxLayers>10||InpFVGMinGapPoints<0||InpFVGMinScore<0||InpFVGMinScore>100){Print("Invalid research inputs");return INIT_PARAMETERS_INCORRECT;}
  if(!SymbolSelect(InpSymbol,true)){Print("Symbol unavailable: ",InpSymbol);return INIT_FAILED;}
  hFastTrend=iMA(InpSymbol,InpTrendTF,InpFastEMA,0,MODE_EMA,PRICE_CLOSE);
  hSlowTrend=iMA(InpSymbol,InpTrendTF,InpSlowEMA,0,MODE_EMA,PRICE_CLOSE);
@@ -87,13 +93,41 @@ void OnTick(){
  if(g_riskHalt||!g_stateHealthy||!g_journalHealthy) return;
  datetime bt=iTime(InpSymbol,InpEntryTF,0); if(bt==0||bt==g_lastBar)return; g_lastBar=bt;
  if(!SpreadOK()||NewsBlocked()||MacroBlocked())return;
- Signal s=BuildSignal();
+ Signal s=BuildResearchModeSignal();
  if(s.direction==0)return;
  if(InpUseOnlineAI && !MQLInfoInteger(MQL_TESTER)) { Signal ai=s; if(!GetAISignal(s,ai))return; s=ai; }
  if(s.direction==0||s.confidence<InpAIMinConfidence)return;
  if(!DirectionAllowedByTrend(s.direction))return;
  ProcessEntry(s);
 }
+
+// Three-mode research selector. No order submission; baseline risk/news vetoes remain in OnTick.
+// Tester AI is the original deterministic signal, not online model inference.
+Signal BuildResearchModeSignal(){
+ Signal base=BuildSignal();
+ if(InpResearchSignalMode==AG_AI_GRID)return base;
+ Signal out=base;out.direction=0;out.confidence=0;out.setup="FVG_NONE";
+ AGFVG fvg;
+ if(!AGDetectClosedFVG(InpSymbol,InpEntryTF,InpFVGMinGapPoints,fvg))return out;
+ double atr;if(!CopyVal(hATR,0,1,atr)||atr<=0)return out;
+ int trend=0;
+ if(DirectionAllowedByTrend(1))trend=1;
+ else if(DirectionAllowedByTrend(-1))trend=-1;
+ if(trend!=fvg.direction)return out;
+ fvg.ob_overlap=AGFindOBConfluence(InpSymbol,InpEntryTF,fvg,12,0);
+ // Age one: third candle just closed; premium/discount unavailable => no bonus.
+ fvg.score=AGScoreFVG(fvg,atr,trend,1,12,false);
+ if(fvg.score<InpFVGMinScore)return out;
+ if(InpResearchSignalMode==AG_HYBRID_GRID &&
+    (base.direction!=fvg.direction||base.confidence<InpAIMinConfidence))return out;
+ out.direction=fvg.direction;
+ // Heuristic score is not a calibrated probability; never promote it to AI confidence.
+ out.confidence=(InpResearchSignalMode==AG_HYBRID_GRID?base.confidence:0.60);
+ out.setup=(InpResearchSignalMode==AG_HYBRID_GRID?"HYBRID_FVG":"FVG_ONLY");
+ out.reason="Closed FVG research signal; score="+DoubleToString(fvg.score,1);
+ return out;
+}
+
 // Tester TimeGMT equals simulated server time. Require explicitly UTC test data.
 datetime UTCDay(datetime now){return (datetime)((long)now/86400*86400);}
 string StateDigest(string data){
