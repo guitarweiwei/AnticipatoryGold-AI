@@ -83,4 +83,43 @@ bool AGBuildGrid(string symbol,int direction,double first_entry,double atr,
  if(total_risk>max_basket_risk_money)return false;
  plan.layers=requested_layers;plan.valid=true;return true;
 }
+
+// Adaptive selection is advisory only. Confidence must be a finite 0..1 score,
+// not an uncalibrated FVG score; low confidence means HOLD.
+// Volatility is expressed as ATR / midprice, not raw dollar ATR.
+int AGSelectAdaptiveLayers(double confidence,double atr,double midprice,
+                           double available_risk_money,double minimum_layer_risk_money,
+                           int configured_max_layers)
+{
+ if(!MathIsValidNumber(confidence)||!MathIsValidNumber(atr)||
+    !MathIsValidNumber(midprice)||!MathIsValidNumber(available_risk_money)||
+    !MathIsValidNumber(minimum_layer_risk_money))return 0;
+ if(confidence<0.58||confidence>1.0||atr<=0||midprice<=0||
+    available_risk_money<=0||minimum_layer_risk_money<=0)return 0;
+ int cap=MathMin(10,MathMax(0,configured_max_layers));
+ if(cap==0)return 0;
+ double atr_ratio=atr/midprice;
+ // Higher volatility reduces the permitted number of layers.
+ double volatility_factor=(atr_ratio>=0.008?0.25:(atr_ratio>=0.004?0.5:1.0));
+ double strength=(confidence-0.58)/(1.0-0.58);
+ int signal_layers=1+(int)MathFloor(strength*9.0*volatility_factor);
+ int affordable=(int)MathFloor(available_risk_money/minimum_layer_risk_money);
+ return MathMax(0,MathMin(cap,MathMin(signal_layers,affordable)));
+}
+// Conservative integration: first determine candidate count, then call
+// AGBuildGrid() with the actual stop and symbol for full worst-case risk.
+// If the complete basket fails, reduce the count and recompute; never force
+// a minimum lot or assume that a per-layer estimate is sufficient.
+bool AGBuildAdaptiveGrid(string symbol,int direction,double first_entry,double atr,
+                         double atr_step,double confidence,double available_risk_money,
+                         double min_layer_risk_estimate,int max_layers,double lot,
+                         double stop_price,AGGridPlan &plan)
+{
+ int n=AGSelectAdaptiveLayers(confidence,atr,first_entry,
+                             available_risk_money,min_layer_risk_estimate,max_layers);
+ for(;n>=1;n--)
+   if(AGBuildGrid(symbol,direction,first_entry,atr,atr_step,n,lot,
+                  stop_price,available_risk_money,plan))return true;
+ plan.valid=false;plan.layers=0;return false;
+}
 #endif
