@@ -32,3 +32,6 @@ $5,000 starting balance, 1:30 leverage, non-martingale equal lots, 10 maximum la
 
 ## Ten-layer research update
 The isolated planner now has capacity for ten equal-lot layers. This is **not** authorization to raise basket loss, total lots, daily loss, or equity drawdown limits. If the minimum broker lot cannot fit the entire planned worst-case basket risk, reject the plan; do not silently drop risk checks or round size upward. The EA default remains three layers and the planner is not wired to trading. Ten-layer stress tests must include gap-through-stop, margin insufficiency, all-pending-fill scenarios, and broker freeze/stop restrictions.
+
+## Adaptive research planner (2026-10-29)
+Added `AGSelectAdaptiveLayers()` and `AGBuildAdaptiveGrid()`. Confidence below 0.58 returns HOLD; relative ATR penalizes high volatility; available monetary risk caps the number of layers. The adaptive builder retries fewer layers if `OrderCalcProfit()`-based whole-basket stop loss exceeds budget. Thresholds are research heuristics, not calibrated probabilities. These helpers are not yet called by the production EA. Remaining gates: integrate with existing AI/macro/news vetoes, compute a defensible minimum-layer risk estimate, verify broker margin and gap loss, compile, test and run MT5 Strategy Tester. No trading lock changed.
