@@ -4,7 +4,7 @@
 #define __AG_FVG_GRID_RESEARCH__
 enum AGResearchMode { AG_AI_GRID=0, AG_FVG_GRID=1, AG_HYBRID_GRID=2 };
 struct AGFVG { int direction; double low; double high; datetime formed; double score; bool ob_overlap; };
-struct AGGridPlan { int direction; int layers; double entry[4]; double lots[4]; double stop; bool valid; };
+struct AGGridPlan { int direction; int layers; double entry[10]; double lots[10]; double stop; bool valid; };
 double AGClamp(double v,double lo,double hi){return MathMax(lo,MathMin(hi,v));}
 // Use only CLOSED candles: shift 3 (first), 2 (impulse), 1 (third).
 bool AGDetectClosedFVG(string symbol,ENUM_TIMEFRAMES tf,double min_gap_points,AGFVG &out)
@@ -52,7 +52,7 @@ double AGScoreFVG(const AGFVG &fvg,double atr,int htf_bias,int age_bars,
              +(fvg.ob_overlap?20.0:0.0);
  return AGClamp(score,0,100);
 }
-// Planner only: never opens orders. Four layers maximum, equal size (no martingale).
+// Planner only: never opens orders. Ten layers maximum, equal size (no martingale).
 // The stop is common across layers and risk is checked on the WORST filled basket.
 bool AGBuildGrid(string symbol,int direction,double first_entry,double atr,
                  double atr_step,int requested_layers,double fixed_lot,
@@ -60,7 +60,7 @@ bool AGBuildGrid(string symbol,int direction,double first_entry,double atr,
 {
  plan.valid=false;plan.layers=0;
  if(direction!=1&&direction!=-1)return false;
- if(atr<=0||atr_step<=0||requested_layers<1||requested_layers>4||
+ if(atr<=0||atr_step<=0||requested_layers<1||requested_layers>10||
     fixed_lot<=0||max_basket_risk_money<=0)return false;
  double vmin=SymbolInfoDouble(symbol,SYMBOL_VOLUME_MIN);
  double vstep=SymbolInfoDouble(symbol,SYMBOL_VOLUME_STEP);
